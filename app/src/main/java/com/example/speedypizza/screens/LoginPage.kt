@@ -11,14 +11,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -42,6 +48,22 @@ fun LoginPage(){
 
              Image(painterResource(R.drawable.pizza),"content description", modifier = Modifier.offset(y = 100.dp))
          }
+
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "SpeedyPizza",
+                style = TextStyle(
+                    fontFamily = FontFamily(Font(R.font.mogra)), // Sostituisci con il tuo tipo di carattere
+                    fontSize = 35.sp,
+                    color = Color.White // Sostituisci con il tuo colore
+                ),
+                modifier = Modifier.padding(16.dp)
+            )
+        }
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
