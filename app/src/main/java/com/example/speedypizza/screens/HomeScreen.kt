@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -25,8 +26,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -47,10 +52,47 @@ fun HomeScreen(){
     ){
         Column {
             BarraSuperiore()
+            ScrittaIniziale()
             MyTurn()
             BottoniCentrali2()
             WorkConstraints()
         }
+    }
+}
+
+//scritta iniziale con immagine pizza
+@Preview
+@Composable
+fun ScrittaIniziale(){
+    Row (
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(15.dp)
+    ) {
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(2.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.pizza),
+                    contentDescription = stringResource(id = R.string.image_content_description),
+                    modifier = Modifier
+                        .size(100.dp)
+                        .padding(end = 5.dp)
+                )
+                Text(text = "SpeedyPizza",
+                    style = TextStyle(
+                        fontFamily = FontFamily(Font(R.font.mogra)),
+                        fontSize = 35.sp,
+                        color = Color.LightGray)
+                )
+            }
+        }
+
     }
 }
 
