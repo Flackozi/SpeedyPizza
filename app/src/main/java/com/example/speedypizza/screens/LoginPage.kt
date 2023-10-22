@@ -2,6 +2,7 @@ package com.example.speedypizza.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,6 +48,7 @@ import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 import com.example.speedypizza.ui.theme.witheBackground
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginPage(){
@@ -56,6 +59,7 @@ fun LoginPage(){
         startY = 0f,
         endY = 2000f
     )
+    val buttonColor = ButtonDefaults.buttonColors(start_color)
 
     val emailValue = remember { mutableStateOf("") }
     val passwordValue = remember { mutableStateOf("") }
@@ -111,7 +115,7 @@ fun LoginPage(){
                        fontWeight = FontWeight.Bold,
                        letterSpacing = 2.sp
                    ),
-                   fontSize = 20.sp
+                   fontSize = 40.sp
                )
             Spacer(modifier = Modifier.padding(20.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -134,23 +138,37 @@ fun LoginPage(){
                             Icon(
                                 painter = painterResource(id = R.drawable.password_eye),
                                 contentDescription = null,
-                                tint = if (passwordVisibility.value) Color.White else Color.Gray
+                                tint = if (passwordVisibility.value) Color.Black else Color.Gray
                             )
                         }
                     },
-                    label = { Text(text = "Passowrd")},
+                    label = { Text(text = "Password")},
                     placeholder = { Text(text = "Passord")},
                     singleLine = true,
                     visualTransformation = if(passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(0.8f)
                 )
                 Spacer(modifier = Modifier.padding(10.dp))
-                Button(onClick = { },
-                    modifier = Modifier.fillMaxWidth(0.8f)
+                Button(
+                    onClick = { },
+                    colors = buttonColor,
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
                         .height(50.dp)
-                    ) {
 
+                    ) {
+                    Text(text="Sign In", fontSize = 20.sp)
                 }
+
+                Spacer(modifier = Modifier.padding(20.dp))
+                Text(
+                    text="Create An Account",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                    ),
+                    modifier = Modifier.clickable(onClick = {})
+                )
+                Spacer(modifier = Modifier.padding(20.dp))
             }
 
         }
