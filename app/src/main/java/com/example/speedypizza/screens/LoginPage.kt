@@ -30,7 +30,6 @@ import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 import com.example.speedypizza.ui.theme.witheBackground
-
 @Composable
 fun LoginPage(){
 

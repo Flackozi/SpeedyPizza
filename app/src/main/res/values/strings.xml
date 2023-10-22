@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SpeedyPizza</string>
+    <string name="image_content_description">immagine calendario</string>
+
 </resources>
