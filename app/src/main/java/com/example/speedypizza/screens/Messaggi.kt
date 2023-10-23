@@ -63,7 +63,7 @@ fun schermataMessaggi(){
 
 
 
-        Column(
+    Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(gradient)
