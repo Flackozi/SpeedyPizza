@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -73,10 +74,13 @@ fun schermataMessaggi(){
 
             TopBar()
 
-            Text(text = "Messages",style = TextStyle(
-                fontFamily = FontFamily(Font(R.font.mogra)),
-                fontSize = 35.sp,
-                color = Color.White),
+            Text(
+                text = stringResource(R.string.Messages),
+                style = TextStyle(
+                    fontFamily = FontFamily(Font(R.font.mogra)),
+                    fontSize = 35.sp,
+                    color = Color.White
+                ),
                 //modifier = Modifier.padding(vertical = 16.dp)
             )
 

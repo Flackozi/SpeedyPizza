@@ -144,7 +144,7 @@ fun MyTurn(){
         ){
             Button(
                 onClick={
-                    //qui ci va il metodo associato al botone
+                    //qui ci va il metodo associato al bottone
                     println("This is myTurn")
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -169,7 +169,7 @@ fun MyTurn(){
                             .size(40.dp)
                             .padding(end = 5.dp)
                     )
-                    Text("My Turns")
+                    Text(stringResource(id = R.string.My_Turns))
                 }
 
             }
@@ -220,7 +220,7 @@ fun BottoniCentrali2(){
                         tint = Color.Black,
                         modifier = Modifier.size(35.dp)
                     )
-                    Text("Requests")
+                    Text(stringResource(R.string.Requests))
                 }
 
             }
@@ -252,7 +252,7 @@ fun BottoniCentrali2(){
                         tint = Color.Black,
                         modifier = Modifier.size(35.dp)
                     )
-                    Text("Messages")
+                    Text(stringResource(id = R.string.Messages))
                 }
 
             }
@@ -303,7 +303,7 @@ fun WorkConstraints() {
                         tint = Color.Black,
                         modifier = Modifier.size(35.dp)
                     )
-                    Text(text= "Constraints")
+                    Text(text= stringResource(id = R.string.Constraints))
                 }
 
             }

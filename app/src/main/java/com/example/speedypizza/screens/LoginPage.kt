@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -81,7 +82,7 @@ fun LoginPage(){
             val image = createRef()
             Box(modifier = Modifier
                 .fillMaxSize()
-                .constrainAs(image){
+                .constrainAs(image) {
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
                 }
@@ -148,7 +149,7 @@ fun LoginPage(){
                     .padding(10.dp)
             ) {
                 Text(
-                    text = "Sign In",
+                    text = stringResource(R.string.Sign_In),
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 2.sp
@@ -161,8 +162,8 @@ fun LoginPage(){
                     OutlinedTextField(
                         value = emailValue.value,
                         onValueChange = { emailValue.value = it},
-                        label = { Text(text = "Email Address")},
-                        placeholder = { Text(text = "Email Address")},
+                        label = { Text(text = stringResource(R.string.Email_Address))},
+                        placeholder = { Text(text = stringResource(R.string.Email_Address))},
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(0.8f)
                     )
@@ -182,7 +183,7 @@ fun LoginPage(){
                             }
                         },
                         label = { Text(text = "Password")},
-                        placeholder = { Text(text = "Passord")},
+                        placeholder = { Text(text = "Password")},
                         singleLine = true,
                         visualTransformation = if(passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth(0.8f)
@@ -196,12 +197,12 @@ fun LoginPage(){
                             .height(50.dp)
 
                     ) {
-                        Text(text="Sign In", fontSize = 20.sp)
+                        Text(text= stringResource(id = R.string.Sign_In), fontSize = 20.sp)
                     }
 
                     Spacer(modifier = Modifier.padding(20.dp))
                     Text(
-                        text="Create An Account",
+                        text= stringResource(R.string.Create_An_Account),
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                         ),
