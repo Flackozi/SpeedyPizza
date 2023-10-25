@@ -8,5 +8,12 @@
     <string name="Create_An_Account">Crea Account</string>
     <string name="Constraints">Vincoli</string>
     <string name="My_Turns">I Miei Turni</string>
+    <string name="Monday">Lunedì</string>
+    <string name="Tuesday">Martedì</string>
+    <string name="Wednesday">Mercoledì</string>
+    <string name="Thursday">Giovedì</string>
+    <string name="Friday">Venerdì</string>
+    <string name="Saturday">Sabato</string>
+    <string name="Sunday">Domenica</string>
 
 </resources>

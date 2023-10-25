@@ -10,5 +10,7 @@
     <color name="start_color">#A43030</color>
     <color name="center_color">#b21f1f</color>
     <color name="end_color">#fdbb2d</color>
+    <color name="rosso_scurissimo">#550606</color>
+
 
 </resources>

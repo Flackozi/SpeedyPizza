@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -22,8 +23,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -32,6 +36,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -46,24 +51,35 @@ fun HomeScreen(){
         startY = 0f,
         endY = 2000f
     )
-    Box(modifier = Modifier
-        .background(brush = gradient)
-        .fillMaxSize()
-    ){
-        Column {
-            BarraSuperiore()
-            ScrittaIniziale()
-            MyTurn()
-            BottoniCentrali2()
-            WorkConstraints()
+    //il constraint qui in realta' e' inutile
+    ConstraintLayout {
+        val (box)=createRefs()
+        Box(modifier = Modifier
+            .background(brush = gradient)
+            .fillMaxSize()
+            .constrainAs(box) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        ){
+            Column {
+                BarraSuperiore()
+                ScrittaIniziale("SpeedyPizza")
+                MyTurn()
+                BottoniCentrali2()
+                WorkConstraints()
+            }
         }
+
     }
+
 }
 
 //scritta iniziale con immagine pizza
-@Preview
 @Composable
-fun ScrittaIniziale(){
+fun ScrittaIniziale(string: String){
+
     Row (
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -71,29 +87,34 @@ fun ScrittaIniziale(){
             .fillMaxWidth()
             .padding(15.dp)
     ) {
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.padding(2.dp)
+                verticalArrangement = Arrangement.spacedBy(3.dp),
+                modifier = Modifier
+                    .padding(2.dp)
+
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.pizza),
+                    painter = painterResource(id = R.drawable.pizzaslice),
                     contentDescription = stringResource(id = R.string.image_content_description),
                     modifier = Modifier
-                        .size(100.dp)
-                        .padding(end = 5.dp)
+                        .size(71.dp)
+                        .rotate(300f),
+                    colorFilter = ColorFilter.tint(Color.LightGray)
                 )
-                Text(text = "SpeedyPizza",
+                Text(
+                    text = string,
                     style = TextStyle(
                         fontFamily = FontFamily(Font(R.font.mogra)),
                         fontSize = 35.sp,
-                        color = Color.LightGray)
+                        color = Color.LightGray
+                    )
                 )
             }
         }
-
     }
+
 }
 
 //Barra superiore con bottone del profilo e tre lineette
@@ -110,13 +131,14 @@ fun BarraSuperiore (){
         Column (
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
-            
+
         ){
             Icon(
                 painter = painterResource(id =R.drawable.ic_account),
                 contentDescription = "Profile",
                 tint = Color.Black,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier
+                    .size(40.dp)
             )
         }
         Icon(
@@ -153,7 +175,8 @@ fun MyTurn(){
                 ),
                 modifier = Modifier
                     .width(120.dp)
-                    .height(80.dp),
+                    .height(80.dp)
+                    .shadow(elevation = 8.dp, shape = CircleShape),
                 shape = RoundedCornerShape(30.dp)
 
            ) {
@@ -184,8 +207,8 @@ fun BottoniCentrali2(){
     Box (
         modifier=Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
-    ){
-        Row (
+    ) {
+        Row(
             horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -193,6 +216,7 @@ fun BottoniCentrali2(){
                 .padding(15.dp)
 
         ) {
+
             /*bottone a sinistra*/
             Button(
                 onClick = {
@@ -205,7 +229,8 @@ fun BottoniCentrali2(){
                 ),
                 modifier = Modifier
                     .width(120.dp)
-                    .height(80.dp),
+                    .height(80.dp)
+                    .shadow(elevation = 8.dp, shape = CircleShape),
                 shape = RoundedCornerShape(30.dp)
 
             ) {
@@ -215,7 +240,7 @@ fun BottoniCentrali2(){
                     modifier = Modifier.padding(2.dp)
                 ) {
                     Icon(
-                        painter = painterResource(id =R.drawable.ic_change),
+                        painter = painterResource(id = R.drawable.ic_change),
                         contentDescription = "Change",
                         tint = Color.Black,
                         modifier = Modifier.size(35.dp)
@@ -224,7 +249,7 @@ fun BottoniCentrali2(){
                 }
 
             }
-            Spacer(modifier=Modifier.width(30.dp))
+            Spacer(modifier = Modifier.width(30.dp))
             /*bottone a destra*/
             Button(
                 onClick = {
@@ -237,7 +262,8 @@ fun BottoniCentrali2(){
                 ),
                 modifier = Modifier
                     .width(120.dp)
-                    .height(80.dp),
+                    .height(80.dp)
+                    .shadow(elevation = 8.dp, shape = CircleShape),
                 shape = RoundedCornerShape(30.dp)
 
             ) {
@@ -247,7 +273,7 @@ fun BottoniCentrali2(){
                     modifier = Modifier.padding(2.dp)
                 ) {
                     Icon(
-                        painter = painterResource(id =R.drawable.ic_notification),
+                        painter = painterResource(id = R.drawable.ic_notification),
                         contentDescription = "Notification",
                         tint = Color.Black,
                         modifier = Modifier.size(35.dp)
@@ -259,9 +285,8 @@ fun BottoniCentrali2(){
         }
     }
 
-
-
 }
+
 
 @Preview
 @Composable
@@ -280,7 +305,6 @@ fun WorkConstraints() {
             Button(
                 onClick = {
                     //qui ci va il metodo associato al botone
-                    println("This is myTurn")
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.LightGray,
@@ -288,7 +312,8 @@ fun WorkConstraints() {
                 ),
                 modifier = Modifier
                     .width(120.dp)
-                    .height(80.dp),
+                    .height(80.dp)
+                    .shadow(elevation = 8.dp, shape = CircleShape),
                 shape = RoundedCornerShape(30.dp)
 
             ) {
