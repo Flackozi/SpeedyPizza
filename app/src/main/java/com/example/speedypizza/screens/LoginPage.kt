@@ -45,13 +45,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 import com.example.speedypizza.ui.theme.witheBackground
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -114,7 +112,7 @@ fun LoginPage(){
 
 
                 Image(painterResource(R.drawable.pizzaslice),"content description", contentScale = ContentScale.Fit, modifier = Modifier
-                    .offset(y = 23.dp)
+                    .offset(y = 14.dp)
                     .size(71.dp)
                     .rotate(300f),
                     colorFilter = ColorFilter.tint(Color.White))
@@ -128,7 +126,7 @@ fun LoginPage(){
                     ),
                     modifier = Modifier
                         .padding(0.dp)
-                        .offset(y = 0.dp))
+                        .offset(y = 5.dp))
 
 
 

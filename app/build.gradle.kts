@@ -3,13 +3,15 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+
+
 android {
     namespace = "com.example.speedypizza"
     compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.speedypizza"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -30,8 +32,13 @@ android {
         }
     }
     compileOptions {
+
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        // Enable support for the new language APIs
+
+        // Set Java compatibility (version can be higher if desired)
+
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -50,6 +57,12 @@ android {
 }
 
 dependencies {
+
+    coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:<latest-version>")
+
+
+
+
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
@@ -74,5 +87,12 @@ dependencies {
 //    implementation ("androidx.compose.ui:ui:1.0.0")
 //    implementation ("androidx.compose.material:material:1.0.0")
 //    implementation ("androidx.compose.foundation:foundation:1.0.0")
+    implementation("com.android.tools:desugar_jdk_libs:2.0.2")
+
+
+
 
 }
+
+
+
