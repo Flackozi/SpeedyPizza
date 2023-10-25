@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.speedypizza.R
+import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
@@ -153,8 +154,8 @@ fun ElencoGiorni(){
                         modifier = Modifier
                             .width(150.dp)
                             .height(50.dp)
-                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(8.dp))
-                            .background(Color.LightGray, shape = RoundedCornerShape(8.dp)),
+                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(20.dp))
+                            .background(boxcol, shape = RoundedCornerShape(8.dp)),
                         contentAlignment = Alignment.Center
 
                     ) {
@@ -202,7 +203,7 @@ fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: In
             .size(30.dp)
             //.clip(CircleShape)
             .background(
-                if (checked && int == 1) Color.Red else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else Color.LightGray ,
+                if (checked && int == 1) Color.Red else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else Color.White ,
                 shape = RoundedCornerShape(8.dp)
             )
             .shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
