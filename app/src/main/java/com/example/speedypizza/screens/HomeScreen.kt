@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
@@ -33,11 +33,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.speedypizza.R
+import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
@@ -66,9 +68,7 @@ fun HomeScreen(){
             Column {
                 BarraSuperiore()
                 ScrittaIniziale("SpeedyPizza")
-                MyTurn()
-                BottoniCentrali2()
-                WorkConstraints()
+                Shifts()
             }
         }
 
@@ -134,9 +134,8 @@ fun BarraSuperiore (){
 
         ){
             Icon(
-                painter = painterResource(id =R.drawable.ic_account),
+                painter = painterResource(id = R.drawable.baseline_account_box_24),
                 contentDescription = "Profile",
-                tint = Color.Black,
                 modifier = Modifier
                     .size(40.dp)
             )
@@ -152,186 +151,163 @@ fun BarraSuperiore (){
 
 @Preview
 @Composable
-fun MyTurn(){
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-    ){
-        Box(
-            modifier = Modifier.fillMaxWidth(), // Questo fa sì che il Box occupi tutto lo spazio disponibile
-            contentAlignment = Alignment.Center // Centra il contenuto all'interno del Box
-        ){
-            Button(
-                onClick={
-                    //qui ci va il metodo associato al bottone
-                    println("This is myTurn")
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor=Color.LightGray,
-                    contentColor=Color.Black
-                ),
-                modifier = Modifier
-                    .width(120.dp)
-                    .height(80.dp)
-                    .shadow(elevation = 8.dp, shape = CircleShape),
-                shape = RoundedCornerShape(30.dp)
+fun Shifts(){
 
-           ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(2.dp)
-                ){
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_calendar_foreground),
-                        contentDescription = stringResource(id =R.string.image_content_description),
-                        modifier = Modifier
-                            .size(40.dp)
-                            .padding(end = 5.dp)
-                    )
-                    Text(stringResource(id = R.string.My_Turns))
-                }
 
-            }
-        }
-    }
-}
 
-@Preview
-@Composable
-fun BottoniCentrali2(){
 
-    Box (
-        modifier=Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
-            verticalAlignment = Alignment.CenterVertically,
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
+                .fillMaxHeight()
                 .fillMaxWidth()
-                .padding(15.dp)
+                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                .background(boxcol)
+                .padding(10.dp)
 
-        ) {
+            
+        ){
 
-            /*bottone a sinistra*/
-            Button(
-                onClick = {
-                    //qui ci va il metodo associato al botone
-                    println("Exchange requests")
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.LightGray,
-                    contentColor = Color.Black
-                ),
-                modifier = Modifier
-                    .width(120.dp)
-                    .height(80.dp)
-                    .shadow(elevation = 8.dp, shape = CircleShape),
-                shape = RoundedCornerShape(30.dp)
 
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(2.dp)
+            Box(
+                modifier = Modifier.fillMaxWidth(), // Questo fa sì che il Box occupi tutto lo spazio disponibile
+
+            ){
+                Button(
+                    onClick={
+                        //qui ci va il metodo associato al bottone
+                        println("This is myTurn")
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor=Color.White,
+                        contentColor=Color.Black
+                    ),
+                    modifier = Modifier
+                        .width(130.dp)
+                        .height(130.dp)
+                        .offset(x=40.dp, y=40.dp)
+                        .shadow(20.dp),
+                    shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
+
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_change),
-                        contentDescription = "Change",
-                        tint = Color.Black,
-                        modifier = Modifier.size(35.dp)
-                    )
-                    Text(stringResource(R.string.Requests))
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(2.dp)
+                    ){
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_calendar_foreground),
+                            contentDescription = stringResource(id =R.string.image_content_description),
+                            modifier = Modifier
+                                .size(60.dp)
+                                .padding(end = 5.dp)
+                        )
+                        Text(stringResource(id = R.string.Shifts), style = TextStyle(fontWeight = FontWeight.Bold))
+                    }
+
                 }
 
-            }
-            Spacer(modifier = Modifier.width(30.dp))
-            /*bottone a destra*/
-            Button(
-                onClick = {
-                    //qui ci va il metodo associato al botone
-                    println("This is Messages")
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.LightGray,
-                    contentColor = Color.Black
-                ),
-                modifier = Modifier
-                    .width(120.dp)
-                    .height(80.dp)
-                    .shadow(elevation = 8.dp, shape = CircleShape),
-                shape = RoundedCornerShape(30.dp)
+                Button(
+                    onClick = {
+                        //qui ci va il metodo associato al botone
+                        println("Exchange requests")
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black
+                    ),
+                    modifier = Modifier
+                        .width(130.dp)
+                        .height(130.dp)
+                        .offset(x=200.dp, y = 40.dp)
+                        .shadow(20.dp),
+                    shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
 
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(2.dp)
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_notification),
-                        contentDescription = "Notification",
-                        tint = Color.Black,
-                        modifier = Modifier.size(35.dp)
-                    )
-                    Text(stringResource(id = R.string.Messages))
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(2.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_change),
+                            contentDescription = "Change",
+                            tint = Color.Black,
+                            modifier = Modifier.size(60.dp)
+                        )
+                        Text(stringResource(R.string.Requests))
+                    }
+
                 }
 
+                Button(
+                    onClick = {
+                        //qui ci va il metodo associato al botone
+                        println("This is Messages")
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black
+                    ),
+                    modifier = Modifier
+                        .width(130.dp)
+                        .height(130.dp)
+                        .offset(x=40.dp, y = 200.dp)
+                        .shadow(20.dp),
+                    shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
+
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(2.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_notification),
+                            contentDescription = "Notification",
+                            tint = Color.Black,
+                            modifier = Modifier.size(60.dp)
+                        )
+                        Text(stringResource(id = R.string.Messages))
+                    }
+
+                }
+
+
+                Button(
+                    onClick = {
+                        //qui ci va il metodo associato al botone
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black
+                    ),
+                    modifier = Modifier
+                        .width(130.dp)
+                        .height(130.dp)
+                        .offset(x=200.dp, y = 200.dp)
+                        .shadow(20.dp),
+                    shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
+
+
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(1.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id =R.drawable.ic_constraints),
+                            contentDescription = "Change",
+                            tint = Color.Black,
+                            modifier = Modifier.size(60.dp)
+                        )
+                        Text(text= stringResource(id = R.string.Constraints))
+                    }
+
+                }
             }
         }
-    }
-
-}
-
-
-@Preview
-@Composable
-fun WorkConstraints() {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-    ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(), // Questo fa sì che il Box occupi tutto lo spazio disponibile
-            contentAlignment = Alignment.Center // Centra il contenuto all'interno del Box
-        ) {
-            Button(
-                onClick = {
-                    //qui ci va il metodo associato al botone
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.LightGray,
-                    contentColor = Color.Black
-                ),
-                modifier = Modifier
-                    .width(120.dp)
-                    .height(80.dp)
-                    .shadow(elevation = 8.dp, shape = CircleShape),
-                shape = RoundedCornerShape(30.dp)
-
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(1.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id =R.drawable.ic_constraints),
-                        contentDescription = "Change",
-                        tint = Color.Black,
-                        modifier = Modifier.size(35.dp)
-                    )
-                    Text(text= stringResource(id = R.string.Constraints))
-                }
-
-            }
-        }
-    }
 }

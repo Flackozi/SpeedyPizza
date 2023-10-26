@@ -13,7 +13,7 @@ val RedBackground = Color(0xFFF44336)
 val ButtonGrey=Color(0xF2EEE7E7)
 val RedCal = Color(0xFFA43030)
 
-val boxcol = Color(0xffffffff)
+val boxcol = Color(0xFFF1F1F1)
 
 //colori
 val start_color = Color(0xFFA43030)
