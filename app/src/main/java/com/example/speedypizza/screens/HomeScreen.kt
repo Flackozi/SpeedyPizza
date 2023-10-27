@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -90,26 +91,26 @@ fun ScrittaIniziale(string: String){
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(3.dp),
-                modifier = Modifier
-                    .padding(2.dp)
-
+                modifier = Modifier.padding(2.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.pizzaslice),
-                    contentDescription = stringResource(id = R.string.image_content_description),
+                    contentDescription = stringResource(id =R.string.image_content_description),
+                    colorFilter=ColorFilter.tint(Color.White),
                     modifier = Modifier
                         .size(71.dp)
-                        .rotate(300f),
-                    colorFilter = ColorFilter.tint(Color.LightGray)
+                        .padding(end = 5.dp)
+                        .rotate(300f)
                 )
                 Text(
                     text = string,
                     style = TextStyle(
                         fontFamily = FontFamily(Font(R.font.mogra)),
                         fontSize = 35.sp,
-                        color = Color.LightGray
-                    )
+                        color = Color.White
+                    ),
+                    modifier= Modifier.padding(bottom=15.dp)
                 )
             }
         }
@@ -152,11 +153,6 @@ fun BarraSuperiore (){
 @Preview
 @Composable
 fun Shifts(){
-
-
-
-
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,

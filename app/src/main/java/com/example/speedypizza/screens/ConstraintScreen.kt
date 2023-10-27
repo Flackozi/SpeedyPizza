@@ -1,6 +1,8 @@
 package com.example.speedypizza.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +31,7 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -200,13 +203,15 @@ fun ElencoGiorni(){
 fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
     Box(
         modifier = Modifier
-            .size(30.dp)
+            .alpha(0.9f)
+            .size(27.dp)
+            .border(BorderStroke(width = 1.dp, color = Color.Black))
             //.clip(CircleShape)
             .background(
                 if (checked && int == 1) Color.Red else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else Color.White ,
-                shape = RoundedCornerShape(8.dp)
-            )
-            .shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
+                //shape = RoundedCornerShape(8.dp),
+        )
+            //.shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
             .clickable { onCheckedChange(!checked) },
         contentAlignment = Alignment.Center
     ) {
@@ -217,3 +222,5 @@ fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: In
         }
     }
 }
+
+
