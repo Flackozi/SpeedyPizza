@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import com.example.speedypizza.screens.ConstraintScreen
 import com.example.speedypizza.screens.HomeScreen
 import com.example.speedypizza.screens.LoginPage
+import com.example.speedypizza.screens.ShiftsPage
 import com.example.speedypizza.screens.schermataMessaggi
 import com.example.speedypizza.ui.theme.SpeedyPizzaTheme
 
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
 fun SpeedyPizzaApp(){
 //    LoginPage()
     //HomeScreen()
-    ConstraintScreen()
+//    ConstraintScreen()
     //schermataMessaggi()
+    ShiftsPage()
 }

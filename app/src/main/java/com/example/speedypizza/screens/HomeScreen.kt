@@ -129,18 +129,14 @@ fun BarraSuperiore (){
             .fillMaxWidth()
             .padding(15.dp)
     ){
-        Column (
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.Start
 
-        ){
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_account_box_24),
-                contentDescription = "Profile",
-                modifier = Modifier
-                    .size(40.dp)
-            )
-        }
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_account_box_24),
+            contentDescription = "Profile",
+            modifier = Modifier
+                .size(45.dp)
+        )
+
         Icon(
             painter = painterResource(id =R.drawable.ic_menu),
             contentDescription = "Menu",
