@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,11 +15,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,7 +48,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,6 +82,7 @@ fun HomeScreen(){
             Column {
                 BarraSuperiore()
                 ScrittaIniziale("SpeedyPizza")
+                Spacer(modifier = Modifier.height(150.dp))
                 Shifts()
             }
         }
@@ -81,28 +95,26 @@ fun HomeScreen(){
 @Composable
 fun ScrittaIniziale(string: String){
 
-    Row (
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-    ) {
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(2.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
+
+
+        Column(modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally)
+
+        {
+            Box(modifier = Modifier.offset(y=0.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.pizzaslice),
-                    contentDescription = stringResource(id =R.string.image_content_description),
-                    colorFilter=ColorFilter.tint(Color.White),
+                    contentDescription = stringResource(id = R.string.image_content_description),
+                    colorFilter = ColorFilter.tint(Color.White),
                     modifier = Modifier
                         .size(71.dp)
-                        .padding(end = 5.dp)
                         .rotate(300f)
+                        .align(Alignment.Center)
                 )
+
+
+
                 Text(
                     text = string,
                     style = TextStyle(
@@ -110,40 +122,124 @@ fun ScrittaIniziale(string: String){
                         fontSize = 35.sp,
                         color = Color.White
                     ),
-                    modifier= Modifier.padding(bottom=15.dp)
+                    modifier = Modifier.offset(y=50.dp)
                 )
             }
+
         }
-    }
+
+
+
+
+
+
 
 }
 
 //Barra superiore con bottone del profilo e tre lineette
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun BarraSuperiore (){
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-    ){
 
-        Icon(
-            painter = painterResource(id = R.drawable.baseline_account_box_24),
-            contentDescription = "Profile",
-            modifier = Modifier
-                .size(45.dp)
-        )
 
-        Icon(
-            painter = painterResource(id =R.drawable.ic_menu),
-            contentDescription = "Menu",
-            tint = Color.Black,
-            modifier = Modifier.size(45.dp)
-        )
-    }
+    var expanded by remember{mutableStateOf(false)}
+
+
+   TopAppBar(title = {
+       Text(text = "")
+   },
+       colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent ),
+       navigationIcon = {
+
+
+           Row (modifier = Modifier.fillMaxSize(),
+               verticalAlignment = Alignment.CenterVertically,
+               horizontalArrangement = Arrangement.SpaceBetween
+           ){
+
+                   Icon(
+                       painter = painterResource(id = R.drawable.baseline_account_box_24),
+                       contentDescription = "Profile",
+                       modifier = Modifier
+                           .size(40.dp),
+                       tint = Color.White
+
+                   )
+
+
+
+
+                        Box{
+                            IconButton(onClick = { expanded = true }) {
+                                Icon(
+                                    painter = painterResource(id =R.drawable.ic_menu),
+                                    contentDescription = "Menu",
+                                    tint = Color.White,
+                                    modifier = Modifier.size(45.dp),
+                                    
+                                    )
+
+
+
+
+                            }
+
+                            DropdownMenu(expanded = expanded, onDismissRequest = {
+                                expanded = false
+                            },
+                                modifier = Modifier
+                                    .background(
+                                        Color.White
+                                    )
+                                    .align(Alignment.CenterEnd)
+                            ) {
+
+                                DropdownMenuItem(
+                                    text = { Text("Home") },
+                                    onClick = { /* Handle edit! */ },
+                                    leadingIcon = {
+                                        Icon(
+                                            Icons.Outlined.Home,
+                                            contentDescription = null
+                                        )
+                                    })
+                                DropdownMenuItem(
+                                    text = { Text("Settings") },
+                                    onClick = { /* Handle settings! */ },
+                                    leadingIcon = {
+                                        Icon(
+                                            Icons.Outlined.Settings,
+                                            contentDescription = null
+                                        )
+                                    })
+                                Divider()
+                                DropdownMenuItem(
+                                    text = { Text("Send Feedback") },
+                                    onClick = { /* Handle send feedback! */ },
+                                    leadingIcon = {
+                                        Icon(
+                                            Icons.Outlined.Email,
+                                            contentDescription = null
+                                        )
+                                    },
+                                    )
+                            }
+                        }
+
+
+
+
+
+           }
+
+
+   }
+
+       )
+
+
+
 }
 
 @Preview
@@ -153,7 +249,6 @@ fun Shifts(){
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .fillMaxHeight()
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
                 .background(boxcol)
@@ -164,7 +259,10 @@ fun Shifts(){
 
 
             Box(
-                modifier = Modifier.fillMaxWidth(), // Questo fa sì che il Box occupi tutto lo spazio disponibile
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxSize()
+                    .offset(y=180.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
 
             ){
                 Button(
@@ -179,7 +277,7 @@ fun Shifts(){
                     modifier = Modifier
                         .width(130.dp)
                         .height(130.dp)
-                        .offset(x=40.dp, y=40.dp)
+                        .offset(x = 40.dp, y = 40.dp)
                         .shadow(20.dp),
                     shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
 
@@ -189,14 +287,13 @@ fun Shifts(){
                         verticalArrangement = Arrangement.Center,
                         modifier = Modifier.padding(2.dp)
                     ){
-                        Image(
+                        Icon(
                             painter = painterResource(id = R.drawable.ic_calendar_foreground),
-                            contentDescription = stringResource(id =R.string.image_content_description),
+                            contentDescription = "Calendar",
                             modifier = Modifier
                                 .size(60.dp)
-                                .padding(end = 5.dp)
                         )
-                        Text(stringResource(id = R.string.Shifts), style = TextStyle(fontWeight = FontWeight.Bold))
+                        Text(stringResource(R.string.Shifts), modifier = Modifier.offset(y=5.dp))
                     }
 
                 }
@@ -213,7 +310,7 @@ fun Shifts(){
                     modifier = Modifier
                         .width(130.dp)
                         .height(130.dp)
-                        .offset(x=200.dp, y = 40.dp)
+                        .offset(x = 200.dp, y = 40.dp)
                         .shadow(20.dp),
                     shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
 
@@ -246,7 +343,7 @@ fun Shifts(){
                     modifier = Modifier
                         .width(130.dp)
                         .height(130.dp)
-                        .offset(x=40.dp, y = 200.dp)
+                        .offset(x = 40.dp, y = 200.dp)
                         .shadow(20.dp),
                     shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
 
@@ -279,7 +376,7 @@ fun Shifts(){
                     modifier = Modifier
                         .width(130.dp)
                         .height(130.dp)
-                        .offset(x=200.dp, y = 200.dp)
+                        .offset(x = 200.dp, y = 200.dp)
                         .shadow(20.dp),
                     shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
 
