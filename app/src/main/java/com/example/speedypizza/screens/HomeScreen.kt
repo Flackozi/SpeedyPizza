@@ -158,6 +158,10 @@ fun BarraSuperiore (){
                horizontalArrangement = Arrangement.SpaceBetween
            ){
 
+
+
+
+
                    Icon(
                        painter = painterResource(id = R.drawable.baseline_account_box_24),
                        contentDescription = "Profile",
@@ -166,6 +170,8 @@ fun BarraSuperiore (){
                        tint = Color.White
 
                    )
+
+
 
 
 
@@ -262,7 +268,7 @@ fun Shifts(){
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxSize()
-                    .offset(y=180.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
+                    .offset(y = 180.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
 
             ){
                 Button(
