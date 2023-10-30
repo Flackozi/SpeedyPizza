@@ -62,7 +62,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0")
     coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:<latest-version>")
 
-
+    implementation ("androidx.navigation:navigation-compose:2.7.4")
 
 
 

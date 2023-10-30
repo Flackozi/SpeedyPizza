@@ -97,7 +97,7 @@ fun LoginPage(){
 
         ){
 
-            val (col1, col2, col3) = createRefs()
+            val (col1, col2) = createRefs()
             Column(
                 modifier = Modifier
                     .fillMaxSize()

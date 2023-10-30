@@ -16,5 +16,8 @@
     <string name="Sunday">Domenica</string>
     <string name="Shifts">Cambi</string>
     <string name="Submit">Invio</string>
+    <string name="Rider_Management">Gestione Rider</string>
+    <string name="Create_Calendar">Crea Calendario</string>
+    <string name="View_Calendar">Visualizza Calendario</string>
 
 </resources>

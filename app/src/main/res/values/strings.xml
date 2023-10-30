@@ -15,5 +15,9 @@
     <string name="Friday">Friday</string>
     <string name="Saturday">Saturday</string>
     <string name="Sunday">Sunday</string>
+    <string name="Submit">Submit</string>
+    <string name="Rider_Management">Rider Management</string>
+    <string name="Create_Calendar">Create Calendar</string>
+    <string name="View_Calendar">View Calendar</string>
 
 </resources>
