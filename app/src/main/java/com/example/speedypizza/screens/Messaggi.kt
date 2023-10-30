@@ -22,8 +22,12 @@ import androidx.compose.runtime.Composable
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -53,6 +57,10 @@ fun schermataMessaggi(){
         Messaggio(1, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
         Messaggio(2, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario"),
         Messaggio(3, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
+        Messaggio(4, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario"),
+        Messaggio(1, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
+        Messaggio(2, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario"),
+        Messaggio(3, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
         Messaggio(4, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario")
     )
 
@@ -72,21 +80,14 @@ fun schermataMessaggi(){
                 horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            TopBar()
+            BarraSuperiore()
 
-            Text(
-                text = stringResource(R.string.Messages),
-                style = TextStyle(
-                    fontFamily = FontFamily(Font(R.font.mogra)),
-                    fontSize = 35.sp,
-                    color = Color.White
-                ),
-                //modifier = Modifier.padding(vertical = 16.dp)
-            )
+            ScrittaIniziale(string = "Messages")
 
             LazyColumn(modifier = Modifier
                 .padding(horizontal = 20.dp, vertical = 70.dp)
-                .background(color = Color.Transparent, shape = RoundedCornerShape(10.dp))) {
+                .background(color = Color.Transparent, shape = RoundedCornerShape(10.dp))
+                .scrollEnabled(enabled = true)) {
                 items(elencoMessaggi) { message ->
                     MessageItem(message)
                 }
@@ -172,3 +173,14 @@ fun TopBar(){
         )
     }
 }
+
+fun Modifier.scrollEnabled(
+    enabled: Boolean,
+) = nestedScroll(
+    connection = object : NestedScrollConnection {
+        override fun onPreScroll(
+            available: Offset,
+            source: NestedScrollSource
+        ): Offset = if(enabled) Offset.Zero else available
+    }
+)
