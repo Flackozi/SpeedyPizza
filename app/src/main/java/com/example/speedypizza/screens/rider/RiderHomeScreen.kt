@@ -49,9 +49,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
@@ -59,9 +62,9 @@ import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 
 //contenitore
-@Preview
+
 @Composable
-fun HomeScreen(){
+fun RiderHomeScreen(navController: NavHostController) {
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color ),
         startY = 0f,
@@ -83,7 +86,7 @@ fun HomeScreen(){
                 BarraSuperiore()
                 ScrittaIniziale("SpeedyPizza")
                 Spacer(modifier = Modifier.height(150.dp))
-                Shifts()
+                Shifts(navController)
             }
         }
 
@@ -138,7 +141,7 @@ fun ScrittaIniziale(string: String){
 
 //Barra superiore con bottone del profilo e tre lineette
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+//@Preview
 @Composable
 fun BarraSuperiore (){
 
@@ -248,9 +251,9 @@ fun BarraSuperiore (){
 
 }
 
-@Preview
+//@Preview
 @Composable
-fun Shifts(){
+fun Shifts(navController: NavHostController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -273,7 +276,7 @@ fun Shifts(){
             ){
                 Button(
                     onClick={
-                        //qui ci va il metodo associato al bottone
+                        navController.navigate("shiftPage")
                         println("This is myTurn")
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -306,7 +309,7 @@ fun Shifts(){
 
                 Button(
                     onClick = {
-                        //qui ci va il metodo associato al botone
+                        navController.navigate("exchangePage")
                         println("Exchange requests")
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -339,7 +342,7 @@ fun Shifts(){
 
                 Button(
                     onClick = {
-                        //qui ci va il metodo associato al botone
+                        navController.navigate("messagesPage")
                         println("This is Messages")
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -373,7 +376,7 @@ fun Shifts(){
 
                 Button(
                     onClick = {
-                        //qui ci va il metodo associato al botone
+                        navController.navigate("constraintsPage")
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
@@ -407,4 +410,10 @@ fun Shifts(){
         }
 
 
+}
+
+@Preview
+@Composable
+fun Preview() {
+    RiderHomeScreen(rememberNavController())
 }

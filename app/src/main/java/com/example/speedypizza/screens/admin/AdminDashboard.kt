@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavHostController
 import com.example.speedypizza.R
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
@@ -138,7 +139,7 @@ fun PrimoMenu() {
 
 @Preview
 @Composable
-fun AdminDashboard(){
+fun AdminDashboard(navController: NavHostController) {
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color ),
         startY = 0f,

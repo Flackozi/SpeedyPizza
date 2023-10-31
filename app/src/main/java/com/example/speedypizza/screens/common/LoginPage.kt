@@ -42,20 +42,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 import com.example.speedypizza.ui.theme.witheBackground
 
-@Preview
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPage(navController: NavHostController, appSettings: Any?, profile: Any?) {
+fun LoginPage(navController: NavHostController) {
 
 
     val gradient = Brush.verticalGradient(
@@ -189,7 +191,9 @@ fun LoginPage(navController: NavHostController, appSettings: Any?, profile: Any?
                     )
                     Spacer(modifier = Modifier.padding(10.dp))
                     Button(
-                        onClick = { },
+                        onClick = {
+                            navController.navigate("riderHome")
+                        },
                         colors = buttonColor,
                         modifier = Modifier
                             .fillMaxWidth(0.8f)
@@ -219,8 +223,9 @@ fun LoginPage(navController: NavHostController, appSettings: Any?, profile: Any?
     }
 }
 
-/*@Preview
+@Preview
 @Composable
 fun GradientBackgroundPreview() {
-    LoginPage(navController, appSettings, profile)
-}*/
+    LoginPage(rememberNavController())
+}
+

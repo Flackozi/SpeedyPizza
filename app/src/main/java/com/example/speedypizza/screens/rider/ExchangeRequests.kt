@@ -49,6 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavHostController
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
@@ -57,18 +58,18 @@ import com.example.speedypizza.ui.theme.green2
 import com.example.speedypizza.ui.theme.grigiochiarissimo
 import com.example.speedypizza.ui.theme.start_color
 
-@Preview
+//@Preview
 @Composable
-fun ExchangeRequests(close: () -> Unit = {}) {
+fun ExchangeRequests(navController: NavHostController, close: () -> Unit = {}) {
 
     val gradient = Brush.verticalGradient(
-        colors = listOf(start_color, center_color, end_color ),
+        colors = listOf(start_color, center_color, end_color),
         startY = 0f,
         endY = 2000f
     )
 
     ConstraintLayout {
-        val (box)=createRefs()
+        val (box) = createRefs()
         Box(modifier = Modifier
             .background(brush = gradient)
             .fillMaxSize()
@@ -77,7 +78,7 @@ fun ExchangeRequests(close: () -> Unit = {}) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
-        ){
+        ) {
             Column {
                 BarraSuperiore()
                 ScrittaIniziale("Exchange Requests")
@@ -91,8 +92,8 @@ fun ExchangeRequests(close: () -> Unit = {}) {
 }
 
 @Composable
-fun RequestsList(){
-    val raiderNames= listOf("Carlo", "Matteo", "Flavio")
+fun RequestsList() {
+    val raiderNames = listOf("Carlo", "Matteo", "Flavio")
 
     var expanded by remember {
         mutableStateOf(false)
@@ -101,7 +102,7 @@ fun RequestsList(){
         mutableStateOf("Seleziona un'opzione")
     }
 
-    val options= listOf("Opzione1", "Opzione 2", "Opzione 3")
+    val options = listOf("Opzione1", "Opzione 2", "Opzione 3")
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -114,7 +115,7 @@ fun RequestsList(){
             .padding(10.dp)
     ) {
         Box(
-            modifier=Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopCenter
         ) {
             LazyRow(
@@ -131,7 +132,7 @@ fun RequestsList(){
                 }
             }
         }
-        Column(modifier=Modifier.fillMaxHeight()){
+        Column(modifier = Modifier.fillMaxHeight()) {
             DropDown(text = "Carlo", modifier = Modifier.padding(15.dp)) {
                 Text(
                     text = "Giustini Gay", modifier = Modifier
@@ -145,9 +146,9 @@ fun RequestsList(){
 }
 
 @Composable
-fun RichiesteItem(string: String){
+fun RichiesteItem(string: String) {
     Card(
-        modifier= Modifier
+        modifier = Modifier
             .height(130.dp)
             .width(150.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
@@ -168,10 +169,10 @@ fun RichiesteItem(string: String){
                             .size(60.dp),
                         tint = Color.Black
                     )
-                    Text(text=string, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                    Text(text = string, fontSize = 13.sp, fontWeight = FontWeight.Bold)
                 }
                 Box(
-                    modifier= Modifier
+                    modifier = Modifier
                         .width(25.dp)
                         .height(25.dp),
                 ) {
@@ -185,11 +186,11 @@ fun RichiesteItem(string: String){
                     )
                 }
                 Box(
-                    modifier= Modifier
+                    modifier = Modifier
                         .width(25.dp)
                         .height(25.dp),
 
-                ) {
+                    ) {
                     Icon(
                         modifier = Modifier
                             .size(25.dp)
@@ -233,15 +234,15 @@ fun DropDown(
         mutableStateOf(initiallyOpened)
     }
 
-    val alpha= animateFloatAsState(
-        targetValue = if(isOpen) 1f else 0f,
+    val alpha = animateFloatAsState(
+        targetValue = if (isOpen) 1f else 0f,
         animationSpec = tween(
             durationMillis = 300
         )
     )
 
     val rotateX = animateFloatAsState(
-        targetValue = if(isOpen) 0f else -90f,
+        targetValue = if (isOpen) 0f else -90f,
         animationSpec = tween(
             durationMillis = 300
         )
@@ -250,7 +251,7 @@ fun DropDown(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(9.dp))
-            .shadow(elevation=3.dp)
+            .shadow(elevation = 3.dp)
 
     ) {
         Row(
@@ -262,13 +263,13 @@ fun DropDown(
                 .background(center_color)
 
         ) {
-            Text(text="")
+            Text(text = "")
             Text(
                 //modifier=Modifier.padding(start=80.dp),
                 text = text,
                 color = Color.White,
                 fontSize = 20.sp,
-                style= TextStyle(
+                style = TextStyle(
                     fontWeight = FontWeight.Bold
                 )
             )

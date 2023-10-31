@@ -48,6 +48,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.speedypizza.R
 import com.example.speedypizza.screens.rider.BarraSuperiore
@@ -61,7 +62,7 @@ import com.example.speedypizza.ui.theme.start_color
 
 @Preview
 @Composable
-fun MyRiderScreen() {
+fun MyRiderScreen(navController: NavHostController) {
 
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color),

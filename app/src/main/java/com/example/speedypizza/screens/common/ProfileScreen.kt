@@ -42,6 +42,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.arrowProfile
@@ -51,9 +53,9 @@ import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 
 
-@Preview
+
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(navController: NavHostController) {
 
 
     val gradient = Brush.verticalGradient(
@@ -368,4 +370,9 @@ fun BarraSuperioreProfile(){
         }
     )
 
+}
+@Preview
+@Composable
+fun Preview() {
+    ProfileScreen(rememberNavController())
 }

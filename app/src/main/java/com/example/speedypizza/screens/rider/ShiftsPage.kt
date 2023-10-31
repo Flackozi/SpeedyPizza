@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavHostController
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
@@ -45,9 +46,9 @@ import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 
 
-@Preview
+//@Preview
 @Composable
-fun ShiftsPage(close: () -> Unit = {}) {
+fun ShiftsPage(navController: NavHostController, close: () -> Unit = {}) {
 
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color ),
