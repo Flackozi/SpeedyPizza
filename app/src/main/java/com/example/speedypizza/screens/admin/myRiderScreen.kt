@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -99,7 +100,7 @@ fun MyRiderInfo() {
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
 
-    val raiderNames= listOf("Carlo", "Matteo", "Flavio")
+    val raiderNames= listOf("Carlo", "Matteo", "Flavio", "Mirko", "aghislov", "becknabour", "franco", "armando")
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -181,25 +182,27 @@ fun MyRiderInfo() {
             .height(15.dp))
 
         LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            contentPadding = PaddingValues(horizontal = 5.dp)
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 5.dp, vertical = 5.dp),
+            horizontalArrangement = Arrangement.Start,
+            contentPadding = PaddingValues(horizontal = 20.dp)
             ){
 
             items(raiderNames){ name->
                 Box(){
-                    Column {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top) {
                         Row {
                             Image(painter = painter,
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
                                     .clip(CircleShape)
-                                    .size(180.dp)
-                                    .background(Color.White)
+                                    .size(50.dp)
+                                    .background(Color.LightGray)
                                     .border(
                                         width = 1.dp,
-                                        color = Color.White,
+                                        color = Color.LightGray,
                                         shape = CircleShape
                                     )
                             )
@@ -209,6 +212,7 @@ fun MyRiderInfo() {
                         }
                     }
                 }
+                Spacer(modifier = Modifier.width(10.dp))
             }
         }
 
