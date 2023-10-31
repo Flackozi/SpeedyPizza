@@ -23,3 +23,9 @@ val end_color = Color(0xFFFDBB2D)
 val witheBackground = Color(0xFFFFFFFF)
 val noWork_color = Color(0xFF580404)
 
+val green_color = Color(0xFF49D616)
+val green2 = Color(0xFF369714)
+val grigiochiarissimo = Color(0xC8DFE2DE)
+
+
+

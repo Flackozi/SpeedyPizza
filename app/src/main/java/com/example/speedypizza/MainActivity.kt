@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import com.example.speedypizza.screens.ExchangeRequests
 import com.example.speedypizza.screens.ProfileScreen
 import com.example.speedypizza.ui.theme.SpeedyPizzaTheme
 
@@ -25,5 +26,6 @@ fun SpeedyPizzaApp(){
 //    ConstraintScreen()
     //schermataMessaggi()
     //ShiftsPage()
-    ProfileScreen()
+    //ProfileScreen()
+    ExchangeRequests()
 }

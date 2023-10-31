@@ -73,6 +73,7 @@ fun ShiftsPage(close: () -> Unit = {}) {
             Column {
                 BarraSuperiore()
                 ScrittaIniziale("Shifts")
+                Spacer(modifier = Modifier.height(50.dp))
                 ShiftsList()
             }
         }
@@ -151,41 +152,50 @@ fun DailyItem(day:String){
                     color = Color.White,
                     style = TextStyle(fontFamily = FontFamily(Font(R.font.mogra)), fontSize = 13.sp)                )
             }
-            Row() {
-                Row (modifier = Modifier.weight(1f)){
-                    Text(
-                        text = "12:00\n15:00",
-                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 4.dp),
-                        style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold),
-                        color = Color.Black
-                    )
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(horizontal = 5.dp, vertical = 5.dp)
-                            .fillMaxWidth(),
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        items(LaunchWorker) { name ->
-                            WorkerItem(name)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(modifier = Modifier.weight(1f)){
+                    Row {
+                        Text(
+                            text = "12:00\n15:00",
+                            modifier = Modifier.padding(horizontal = 5.dp, vertical = 4.dp),
+                            style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold),
+                            color = Color.Black
+                        )
+                        LazyColumn(
+                            modifier = Modifier
+                                .padding(horizontal = 5.dp, vertical = 5.dp)
+                                .fillMaxWidth(),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            items(LaunchWorker) { name ->
+                                WorkerItem(name)
+                            }
                         }
                     }
                 }
 
-                Row (modifier = Modifier.weight(1f)){
-                    Text(
-                        text = "19:30\n22:30",
-                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 4.dp),
-                        style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold),
-                        color = Color.Black
-                    )
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(horizontal = 5.dp, vertical = 5.dp)
-                            .fillMaxWidth(),
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        items(DinnerWorker) { name ->
-                            WorkerItem(name)
+                Spacer(modifier = Modifier.width(3.dp).background(Color.Black))
+
+                Column(modifier = Modifier.weight(1f)){
+                    Row {
+                        Text(
+                            text = "19:30\n22:30",
+                            modifier = Modifier.padding(horizontal = 5.dp, vertical = 4.dp),
+                            style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold),
+                            color = Color.Black
+                        )
+                        LazyColumn(
+                            modifier = Modifier
+                                .padding(horizontal = 5.dp, vertical = 5.dp)
+                                .fillMaxWidth(),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            items(DinnerWorker) { name ->
+                                WorkerItem(name)
+                            }
                         }
                     }
                 }
