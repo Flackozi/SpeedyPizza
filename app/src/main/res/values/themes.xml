@@ -2,4 +2,10 @@
 <resources>
 
     <style name="Theme.SpeedyPizza" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.MyAppTheme" parent="android:Theme.Material.Light">
+        <item name="colorPrimary">@color/search</item>
+        <item name="colorPrimaryVariant">@color/search</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
 </resources>

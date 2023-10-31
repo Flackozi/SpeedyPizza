@@ -1,4 +1,4 @@
-package com.example.speedypizza.screens
+package com.example.speedypizza.screens.rider
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

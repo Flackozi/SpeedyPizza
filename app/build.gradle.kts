@@ -94,6 +94,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.4")
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation ("androidx.compose.material3:material3:1.1.2")
+
 
 
 

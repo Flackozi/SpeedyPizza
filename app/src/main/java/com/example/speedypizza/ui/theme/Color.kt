@@ -16,6 +16,8 @@ val RedCal = Color(0xFFA43030)
 val boxcol = Color(0xFFF1F1F1)
 val arrowProfile = Color(0xFF6D6D6D)
 
+val search = Color(0xFF777777)
+
 //colori
 val start_color = Color(0xFFA43030)
 val center_color = Color(0xFFB21F1F)

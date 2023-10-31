@@ -1,4 +1,4 @@
-package com.example.speedypizza.screens
+package com.example.speedypizza.screens.rider
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
