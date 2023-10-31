@@ -1,4 +1,4 @@
-package com.example.speedypizza.screens
+package com.example.speedypizza.screens.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -45,16 +45,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavHostController
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 import com.example.speedypizza.ui.theme.witheBackground
 
-
+@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPage(){
+fun LoginPage(navController: NavHostController, appSettings: Any?, profile: Any?) {
 
 
     val gradient = Brush.verticalGradient(
@@ -218,8 +219,8 @@ fun LoginPage(){
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 fun GradientBackgroundPreview() {
-    LoginPage()
-}
+    LoginPage(navController, appSettings, profile)
+}*/

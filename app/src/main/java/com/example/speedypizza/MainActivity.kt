@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import com.example.speedypizza.screens.admin.MyRiderScreen
+import com.example.speedypizza.screens.rider.ExchangeRequests
 import com.example.speedypizza.ui.theme.SpeedyPizzaTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,5 +26,5 @@ fun SpeedyPizzaApp(){
     //schermataMessaggi()
     //ShiftsPage()
     //ProfileScreen()
-    MyRiderScreen()
+    ExchangeRequests()
 }

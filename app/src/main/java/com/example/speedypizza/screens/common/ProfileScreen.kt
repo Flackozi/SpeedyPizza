@@ -1,4 +1,4 @@
-package com.example.speedypizza.screens.rider
+package com.example.speedypizza.screens.common
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
