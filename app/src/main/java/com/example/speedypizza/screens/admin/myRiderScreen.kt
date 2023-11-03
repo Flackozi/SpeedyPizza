@@ -311,7 +311,7 @@ fun MyRiderInfo() {
             .height(10.dp))
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            Box(modifier = Modifier.offset(x=25.dp)){
+            Box(modifier = Modifier.offset(x=35.dp)){
                 IconButton(
                     onClick = { /*aggiungi rider*/ },
                     //shape = CircleShape,
@@ -329,7 +329,7 @@ fun MyRiderInfo() {
             }
 
             Spacer(modifier = Modifier
-                .width(30.dp))
+                .width(50.dp))
 
             Text(text = "Add new rider", color = start_color,
                 style = TextStyle(
@@ -343,7 +343,7 @@ fun MyRiderInfo() {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 5.dp, vertical = 5.dp),
+                .padding(horizontal = 5.dp, vertical = 5.dp).offset(x=10.dp),
             contentPadding = PaddingValues(horizontal = 20.dp),
         ){
 
@@ -366,7 +366,7 @@ fun MyRiderInfo() {
                                     )
                             )
                         }
-                        Row {
+                        Row() {
                             Text(text = "$name")
                         }
                     }
