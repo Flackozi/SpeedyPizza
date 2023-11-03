@@ -22,7 +22,7 @@ val search = Color(0xFF777777)
 val start_color = Color(0xFFA43030)
 val center_color = Color(0xFFB21F1F)
 val end_color = Color(0xFFFDBB2D)
-val witheBackground = Color(0xFFFFFFFF)
+val whitebackground = Color(0xFFFFFFFF)
 val noWork_color = Color(0xFF580404)
 
 val green_color = Color(0xFF49D616)

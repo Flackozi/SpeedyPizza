@@ -42,7 +42,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -52,7 +51,7 @@ import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
-import com.example.speedypizza.ui.theme.witheBackground
+import com.example.speedypizza.ui.theme.whitebackground
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -89,7 +88,7 @@ fun LoginPage(navController: NavHostController) {
                 }
                 .background(brush = gradient), contentAlignment = Alignment.TopCenter){
 
-                Image(painterResource(R.drawable.pizza),"content description", modifier = Modifier.offset(y = 145.dp))
+                Image(painterResource(R.drawable.pizza),"content description", modifier = Modifier.offset(y = 145.dp).size(170.dp))
             }
         }
 
@@ -146,7 +145,7 @@ fun LoginPage(navController: NavHostController) {
                     }
                     .fillMaxHeight(0.60f)
                     .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                    .background(witheBackground)
+                    .background(whitebackground)
                     .padding(10.dp)
             ) {
                 Text(
