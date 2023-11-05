@@ -1,8 +1,22 @@
 package com.example.speedypizza.screens.rider
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.border
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.TextField
+
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,18 +31,26 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -57,6 +79,7 @@ import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.green2
 import com.example.speedypizza.ui.theme.grigiochiarissimo
 import com.example.speedypizza.ui.theme.start_color
+import androidx.compose.runtime.*
 
 //@Preview
 @Composable
@@ -92,8 +115,8 @@ fun ExchangeRequests(navController: NavHostController, close: () -> Unit = {}) {
 }
 
 @Composable
-fun RequestsList() {
-    val raiderNames = listOf("Carlo", "Matteo", "Flavio")
+fun RequestsList(){
+    val raiderNames= listOf("Carlo", "Matteo", "Flavio")
 
     var expanded by remember {
         mutableStateOf(false)
@@ -102,7 +125,7 @@ fun RequestsList() {
         mutableStateOf("Seleziona un'opzione")
     }
 
-    val options = listOf("Opzione1", "Opzione 2", "Opzione 3")
+    val myShifts= listOf("Mercoledi' 10:00/13:00", "Venerdi 19:00/21:30", "Sabato 21:00/23:00", "Domenica 21:00/23:00") //qui ci andranno tutti i turni attuali del raider
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -115,7 +138,7 @@ fun RequestsList() {
             .padding(10.dp)
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth(),
+            modifier=Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopCenter
         ) {
             LazyRow(
@@ -132,23 +155,160 @@ fun RequestsList() {
                 }
             }
         }
-        Column(modifier = Modifier.fillMaxHeight()) {
-            DropDown(text = "Carlo", modifier = Modifier.padding(15.dp)) {
-                Text(
-                    text = "Giustini Gay", modifier = Modifier
+
+
+
+
+        Column(modifier=Modifier.fillMaxHeight()){
+
+            Card(
+                modifier= Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .padding(top = 15.dp)
+                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(20.dp))
+//                    .background(Color.White, shape = RoundedCornerShape(8.dp)),
+            ){
+                Row (
+                    horizontalArrangement=Arrangement.Center,
+                    modifier= Modifier
                         .fillMaxWidth()
-                        .height(100.dp)
-                        .background(grigiochiarissimo)
-                )
+                        .height(40.dp)
+                        .background(center_color),
+                ){
+                    Text(
+                        text="Your Turns",
+                        color=Color.White,
+                        modifier=Modifier
+                            .padding(5.dp),
+                        style=TextStyle(fontSize=20.sp, fontWeight = FontWeight.Bold)
+                    )
+
+
+                }
+                val checkboxStates1=remember{ mutableStateMapOf<String, Boolean>() }
+                myShifts.forEach { shift->
+                    if(!checkboxStates1.contains(shift)){
+                        checkboxStates1[shift]=false
+                    }
+                }
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                    modifier=Modifier.padding(top=4.dp)
+                ) {
+                    items(myShifts){ shift->
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment=Alignment.CenterVertically,
+                            modifier=Modifier.padding(start=15.dp)
+                        ){
+                            Box(
+                                modifier = Modifier
+                                    .width(150.dp)
+                                    .height(20.dp),
+                                contentAlignment = Alignment.Center
+
+                            ){
+                                Text(text = shift, style=TextStyle(fontSize=13.sp, fontWeight = FontWeight.Bold))
+                            }
+                            Spacer(modifier = Modifier.width(140.dp))
+                            CheckBox(checked = checkboxStates1[shift] ?:false, onCheckedChange = { isChecked ->checkboxStates1[shift]=isChecked }, 1)
+                        }
+
+                    }
+
+
+                }
+
             }
+            LazyColumn(
+                modifier = Modifier
+                    .height(250.dp)
+                    .fillMaxWidth()
+                    .padding(15.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(raiderNames) {name ->
+                    Turns(name)
+
+                }
+
+            }
+
+            val buttonColor = ButtonDefaults.buttonColors(center_color)
+            Row(
+                horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(18.dp)
+            ){
+                Button(
+                    onClick = {
+                        //qui ci va il metodo associato al botone
+                        println("Send only to selected riders")
+                    },
+                    colors = buttonColor,
+                    modifier = Modifier
+                        .width(150.dp)
+                        .height(50.dp)
+                        .shadow(elevation = 5.dp, shape= CircleShape)
+                ){
+                    Text(text = "Send", color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
+                }
+
+                Spacer(modifier = Modifier.width(20.dp))
+
+
+                Button(
+                    onClick = {
+                        //qui ci va il metodo associato al botone
+                        println("Send to All the raiders")
+                    },
+                    colors = buttonColor,
+                    modifier = Modifier
+                        .width(150.dp)
+                        .height(50.dp)
+                        .shadow(elevation = 5.dp, shape= CircleShape)
+                ){
+                    Text(text = "Send to All", color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
+                }
+            }
+
         }
     }
 }
 
 @Composable
-fun RichiesteItem(string: String) {
-    Card(
+fun CheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
+    Box(
         modifier = Modifier
+            .alpha(0.9f)
+            .size(18.dp)
+            .border(BorderStroke(width = 1.dp, color = Color.Black))
+            //.clip(CircleShape)
+            .background(
+                if (checked && int == 1) Color.Red else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else Color.White ,
+                //shape = RoundedCornerShape(8.dp),
+            )
+            //.shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
+            .clickable { onCheckedChange(!checked) },
+        contentAlignment = Alignment.Center
+    ) {
+        if (checked) {
+            Icon(imageVector = Icons.Default.Check, contentDescription = null, tint = Color.Black)
+        } else {
+            //non faccio nulla
+        }
+    }
+}
+
+@Composable
+fun RichiesteItem(string: String){
+    val hisTurn="Monday: 12:00/15:00" //qui ci andra' il turno che gli viene proposto
+    val myTurn="Friday: 12:00/15:00" //qui ci andra' quello attuale suo
+    Card(
+        modifier= Modifier
             .height(130.dp)
             .width(150.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
@@ -169,10 +329,10 @@ fun RichiesteItem(string: String) {
                             .size(60.dp),
                         tint = Color.Black
                     )
-                    Text(text = string, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                    Text(text=string, fontSize = 13.sp, fontWeight = FontWeight.Bold)
                 }
                 Box(
-                    modifier = Modifier
+                    modifier= Modifier
                         .width(25.dp)
                         .height(25.dp),
                 ) {
@@ -186,7 +346,7 @@ fun RichiesteItem(string: String) {
                     )
                 }
                 Box(
-                    modifier = Modifier
+                    modifier= Modifier
                         .width(25.dp)
                         .height(25.dp),
 
@@ -195,7 +355,7 @@ fun RichiesteItem(string: String) {
                         modifier = Modifier
                             .size(25.dp)
                             .background(center_color),
-                        imageVector = Icons.Default.Check,
+                        imageVector = Icons.Default.Close,
                         contentDescription = null,
                         tint = Color.Black
                     )
@@ -206,13 +366,13 @@ fun RichiesteItem(string: String) {
             Spacer(modifier = Modifier.height(2.dp))
 
             Text(
-                text = "Monday: 12:00/15:00",
+                text = hisTurn,
                 color = Color.Black,
                 style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold)
             )
 
             Text(
-                text = "Friday: 12:00/15:00",
+                text = myTurn,
                 color = Color.Black,
                 style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold)
             )
@@ -223,79 +383,72 @@ fun RichiesteItem(string: String) {
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDown(
-    text: String,
-    modifier: Modifier = Modifier,
-    initiallyOpened: Boolean = false,
-    content: @Composable () -> Unit
-) {
-    var isOpen by remember {
-        mutableStateOf(initiallyOpened)
+fun Turns(name: String) {
+    val raidersTurn=listOf("Lunedi' 11:00/14:00", "Martedi' 11:00/14:00", "Martedi' 19:00/22:00", "Sabato 12:00/15:00") //qui ci andranno tutti i turni del raider
+
+    var isExpanded by remember {
+        mutableStateOf(false)
     }
 
-    val alpha = animateFloatAsState(
-        targetValue = if (isOpen) 1f else 0f,
-        animationSpec = tween(
-            durationMillis = 300
-        )
+    var gender by remember {
+        mutableStateOf("")
+    }
+
+    val textStyle = TextStyle(
+        fontSize = 13.sp,
+        fontWeight = FontWeight.Bold
     )
 
-    val rotateX = animateFloatAsState(
-        targetValue = if (isOpen) 0f else -90f,
-        animationSpec = tween(
-            durationMillis = 300
-        )
-    )
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(9.dp))
-            .shadow(elevation = 3.dp)
-
+    Box(
+        modifier=Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp)
-                .background(center_color)
+        ExposedDropdownMenuBox(
+            expanded = isExpanded,
+            onExpandedChange = { isExpanded = it }
+        ) {
+            TextField(
+                value =name.plus(gender),
+                onValueChange = {},
+                textStyle=textStyle,
+                readOnly = true,
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
+                },
+                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                modifier=Modifier
+                    .menuAnchor()
+                    .border(
+                        width = 2.dp,
+                        color = Color.Gray,
+                        shape = RoundedCornerShape(8.dp) // Imposta il raggio degli angoli desiderato
+                    )
+            )
 
-        ) {
-            Text(text = "")
-            Text(
-                //modifier=Modifier.padding(start=80.dp),
-                text = text,
-                color = Color.White,
-                fontSize = 20.sp,
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold
-                )
-            )
-            Icon(
-                imageVector = Icons.Default.ArrowDropDown,
-                contentDescription = "Open or close the drop down",
-                tint = Color.White,
-                modifier = Modifier
-                    .clickable {
-                        isOpen = !isOpen
-                    }
-                    .scale(1f, if (isOpen) -1f else 1f)
-            )
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .graphicsLayer {
-                    transformOrigin = TransformOrigin(0.5f, 0f)
-                    rotationX = rotateX.value
+            ExposedDropdownMenu(
+                expanded = isExpanded,
+                onDismissRequest = { isExpanded = false },
+                modifier=Modifier
+//                    .align(Alignment.Center)
+//                    .background(center_color),
+            ) {
+
+                for(turn in raidersTurn){
+                    DropdownMenuItem(
+                        text = { Text(text = turn) },//al posto di quesi ci andranno i turni presi con la query
+                        onClick = {
+                            gender = turn
+                            isExpanded = false
+
+                        }
+                    )
                 }
-                .alpha(alpha.value)
-        ) {
-            content()
+
+            }
         }
+
     }
 }

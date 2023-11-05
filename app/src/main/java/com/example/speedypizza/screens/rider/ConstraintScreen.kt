@@ -50,7 +50,7 @@ import com.example.speedypizza.ui.theme.start_color
 
 @Preview
 @Composable
-fun ConstraintScreen(navController: NavHostController) {
+fun ConstraintScreen(/*navController: NavHostController*/) {
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color ),
         startY = 0f,
@@ -63,6 +63,7 @@ fun ConstraintScreen(navController: NavHostController) {
         Column {
             BarraSuperiore()
             ScrittaIniziale(string = "Constraints")
+            Spacer(modifier=Modifier.height(30.dp))
             ElencoGiorni()
         }
     }
@@ -92,7 +93,8 @@ fun ElencoGiorni(){
         )
         Spacer(modifier = Modifier.width(15.dp))
 
-        Icon(painter = painterResource(
+        Icon(
+            painter = painterResource(
             id = R.drawable.ic_alert),
             contentDescription ="noWork",
             tint= Color.Red,
