@@ -59,6 +59,7 @@ import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 import com.example.speedypizza.ui.theme.whitebackground
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -194,8 +195,8 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
 
                     OutlinedTextField(
                         value = passwordValue.value,
-                        onValueChange = { passwordValue.value = it
-                            viewModel.login(emailValue.value, passwordValue.value)},
+                        onValueChange = { passwordValue.value = it},
+
                         trailingIcon = {
                             IconButton(onClick = {
                                 passwordVisibility.value = !passwordVisibility.value
@@ -217,17 +218,19 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
                     Button(
                         onClick = {
 
-                           // viewModel.login(emailValue.value, passwordValue.value)
+
+                            CoroutineScope(Dispatchers.Main).launch {
+                                val result = viewModel.login(emailValue.value, passwordValue.value).await()
 
 
+                                Log.i("valuetry1: ", result.toString())
 
-                                em = viewModel.ruolo
-
-                                Log.i("valuetry1: ", em.toString())
-
-                                if (em == 1) {
+                                if (result == 1) {
                                     navController.navigate("riderHome")
-                                } else navController.navigate("adminHome")//Log.i("valueemail: ", "culo")
+                                } else if (result == 2){
+                                    navController.navigate("adminHome")
+                                }
+                            }
 
 
                         },

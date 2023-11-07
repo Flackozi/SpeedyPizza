@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.speedypizza.db.Repository
 import com.example.speedypizza.db.UserDatabase
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -22,13 +24,21 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
     }
 
 
-    fun login(username: String, password: String){
+    /*fun login(username: String, password: String){
 
         viewModelScope.launch(Dispatchers.IO) {
             delay(300)
             ruolo = loginRepository.login1(username, password)
         }
+    }*/
+
+    fun login(username: String, password: String): Deferred<Int> {
+        return viewModelScope.async(Dispatchers.IO) {
+            delay(300)
+            return@async loginRepository.login1(username, password)
+        }
     }
+
 
 
     @Suppress("UNCHECKED_CAST")
