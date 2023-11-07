@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -41,16 +42,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 
+
+//navController: NavHostController, close: () -> Unit = {}
+
 @Preview
 @Composable
-fun ConstraintScreen(/*navController: NavHostController*/) {
+fun ConstraintScreen() {
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color ),
         startY = 0f,
@@ -63,7 +66,7 @@ fun ConstraintScreen(/*navController: NavHostController*/) {
         Column {
             BarraSuperiore()
             ScrittaIniziale(string = "Constraints")
-            Spacer(modifier=Modifier.height(30.dp))
+            Spacer(modifier=Modifier.height(40.dp))
             ElencoGiorni()
         }
     }
@@ -83,6 +86,7 @@ fun ElencoGiorni(){
         modifier = Modifier
             .fillMaxWidth()
             .padding(7.dp)
+            .offset(y=15.dp)
     ){
         Box(
             modifier = Modifier
@@ -99,21 +103,21 @@ fun ElencoGiorni(){
             contentDescription ="noWork",
             tint= Color.Red,
             modifier = Modifier
-                .size(40.dp)
+                .size(30.dp)
         )
         Icon(painter = painterResource(
             id = R.drawable.ic_alert),
             contentDescription ="noWork",
             tint = Color.Yellow,
             modifier = Modifier
-                .size(40.dp)
+                .size(30.dp)
         )
         Icon(painter = painterResource(
             id = R.drawable.ic_alert),
             contentDescription ="noWork",
             tint = Color.Green,
             modifier = Modifier
-                .size(40.dp)
+                .size(30.dp)
         )
     }
     Row(
@@ -209,11 +213,11 @@ fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: In
         modifier = Modifier
             .alpha(0.9f)
             .size(27.dp)
-            .border(BorderStroke(width = 1.dp, color = Color.Black))
+            .border(BorderStroke(width = 1.dp, color = Color.White), CircleShape)
             //.clip(CircleShape)
             .background(
                 if (checked && int == 1) Color.Red else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else Color.White ,
-                //shape = RoundedCornerShape(8.dp),
+                shape = RoundedCornerShape(8.dp),
         )
             //.shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
             .clickable { onCheckedChange(!checked) },

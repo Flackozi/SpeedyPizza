@@ -75,7 +75,7 @@ fun SpeedyPizzaApp(){
             composable("profilePage"){ ProfileScreen(navController)}
             composable("shiftPage"){ ShiftsPage(navController) }
             composable("constraintsPage"){ ConstraintScreen(navController) }
-            composable("myRiderPage"){ MyRiderScreen() }
+            composable("myRiderPage"){ MyRiderScreen(navController) }
         }
 
     }

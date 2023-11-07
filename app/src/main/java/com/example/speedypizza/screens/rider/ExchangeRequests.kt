@@ -1,19 +1,6 @@
 package com.example.speedypizza.screens.rider
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.border
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.TextField
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,37 +24,30 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TransformOrigin
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -77,12 +57,14 @@ import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.green2
-import com.example.speedypizza.ui.theme.grigiochiarissimo
 import com.example.speedypizza.ui.theme.start_color
-import androidx.compose.runtime.*
 
-//@Preview
+
+
+
+
 @Composable
+
 fun ExchangeRequests(navController: NavHostController, close: () -> Unit = {}) {
 
     val gradient = Brush.verticalGradient(
@@ -285,18 +267,18 @@ fun CheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
         modifier = Modifier
             .alpha(0.9f)
             .size(18.dp)
-            .border(BorderStroke(width = 1.dp, color = Color.Black))
-            //.clip(CircleShape)
+            .border(BorderStroke(width = 1.dp, color = Color.LightGray), CircleShape)
+            .clip(CircleShape)
             .background(
-                if (checked && int == 1) Color.Red else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else Color.White ,
-                //shape = RoundedCornerShape(8.dp),
+                if (checked && int == 1) start_color else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else Color.White ,
+                shape = RoundedCornerShape(8.dp),
             )
             //.shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
             .clickable { onCheckedChange(!checked) },
         contentAlignment = Alignment.Center
     ) {
         if (checked) {
-            Icon(imageVector = Icons.Default.Check, contentDescription = null, tint = Color.Black)
+            Icon(imageVector = Icons.Default.Check, contentDescription = null, tint = Color.White)
         } else {
             //non faccio nulla
         }
