@@ -1,5 +1,6 @@
 package com.example.speedypizza.screens.common
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -33,6 +35,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -45,18 +48,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
+import com.example.speedypizza.db.Repository
+import com.example.speedypizza.db.UserDatabase
+import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 import com.example.speedypizza.ui.theme.whitebackground
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
 @Composable
-fun LoginPage(navController: NavHostController) {
+fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
 
 
     val gradient = Brush.verticalGradient(
@@ -69,9 +84,16 @@ fun LoginPage(navController: NavHostController) {
     val emailValue = remember { mutableStateOf("") }
     val passwordValue = remember { mutableStateOf("") }
 
+    var em: Int
+
     val passwordVisibility = remember {
         mutableStateOf(false)
     }
+
+    val context = LocalContext.current
+    val db = UserDatabase.getInstance(context)
+    val repository = Repository(db.userDao())
+
 
 
 
@@ -88,7 +110,9 @@ fun LoginPage(navController: NavHostController) {
                 }
                 .background(brush = gradient), contentAlignment = Alignment.TopCenter){
 
-                Image(painterResource(R.drawable.pizza),"content description", modifier = Modifier.offset(y = 145.dp).size(170.dp))
+                Image(painterResource(R.drawable.pizza),"content description", modifier = Modifier
+                    .offset(y = 145.dp)
+                    .size(170.dp))
             }
         }
 
@@ -170,7 +194,8 @@ fun LoginPage(navController: NavHostController) {
 
                     OutlinedTextField(
                         value = passwordValue.value,
-                        onValueChange = { passwordValue.value = it},
+                        onValueChange = { passwordValue.value = it
+                            viewModel.login(emailValue.value, passwordValue.value)},
                         trailingIcon = {
                             IconButton(onClick = {
                                 passwordVisibility.value = !passwordVisibility.value
@@ -191,7 +216,20 @@ fun LoginPage(navController: NavHostController) {
                     Spacer(modifier = Modifier.padding(10.dp))
                     Button(
                         onClick = {
-                            navController.navigate("riderHome")
+
+                           // viewModel.login(emailValue.value, passwordValue.value)
+
+
+
+                                em = viewModel.ruolo
+
+                                Log.i("valuetry1: ", em.toString())
+
+                                if (em == 1) {
+                                    navController.navigate("riderHome")
+                                } else navController.navigate("adminHome")//Log.i("valueemail: ", "culo")
+
+
                         },
                         colors = buttonColor,
                         modifier = Modifier
@@ -225,6 +263,6 @@ fun LoginPage(navController: NavHostController) {
 @Preview
 @Composable
 fun GradientBackgroundPreview() {
-    LoginPage(rememberNavController())
+    LoginPage(rememberNavController(), viewModel())
 }
 
