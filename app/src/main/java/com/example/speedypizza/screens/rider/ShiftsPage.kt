@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
@@ -78,7 +79,6 @@ fun ShiftsPage(navController: NavHostController, close: () -> Unit = {}) {
     }
 
 }
-@Preview
 @Composable
 fun ShiftsList() {
     Column(
@@ -224,4 +224,10 @@ fun WorkerItem(workerName: String){
     }
 
 
+}
+
+@Preview
+@Composable
+fun Preview5() {
+    ShiftsPage(rememberNavController())
 }

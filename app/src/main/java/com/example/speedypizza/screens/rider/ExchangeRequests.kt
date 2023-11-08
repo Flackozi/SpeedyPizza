@@ -45,6 +45,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -53,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
@@ -98,6 +100,8 @@ fun ExchangeRequests(navController: NavHostController, close: () -> Unit = {}) {
 
 @Composable
 fun RequestsList(){
+    val context= LocalContext.current
+
     val raiderNames= listOf("Carlo", "Matteo", "Flavio")
 
     var expanded by remember {
@@ -158,8 +162,9 @@ fun RequestsList(){
                         .height(40.dp)
                         .background(center_color),
                 ){
+                    val turn=context.getString(R.string.Your_Turns)
                     Text(
-                        text="Your Turns",
+                        text=turn,
                         color=Color.White,
                         modifier=Modifier
                             .padding(5.dp),
@@ -236,7 +241,8 @@ fun RequestsList(){
                         .height(50.dp)
                         .shadow(elevation = 5.dp, shape= CircleShape)
                 ){
-                    Text(text = "Send", color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
+                    val send=context.getString(R.string.Send)
+                    Text(text = send, color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
                 }
 
                 Spacer(modifier = Modifier.width(20.dp))
@@ -253,7 +259,8 @@ fun RequestsList(){
                         .height(50.dp)
                         .shadow(elevation = 5.dp, shape= CircleShape)
                 ){
-                    Text(text = "Send to All", color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
+                    val sendAll=context.getString(R.string.Sent_To_All)
+                    Text(text = sendAll, color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
                 }
             }
 
@@ -435,3 +442,8 @@ fun Turns(name: String) {
     }
 }
 
+@Preview
+@Composable
+fun Preview3() {
+    ExchangeRequests(rememberNavController())
+}

@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
@@ -77,10 +79,10 @@ fun ConstraintScreen(navController: NavHostController, close: () -> Unit = {}) {
 
 
 
-@Preview
 @Composable
 fun ElencoGiorni(){
     val buttonColor = ButtonDefaults.buttonColors(start_color)
+    val context= LocalContext.current
     Row (//riga di intestazione con le icone
         horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
         verticalAlignment = Alignment.CenterVertically,
@@ -133,21 +135,27 @@ fun ElencoGiorni(){
         val checkboxStates3=remember{ mutableStateMapOf<String, Boolean>() }
 
 
+
         //Colonna giorni della settimana
+        val days=listOf(R.string.Monday, R.string.Tuesday, R.string.Wednesday, R.string.Thursday, R.string.Friday, R.string.Saturday, R.string.Sunday)
         val items = listOf("Monday", "Tuesday", "Wednesday","Thursday","Friday", "Saturday", "Sunday")
-        items.forEach {item->
-            if(!checkboxStates1.contains(item)){
-                checkboxStates1[item]=false
+
+        days.forEach {day->
+            val dayString= context.getString(day)
+            if(!checkboxStates1.contains(dayString)){
+                checkboxStates1[dayString]=false
             }
         }
-        items.forEach {item->
-            if(!checkboxStates2.contains(item)){
-                checkboxStates2[item]=false
+        days.forEach {day->
+            val dayString= context.getString(day)
+            if(!checkboxStates2.contains(dayString)){
+                checkboxStates2[dayString]=false
             }
         }
-        items.forEach {item->
-            if(!checkboxStates3.contains(item)){
-                checkboxStates3[item]=false
+        days.forEach {day->
+            val dayString= context.getString(day)
+            if(!checkboxStates3.contains(dayString)){
+                checkboxStates3[dayString]=false
             }
         }
 
@@ -157,7 +165,8 @@ fun ElencoGiorni(){
             verticalArrangement = Arrangement.spacedBy(5.dp)
 
         ) {
-            items(items) { item ->
+            items(days) { day ->
+                val dayString= context.getString(day)
                 Row(
                     Modifier.padding(1.dp),
                     verticalAlignment=Alignment.CenterVertically
@@ -171,14 +180,14 @@ fun ElencoGiorni(){
                         contentAlignment = Alignment.Center
 
                     ) {
-                        Text(text = item, color=Color.Black, style=TextStyle(fontSize=20.sp, fontWeight = FontWeight.Bold))
+                        Text(text = dayString, color=Color.Black, style=TextStyle(fontSize=20.sp, fontWeight = FontWeight.Bold))
                     }
                     Spacer(modifier = Modifier.width(15.dp))
-                    CustomCheckbox(checked = checkboxStates1[item] ?:false, onCheckedChange = { isChecked ->checkboxStates1[item]=isChecked }, 1)
+                    CustomCheckbox(checked = checkboxStates1[dayString] ?:false, onCheckedChange = { isChecked ->checkboxStates1[dayString]=isChecked }, 1)
                     Spacer(modifier = Modifier.width(10.dp))
-                    CustomCheckbox(checked = checkboxStates2[item] ?:false, onCheckedChange = { isChecked ->checkboxStates2[item]=isChecked }, 2)
+                    CustomCheckbox(checked = checkboxStates2[dayString] ?:false, onCheckedChange = { isChecked ->checkboxStates2[dayString]=isChecked }, 2)
                     Spacer(modifier = Modifier.width(10.dp))
-                    CustomCheckbox(checked = checkboxStates3[item] ?:false, onCheckedChange = { isChecked ->checkboxStates3[item]=isChecked }, 3)
+                    CustomCheckbox(checked = checkboxStates3[dayString] ?:false, onCheckedChange = { isChecked ->checkboxStates3[dayString]=isChecked }, 3)
 
                 }
                     
@@ -203,7 +212,8 @@ fun ElencoGiorni(){
                 .height(50.dp)
                 .shadow(elevation = 5.dp, shape= CircleShape)
         ){
-            Text(text = "Submit", color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
+            val submit=context.getString(R.string.Submit)
+            Text(text = submit, color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
         }
     }
 }
@@ -232,4 +242,9 @@ fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: In
     }
 }
 
+@Preview
+@Composable
+fun Preview2() {
+    ConstraintScreen(rememberNavController())
+}
 

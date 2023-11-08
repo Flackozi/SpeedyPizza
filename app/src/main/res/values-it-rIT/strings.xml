@@ -19,5 +19,8 @@
     <string name="Rider_Management">Gestione Rider</string>
     <string name="Create_Calendar">Crea Calendario</string>
     <string name="View_Calendar">Visualizza Calendario</string>
+    <string name="Your_Turns">I tuoi turni</string>
+    <string name="Send">Invia</string>
+    <string name="Sent_To_All">Invia a tutti</string>
 
 </resources>
