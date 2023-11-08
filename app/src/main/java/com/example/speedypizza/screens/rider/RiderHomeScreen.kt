@@ -1,12 +1,15 @@
 package com.example.speedypizza.screens.rider
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,6 +17,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
@@ -21,6 +27,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -55,6 +62,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
+import com.example.speedypizza.entity.Messaggio
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -84,8 +92,8 @@ fun RiderHomeScreen(navController: NavHostController) {
             Column {
                 BarraSuperiore()
                 ScrittaIniziale("SpeedyPizza")
-                Spacer(modifier = Modifier.height(150.dp))
-                Shifts(navController)
+                Spacer(modifier = Modifier.height(90.dp))
+                Bottoni(navController)
             }
         }
 
@@ -252,25 +260,50 @@ fun BarraSuperiore (){
 
 //@Preview
 @Composable
-fun Shifts(navController: NavHostController) {
+fun Bottoni(navController: NavHostController) {
+
+    var elencoMessaggi = listOf(
+        Messaggio(1, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
+        Messaggio(2, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario"),
+        Messaggio(3, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
+    )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 30.dp))
                 .background(boxcol)
                 .padding(10.dp)
-
-            
         ){
+            Box(
 
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(240.dp)
+                    .padding(10.dp)
+                    .shadow(elevation=3.dp)
+                    .border(BorderStroke(width = 3.dp, color = Color.LightGray))
+                    .background(Color.Transparent)
+            ){
+//                Spacer(modifier=Modifier.height(3.dp))
+                LazyColumn(
+//                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    modifier=Modifier
+                        .padding(10.dp)
+//                        .offset(y=4.dp)
+                ){
+                    items(elencoMessaggi) { message ->
+                        MessageItem(message)
+                    }
+                }
+            }
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxSize()
-                    .offset(y = 180.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
+//                    .offset(y = 180.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
 
             ){
                 Button(
