@@ -1,5 +1,7 @@
 package com.example.speedypizza.screens.admin
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,8 +29,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.CheckBox
 import com.example.speedypizza.screens.rider.ScrittaIniziale
@@ -36,6 +42,7 @@ import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.start_color
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 @Preview
 fun DropDownItemDay(){
@@ -115,7 +122,7 @@ fun DropDownItemDay(){
         ) {
 
             BarraSuperiore()
-            ScrittaIniziale(string = "Create Calendar")
+            ScrittaIniziale(string = "New Calendar")
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp))
@@ -427,6 +434,34 @@ fun DropDownItemDay(){
                         }
                     }
 
+                }
+
+
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(25.dp))
+
+                Row(horizontalArrangement = Arrangement.Center) {
+                    Button(
+
+                        colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black
+                    ),
+                        onClick = { /*TODO*/ },
+                        shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp),
+                        modifier = Modifier
+                            .width(100.dp)
+                            .height(50.dp)
+                            .shadow(20.dp),
+
+                    ) {
+                        Text(
+                            text = "Submit",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp
+                        )
+                    }
                 }
 
             }

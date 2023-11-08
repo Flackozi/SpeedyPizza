@@ -70,6 +70,8 @@ import com.example.speedypizza.ui.theme.start_color
 
 //contenitore
 
+
+
 @Composable
 fun RiderHomeScreen(navController: NavHostController) {
     val gradient = Brush.verticalGradient(
