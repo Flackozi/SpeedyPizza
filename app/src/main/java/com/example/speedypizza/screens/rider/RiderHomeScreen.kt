@@ -4,12 +4,12 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
@@ -27,7 +26,6 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -63,10 +61,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.entity.Messaggio
+import com.example.speedypizza.screens.common.MessageItem
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 //contenitore
 
@@ -92,7 +94,7 @@ fun RiderHomeScreen(navController: NavHostController) {
             }
         ){
             Column {
-                BarraSuperiore()
+                BarraSuperiore(navController)
                 ScrittaIniziale("SpeedyPizza")
                 Spacer(modifier = Modifier.height(90.dp))
                 Bottoni(navController)
@@ -152,7 +154,7 @@ fun ScrittaIniziale(string: String){
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview
 @Composable
-fun BarraSuperiore (){
+fun BarraSuperiore(navController: NavHostController) {
 
 
     var expanded by remember{mutableStateOf(false)}
@@ -174,80 +176,73 @@ fun BarraSuperiore (){
 
 
 
-                   Icon(
-                       painter = painterResource(id = R.drawable.baseline_account_box_24),
-                       contentDescription = "Profile",
-                       modifier = Modifier
-                           .size(40.dp),
-                       tint = Color.White
+               Icon(
+                   painter = painterResource(id = R.drawable.baseline_account_box_24),
+                   contentDescription = "Profile",
+                   modifier = Modifier
+                       .clickable{
+                           CoroutineScope(Dispatchers.Main).launch {
+                               navController.navigate("ProfilePage")
+                           }
+                       }
+                       .size(40.dp),
+                   tint = Color.White,
 
-                   )
 
+               )
 
+                Box{
+                    IconButton(onClick = { expanded = true }) {
+                        Icon(
+                            painter = painterResource(id =R.drawable.ic_menu),
+                            contentDescription = "Menu",
+                            tint = Color.White,
+                            modifier = Modifier.size(45.dp),
 
+                            )
+                    }
 
+                    DropdownMenu(expanded = expanded, onDismissRequest = {
+                        expanded = false
+                    },
+                        modifier = Modifier
+                            .background(
+                                Color.White
+                            )
+                            .align(Alignment.CenterEnd)
+                    ) {
 
-
-                        Box{
-                            IconButton(onClick = { expanded = true }) {
+                        DropdownMenuItem(
+                            text = { Text("Home") },
+                            onClick = { /* Handle edit! */ },
+                            leadingIcon = {
                                 Icon(
-                                    painter = painterResource(id =R.drawable.ic_menu),
-                                    contentDescription = "Menu",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(45.dp),
-                                    
-                                    )
-
-
-
-
-                            }
-
-                            DropdownMenu(expanded = expanded, onDismissRequest = {
-                                expanded = false
+                                    Icons.Outlined.Home,
+                                    contentDescription = null
+                                )
+                            })
+                        DropdownMenuItem(
+                            text = { Text("Settings") },
+                            onClick = { /* Handle settings! */ },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Outlined.Settings,
+                                    contentDescription = null
+                                )
+                            })
+                        Divider()
+                        DropdownMenuItem(
+                            text = { Text("Send Feedback") },
+                            onClick = { /* Handle send feedback! */ },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Outlined.Email,
+                                    contentDescription = null
+                                )
                             },
-                                modifier = Modifier
-                                    .background(
-                                        Color.White
-                                    )
-                                    .align(Alignment.CenterEnd)
-                            ) {
-
-                                DropdownMenuItem(
-                                    text = { Text("Home") },
-                                    onClick = { /* Handle edit! */ },
-                                    leadingIcon = {
-                                        Icon(
-                                            Icons.Outlined.Home,
-                                            contentDescription = null
-                                        )
-                                    })
-                                DropdownMenuItem(
-                                    text = { Text("Settings") },
-                                    onClick = { /* Handle settings! */ },
-                                    leadingIcon = {
-                                        Icon(
-                                            Icons.Outlined.Settings,
-                                            contentDescription = null
-                                        )
-                                    })
-                                Divider()
-                                DropdownMenuItem(
-                                    text = { Text("Send Feedback") },
-                                    onClick = { /* Handle send feedback! */ },
-                                    leadingIcon = {
-                                        Icon(
-                                            Icons.Outlined.Email,
-                                            contentDescription = null
-                                        )
-                                    },
-                                    )
-                            }
-                        }
-
-
-
-
+                            )
+                    }
+                }
 
            }
 

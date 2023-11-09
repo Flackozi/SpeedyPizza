@@ -87,7 +87,7 @@ fun ExchangeRequests(navController: NavHostController, close: () -> Unit = {}) {
             }
         ) {
             Column {
-                BarraSuperiore()
+                BarraSuperiore(navController)
                 ScrittaIniziale("Exchange Requests")
                 Spacer(modifier = Modifier.height(50.dp))
                 RequestsList()
@@ -102,7 +102,7 @@ fun ExchangeRequests(navController: NavHostController, close: () -> Unit = {}) {
 fun RequestsList(){
     val context= LocalContext.current
 
-    val raiderNames= listOf("Carlo", "Matteo", "Flavio")
+    val raiderNames= listOf("Carlo ", "Matteo ", "Flavio ")
 
     var expanded by remember {
         mutableStateOf(false)

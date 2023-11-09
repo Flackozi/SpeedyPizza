@@ -1,6 +1,8 @@
 package com.example.speedypizza.screens.admin
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +14,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -27,16 +31,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
+import com.example.speedypizza.entity.Messaggio
+import com.example.speedypizza.screens.common.MessageItem
 import com.example.speedypizza.screens.rider.BarraSuperiore
+import com.example.speedypizza.screens.rider.RiderHomeScreen
 import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /*@Preview
 @Composable
@@ -157,10 +169,10 @@ fun AdminDashboard(navController: NavHostController) {
             }
         ){
             Column {
-                BarraSuperiore()
+                BarraSuperiore(navController)
                 ScrittaIniziale("SpeedyPizza")
-                Spacer(modifier = Modifier.height(150.dp))
-                PrimoMenu()
+                Spacer(modifier = Modifier.height(100.dp))
+                PrimoMenu(navController)
             }
         }
 
@@ -168,167 +180,12 @@ fun AdminDashboard(navController: NavHostController) {
 
 }
 
-/*
-@Composable
-fun ScrittaIniziale(string: String){
-
-
-
-    Column(modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally)
-
-    {
-        Box(modifier = Modifier.offset(y=0.dp)) {
-            Image(
-                painter = painterResource(id = R.drawable.pizzaslice),
-                contentDescription = stringResource(id = R.string.image_content_description),
-                colorFilter = ColorFilter.tint(Color.White),
-                modifier = Modifier
-                    .size(71.dp)
-                    .rotate(300f)
-                    .align(Alignment.Center)
-            )
-
-
-
-            Text(
-                text = string,
-                style = TextStyle(
-                    fontFamily = FontFamily(Font(R.font.mogra)),
-                    fontSize = 35.sp,
-                    color = Color.White
-                ),
-                modifier = Modifier.offset(y=50.dp)
-            )
-        }
-
-    }
-
-
-
-
-
-
-
-}*/
-
-//Barra superiore con bottone del profilo e tre lineette
-/*@OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Composable
-
-fun BarraSuperiore (){
-
-
-    var expanded by remember{ mutableStateOf(false) }
-
-
-    TopAppBar(title = {
-        Text(text = "")
-    },
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent ),
-        navigationIcon = {
-
-
-            Row (modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
-
-
-
-
-
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_account_box_24),
-                    contentDescription = "Profile",
-                    modifier = Modifier
-                        .size(40.dp),
-                    tint = Color.White
-
-                )
-
-
-
-
-
-
-                Box{
-                    IconButton(onClick = { expanded = true }) {
-                        Icon(
-                            painter = painterResource(id =R.drawable.ic_menu),
-                            contentDescription = "Menu",
-                            tint = Color.White,
-                            modifier = Modifier.size(45.dp),
-
-                            )
-
-
-
-
-                    }
-
-                    DropdownMenu(expanded = expanded, onDismissRequest = {
-                        expanded = false
-                    },
-                        modifier = Modifier
-                            .background(
-                                Color.White
-                            )
-                            .align(Alignment.CenterEnd)
-                    ) {
-
-                        DropdownMenuItem(
-                            text = { Text("Home") },
-                            onClick = { /* Handle edit! */ },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Outlined.Home,
-                                    contentDescription = null
-                                )
-                            })
-                        DropdownMenuItem(
-                            text = { Text("Settings") },
-                            onClick = { /* Handle settings! */ },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Outlined.Settings,
-                                    contentDescription = null
-                                )
-                            })
-                        Divider()
-                        DropdownMenuItem(
-                            text = { Text("Send Feedback") },
-                            onClick = { /* Handle send feedback! */ },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Outlined.Email,
-                                    contentDescription = null
-                                )
-                            },
-                        )
-                    }
-                }
-
-
-
-
-
-            }
-
-
-        }
-
-    )
-
-
-
-}*/
 
 
 @Composable
 fun DashBoard(){
+
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -340,6 +197,7 @@ fun DashBoard(){
 
 
     ){
+
 
 
         Box(
@@ -487,7 +345,12 @@ fun DashBoard(){
 
 }
 @Composable
-fun PrimoMenu(){
+fun PrimoMenu(navController: NavHostController) {
+    var elencoMessaggi = listOf(
+        Messaggio(1, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
+        Messaggio(2, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario"),
+        Messaggio(3, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
+    )
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -496,23 +359,46 @@ fun PrimoMenu(){
             .fillMaxWidth()
             .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
             .background(boxcol)
-            .padding(10.dp)
+            .padding(5.dp)
 
 
     ){
 
+        Box(
+
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(240.dp)
+                .padding(10.dp)
+                .shadow(elevation=3.dp)
+                .border(BorderStroke(width = 3.dp, color = Color.LightGray))
+                .background(Color.Transparent)
+        ){
+//                Spacer(modifier=Modifier.height(3.dp))
+            LazyColumn(
+//                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                modifier=Modifier
+                    .padding(10.dp)
+//                        .offset(y=4.dp)
+            ){
+                items(elencoMessaggi) { message ->
+                    MessageItem(message)
+                }
+            }
+        }
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxSize()
-                .offset(y = 180.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
+                .offset(y = 5.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
 
         ){
-            Button(
+            Button( //Bottone RaiderManagement
                 onClick={
-                    //qui ci va il metodo associato al bottone
-                    println("Rider Management")
+                    CoroutineScope(Dispatchers.Main).launch {
+                    navController.navigate("MyRiderPage")
+                }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor=Color.White,
@@ -542,10 +428,12 @@ fun PrimoMenu(){
 
             }
 
-            Button(
+            Button( //Bottone Create Calendar
                 onClick = {
                     //qui ci va il metodo associato al bottone
-                    println("Exchange requests")
+                    CoroutineScope(Dispatchers.Main).launch {
+                    navController.navigate("CreateCalendarPage")}
+
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
@@ -575,10 +463,10 @@ fun PrimoMenu(){
 
             }
 
-            Button(
+            Button( //Bottone messaggi
                 onClick = {
-                    //qui ci va il metodo associato al botone
-                    println("This is Messages")
+                    CoroutineScope(Dispatchers.Main).launch {
+                        navController.navigate("messagesPage")}
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
@@ -609,9 +497,10 @@ fun PrimoMenu(){
             }
 
 
-            Button(
+            Button( // bottone shift
                 onClick = {
-                    //qui ci va il metodo associato al botone
+                    CoroutineScope(Dispatchers.Main).launch {
+                        navController.navigate("shiftPage")}
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
@@ -644,4 +533,10 @@ fun PrimoMenu(){
         }
     }
 
+}
+
+@Preview
+@Composable
+fun Preview() {
+    AdminDashboard(rememberNavController())
 }
