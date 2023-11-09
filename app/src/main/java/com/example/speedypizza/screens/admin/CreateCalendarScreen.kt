@@ -53,75 +53,10 @@ import com.example.speedypizza.ui.theme.start_color
 
 fun CreateCalendar(navController: NavHostController) {
 
-    var expanded by remember { mutableStateOf(false) }
-    var expanded1 by remember { mutableStateOf(false) }
-    var expanded2 by remember { mutableStateOf(false) }
-    var expanded3 by remember { mutableStateOf(false) }
-    var expanded4 by remember { mutableStateOf(false) }
-    var expanded5 by remember { mutableStateOf(false) }
-    var expanded6 by remember { mutableStateOf(false) }
-    var expanded7 by remember { mutableStateOf(false) }
-
-    var exp = mutableListOf(expanded1,expanded2, expanded3, expanded4, expanded5, expanded6, expanded7)
-
-    var text = remember { mutableStateOf("") }
 
     val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
 
-    val items = listOf(
-        "Matteo",
-        "Carlo",
-        "Flacko",
-        "Amrando",
-        "Francesco",
-        "Franco"
-    )
-
-    val checkboxStates1 = remember { mutableStateMapOf<String, Boolean>() }
-    items.forEach { item ->
-        if (!checkboxStates1.contains(item)) {
-            checkboxStates1[item] = false
-        }
-    }
-    val checkboxStates2 = remember { mutableStateMapOf<String, Boolean>() }
-    items.forEach { item ->
-        if (!checkboxStates2.contains(item)) {
-            checkboxStates2[item] = false
-        }
-    }
-    val checkboxStates3 = remember { mutableStateMapOf<String, Boolean>() }
-    items.forEach { item ->
-        if (!checkboxStates3.contains(item)) {
-            checkboxStates3[item] = false
-        }
-    }
-    val checkboxStates4 = remember { mutableStateMapOf<String, Boolean>() }
-    items.forEach { item ->
-        if (!checkboxStates4.contains(item)) {
-            checkboxStates4[item] = false
-        }
-    }
-    val checkboxStates5 = remember { mutableStateMapOf<String, Boolean>() }
-    items.forEach { item ->
-        if (!checkboxStates5.contains(item)) {
-            checkboxStates5[item] = false
-        }
-    }
-    val checkboxStates6 = remember { mutableStateMapOf<String, Boolean>() }
-    items.forEach { item ->
-        if (!checkboxStates6.contains(item)) {
-            checkboxStates6[item] = false
-        }
-    }
-    val checkboxStates7 = remember { mutableStateMapOf<String, Boolean>() }
-    items.forEach { item ->
-        if (!checkboxStates7.contains(item)) {
-            checkboxStates7[item] = false
-        }
-    }
-
-    var selectedItem by remember { mutableStateOf(items[0]) }
 
     Box(
         modifier = Modifier
