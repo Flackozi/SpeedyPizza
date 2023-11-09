@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
@@ -433,5 +434,11 @@ fun Turns(name: String) {
         }
 
     }
+}
+
+@Preview
+@Composable
+fun Preview2() {
+    ExchangeRequests(rememberNavController())
 }
 

@@ -35,11 +35,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
-
-
-
-
-
            SpeedyPizzaTheme {
                 SpeedyPizzaApp()
             }
@@ -49,13 +44,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SpeedyPizzaApp(){
-//    LoginPage()
-    //HomeScreen()
-//    ConstraintScreen()
-    //schermataMessaggi()
-    //ShiftsPage()
-    //ProfileScreen()
-    //ExchangeRequests()
+
     val context = LocalContext.current
 
     val viewModel: LoginViewModel = viewModel(factory = LoginViewModel.LoginViewModelFactory(context.applicationContext as Application))

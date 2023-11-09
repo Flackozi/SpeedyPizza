@@ -8,17 +8,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,9 +50,9 @@ import com.example.speedypizza.ui.theme.start_color
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 @Preview
-fun DropDownItemDay(){
+fun DropDownItemDay() {
 
-
+    var expanded by remember { mutableStateOf(false) }
     var expanded1 by remember { mutableStateOf(false) }
     var expanded2 by remember { mutableStateOf(false) }
     var expanded3 by remember { mutableStateOf(false) }
@@ -56,6 +61,11 @@ fun DropDownItemDay(){
     var expanded6 by remember { mutableStateOf(false) }
     var expanded7 by remember { mutableStateOf(false) }
 
+    var exp = mutableListOf(expanded1,expanded2, expanded3, expanded4, expanded5, expanded6, expanded7)
+
+    var text = remember { mutableStateOf("") }
+
+    val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
 
     val items = listOf(
@@ -67,46 +77,46 @@ fun DropDownItemDay(){
         "Franco"
     )
 
-    val checkboxStates1=remember{ mutableStateMapOf<String, Boolean>() }
-    items.forEach { item->
-        if(!checkboxStates1.contains(item)){
-            checkboxStates1[item]=false
+    val checkboxStates1 = remember { mutableStateMapOf<String, Boolean>() }
+    items.forEach { item ->
+        if (!checkboxStates1.contains(item)) {
+            checkboxStates1[item] = false
         }
     }
-    val checkboxStates2=remember{ mutableStateMapOf<String, Boolean>() }
-    items.forEach { item->
-        if(!checkboxStates2.contains(item)){
-            checkboxStates2[item]=false
+    val checkboxStates2 = remember { mutableStateMapOf<String, Boolean>() }
+    items.forEach { item ->
+        if (!checkboxStates2.contains(item)) {
+            checkboxStates2[item] = false
         }
     }
-    val checkboxStates3=remember{ mutableStateMapOf<String, Boolean>() }
-    items.forEach { item->
-        if(!checkboxStates3.contains(item)){
-            checkboxStates3[item]=false
+    val checkboxStates3 = remember { mutableStateMapOf<String, Boolean>() }
+    items.forEach { item ->
+        if (!checkboxStates3.contains(item)) {
+            checkboxStates3[item] = false
         }
     }
-    val checkboxStates4=remember{ mutableStateMapOf<String, Boolean>() }
-    items.forEach { item->
-        if(!checkboxStates4.contains(item)){
-            checkboxStates4[item]=false
+    val checkboxStates4 = remember { mutableStateMapOf<String, Boolean>() }
+    items.forEach { item ->
+        if (!checkboxStates4.contains(item)) {
+            checkboxStates4[item] = false
         }
     }
-    val checkboxStates5=remember{ mutableStateMapOf<String, Boolean>() }
-    items.forEach { item->
-        if(!checkboxStates5.contains(item)){
-            checkboxStates5[item]=false
+    val checkboxStates5 = remember { mutableStateMapOf<String, Boolean>() }
+    items.forEach { item ->
+        if (!checkboxStates5.contains(item)) {
+            checkboxStates5[item] = false
         }
     }
-    val checkboxStates6=remember{ mutableStateMapOf<String, Boolean>() }
-    items.forEach { item->
-        if(!checkboxStates6.contains(item)){
-            checkboxStates6[item]=false
+    val checkboxStates6 = remember { mutableStateMapOf<String, Boolean>() }
+    items.forEach { item ->
+        if (!checkboxStates6.contains(item)) {
+            checkboxStates6[item] = false
         }
     }
-    val checkboxStates7=remember{ mutableStateMapOf<String, Boolean>() }
-    items.forEach { item->
-        if(!checkboxStates7.contains(item)){
-            checkboxStates7[item]=false
+    val checkboxStates7 = remember { mutableStateMapOf<String, Boolean>() }
+    items.forEach { item ->
+        if (!checkboxStates7.contains(item)) {
+            checkboxStates7[item] = false
         }
     }
 
@@ -117,18 +127,20 @@ fun DropDownItemDay(){
             .background(start_color)
             .fillMaxSize()
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally,
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
 
             BarraSuperiore()
             ScrittaIniziale(string = "New Calendar")
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+            )
 
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -137,336 +149,242 @@ fun DropDownItemDay(){
                     .background(boxcol)
                     .padding(10.dp)
             ) {
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp))
-
-                Box(modifier = Modifier.width(300.dp)){
-
-                    Button(
-                        onClick = { expanded1 = !expanded1 },
-                        modifier = Modifier.width(300.dp),
-                        colors = ButtonDefaults.buttonColors(start_color)
-                    ) {
-                        Text(text = "Lunedi")
-                    }
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(20.dp)
+                )
 
 
-                    DropdownMenu(
-                        expanded = expanded1,
-                        onDismissRequest = { expanded1 = false },
+
+                days.forEach { day ->
+                    DayBox(day)
+                    Spacer(
                         modifier = Modifier
-                            .width(300.dp)
-                            .background(boxcol)
-                    ) {
-
-                            items.forEach { item ->
-
-                                DropdownMenuItem(
-                                    text = {
-                                        Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                            Text(text = item)
-                                            Spacer(modifier = Modifier.width(10.dp))
-                                            CheckBox(checked = checkboxStates1[item] ?:false, onCheckedChange = { isChecked ->checkboxStates1[item]=isChecked }, 1)
-                                        }
-
-
-                                           },
-                                        onClick = {
-                                            selectedItem = item
-                                            expanded1 = false
-                                        }
-                                    )
-
-
-
-                            }
-
-                    }
-
-
+                            .height(10.dp)
+                    )
                 }
 
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(10.dp))
-
-                Box(modifier = Modifier.width(300.dp)){
-
-                    Button(
-                        onClick = { expanded2 = !expanded2 },
-                        modifier = Modifier.width(300.dp),
-                        colors = ButtonDefaults.buttonColors(start_color)
-                    ) {
-                        Text(text = "Martedi")
-                    }
-
-
-                    DropdownMenu(
-                        expanded = expanded2,
-                        onDismissRequest = { expanded2 = false },
-                        modifier = Modifier
-                            .width(300.dp)
-                            .background(boxcol)
-                    ) {
-                        items.forEach { item ->
-                            DropdownMenuItem(
-                                text = {
-                                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text(text = item)
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    CheckBox(checked = checkboxStates2[item] ?:false, onCheckedChange = { isChecked ->checkboxStates2[item]=isChecked }, 1)
-                                }},
-                                onClick = {
-                                    selectedItem = item
-                                    expanded2 = false
-                                })
-
-
-                        }
-                    }
-
-                }
-
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(10.dp))
-
-                Box(modifier = Modifier.width(300.dp)){
-
-                    Button(
-                        onClick = { expanded3 = !expanded3 },
-                        modifier = Modifier.width(300.dp),
-                        colors = ButtonDefaults.buttonColors(start_color)
-                    ) {
-                        Text(text = "Mercoledi")
-                    }
-
-
-                    DropdownMenu(
-                        expanded = expanded3,
-                        onDismissRequest = { expanded3 = false },
-                        modifier = Modifier
-                            .width(300.dp)
-                            .background(boxcol)
-                    ) {
-                        items.forEach { item ->
-                            DropdownMenuItem(
-                                text = {
-                                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text(text = item)
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    CheckBox(checked = checkboxStates3[item] ?:false, onCheckedChange = { isChecked ->checkboxStates3[item]=isChecked }, 1)
-                                }},
-                                onClick = {
-                                    selectedItem = item
-                                    expanded3 = false
-                                })
-
-
-                        }
-                    }
-
-                }
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(10.dp))
-
-                Box(modifier = Modifier.width(300.dp)){
-
-                    Button(
-                        onClick = { expanded4 = !expanded4 },
-                        modifier = Modifier.width(300.dp),
-                        colors = ButtonDefaults.buttonColors(start_color)
-                    ) {
-                        Text(text = "Giovedi")
-                    }
-
-
-                    DropdownMenu(
-                        expanded = expanded4,
-                        onDismissRequest = { expanded4 = false },
-                        modifier = Modifier
-                            .width(300.dp)
-                            .background(boxcol)
-                    ) {
-                        items.forEach { item ->
-                            DropdownMenuItem(
-                                text = {
-                                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                        Text(text = item)
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        CheckBox(checked = checkboxStates4[item] ?:false, onCheckedChange = { isChecked ->checkboxStates4[item]=isChecked }, 1)
-                                    }
-                                },
-                                onClick = {
-                                    selectedItem = item
-                                    expanded4 = false
-                                })
-
-
-                        }
-                    }
-
-                }
-
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(10.dp))
-
-                Box(modifier = Modifier.width(300.dp)){
-
-                    Button(
-                        onClick = { expanded5 = !expanded5 },
-                        modifier = Modifier.width(300.dp),
-                        colors = ButtonDefaults.buttonColors(start_color)
-                    ) {
-                        Text(text = "Venerdi")
-                    }
-
-
-                    DropdownMenu(
-                        expanded = expanded5,
-                        onDismissRequest = { expanded5 = false },
-                        modifier = Modifier
-                            .width(300.dp)
-                            .background(boxcol)
-                    ) {
-                        items.forEach { item ->
-                            DropdownMenuItem(
-                                text = {
-                                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                        Text(text = item)
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        CheckBox(checked = checkboxStates5[item] ?:false, onCheckedChange = { isChecked ->checkboxStates5[item]=isChecked }, 1)
-                                    }
-                                },
-                                onClick = {
-                                    selectedItem = item
-                                    expanded5 = false
-                                })
-
-
-                        }
-                    }
-
-                }
-
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(10.dp))
-
-                Box(modifier = Modifier.width(300.dp)){
-
-                    Button(
-                        onClick = { expanded6 = !expanded6 },
-                        modifier = Modifier.width(300.dp),
-                        colors = ButtonDefaults.buttonColors(start_color)
-                    ) {
-                        Text(text = "Sabato")
-                    }
-
-
-                    DropdownMenu(
-                        expanded = expanded6,
-                        onDismissRequest = { expanded6 = false },
-                        modifier = Modifier
-                            .width(300.dp)
-                            .background(boxcol)
-                    ) {
-                        items.forEach { item ->
-                            DropdownMenuItem(
-                                text = {
-                                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                        Text(text = item)
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        CheckBox(checked = checkboxStates6[item] ?:false, onCheckedChange = { isChecked ->checkboxStates6[item]=isChecked }, 1)
-                                    }
-                                },
-                                onClick = {
-                                    selectedItem = item
-                                    expanded6 = false
-                                })
-
-
-                        }
-                    }
-
-                }
-
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(10.dp))
-
-                Box(modifier = Modifier.width(300.dp)){
-
-                    Button(
-                        onClick = { expanded7 = !expanded7 },
-                        modifier = Modifier.width(300.dp),
-                        colors = ButtonDefaults.buttonColors(start_color)
-                    ) {
-                        Text(text = "Domenica")
-                    }
-
-
-                    DropdownMenu(
-                        expanded = expanded7,
-                        onDismissRequest = { expanded7 = false },
-                        modifier = Modifier
-                            .width(300.dp)
-                            .background(boxcol)
-                    ) {
-                        items.forEach { item ->
-                            DropdownMenuItem(
-                                text = {
-                                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                        Text(text = item)
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        CheckBox(checked = checkboxStates7[item] ?:false, onCheckedChange = { isChecked ->checkboxStates7[item]=isChecked }, 1)
-                                    }
-                                },
-                                onClick = {
-                                    selectedItem = item
-                                    expanded7 = false
-                                })
-
-
-                        }
-                    }
-
-                }
-
-
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(25.dp))
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
+                )
+                //SUBMIT
 
                 Row(horizontalArrangement = Arrangement.Center) {
                     Button(
 
                         colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black
-                    ),
+                            containerColor = Color.White,
+                            contentColor = Color.Black
+                        ),
                         onClick = { /*TODO*/ },
-                        shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp),
+                        shape = RoundedCornerShape(
+                            topStart = 15.dp,
+                            topEnd = 15.dp,
+                            bottomEnd = 15.dp,
+                            bottomStart = 15.dp
+                        ),
                         modifier = Modifier
-                            .width(100.dp)
+                            .fillMaxWidth()
                             .height(50.dp)
-                            .shadow(20.dp),
-
+                            .padding(start = 15.dp, end = 15.dp)
+                            .shadow(elevation = 10.dp, shape = RoundedCornerShape(15.dp)),
                     ) {
                         Text(
                             text = "Submit",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 14.sp
+                            fontSize = 20.sp
                         )
                     }
+
                 }
+            }
 
             }
 
         }
+
+
+
+}
+
+@Composable
+fun DayBox(day: String) {
+    var textMin = remember { mutableStateOf("") }
+    var textMax = remember { mutableStateOf("") }
+
+
+
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+
+    val items = listOf(
+        "Matteo",
+        "Carlo",
+        "Flacko",
+        "Amrando",
+        "Francesco",
+        "Franco"
+    )
+
+    var selectedItem by remember { mutableStateOf(items[0]) }
+
+    val checkboxStates = remember { mutableStateMapOf<String, Boolean>() }
+    items.forEach { item ->
+        if (!checkboxStates.contains(item)) {
+            checkboxStates[item] = false
+        }
+    }
+    Row(modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center) {
+
+
+        Box(modifier = Modifier.width(200.dp)) {
+
+            Button(
+                onClick = {
+                    expanded = !expanded
+                },
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(56.dp),
+                colors = ButtonDefaults.buttonColors(start_color)
+            ) {
+                Text(
+                    text = day,
+                    style = TextStyle(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+
+
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier
+                    .width(200.dp)
+                    .background(boxcol)
+            ) {
+
+                items.forEach { item ->
+
+                    DropdownMenuItem(
+                        text = {
+                            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text(text = item)
+                                Spacer(modifier = Modifier.width(10.dp))
+                                CheckBox(
+                                    checked = checkboxStates[item]
+                                        ?: false,
+                                    onCheckedChange = { isChecked ->
+                                        checkboxStates[item] = isChecked
+                                    },
+                                    1
+                                )
+                            }
+
+
+                        },
+                        onClick = {
+                            selectedItem = item
+                            expanded = false
+                        }
+                    )
+
+
+                }
+            }
+
+
+        }
+
+
+        Spacer(
+            modifier = Modifier
+                .width(15.dp)
+        )
+
+        //MIN
+        Box(
+            modifier = Modifier
+                .height(56.dp)
+                .width(60.dp)
+                .background(Color.Transparent)
+        ) {
+            OutlinedTextField(
+                value = textMin.value,
+                label = {
+                    Text(
+                        text = "min", style = TextStyle(
+                            fontSize = 14.sp
+                        )
+                    )
+                },
+                onValueChange = { textMin.value = it },
+                modifier = Modifier
+                    .defaultMinSize(
+                        minWidth = 60.dp,
+                        minHeight = 40.dp
+                    )
+                    .wrapContentHeight(
+                        Alignment.CenterVertically
+                    )
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+                    .fillMaxSize()
+                    .fillMaxHeight(),
+                singleLine = true,
+
+                textStyle = TextStyle(
+                    color = Color.Black, // Imposta il colore del testo
+                    fontSize = 14.sp
+                )
+            )
+        }
+        Spacer(
+            modifier = Modifier
+                .width(10.dp)
+        )
+
+        //MAX
+        Box(
+            modifier = Modifier
+                .height(56.dp)
+                .width(60.dp)
+                .background(Color.Transparent)
+        ) {
+            OutlinedTextField(
+                value = textMax.value,
+                label = {
+                    Text(
+                        text = "max", style = TextStyle(
+                            fontSize = 14.sp
+                        )
+                    )
+                },
+                onValueChange = { textMax.value = it },
+                modifier = Modifier
+                    .wrapContentHeight(
+                        Alignment.CenterVertically
+                    )
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+                    .fillMaxSize()
+                    .fillMaxHeight(),
+                singleLine = true,
+                textStyle = TextStyle(
+                    color = Color.Black, // Imposta il colore del testo
+                    fontSize = 14.sp
+                )
+
+            )
+        }
+
+
 
 
     }
