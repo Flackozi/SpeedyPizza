@@ -37,9 +37,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.CheckBox
 import com.example.speedypizza.screens.rider.ScrittaIniziale
@@ -49,8 +49,9 @@ import com.example.speedypizza.ui.theme.start_color
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
-@Preview
-fun DropDownItemDay() {
+
+
+fun CreateCalendar(navController: NavHostController) {
 
     var expanded by remember { mutableStateOf(false) }
     var expanded1 by remember { mutableStateOf(false) }
@@ -132,7 +133,7 @@ fun DropDownItemDay() {
             verticalArrangement = Arrangement.Center
         ) {
 
-            BarraSuperiore()
+            BarraSuperiore(navController)
             ScrittaIniziale(string = "New Calendar")
             Spacer(
                 modifier = Modifier
