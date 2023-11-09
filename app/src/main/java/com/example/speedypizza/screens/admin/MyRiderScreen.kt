@@ -85,7 +85,7 @@ fun MyRiderScreen(navController: NavHostController, close: () -> Unit = {}) {
             .fillMaxSize()
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            BarraSuperiore()
+            BarraSuperiore(navController)
             ScrittaIniziale(string = "My Rider")
             Spacer(modifier = Modifier
                 .fillMaxWidth()

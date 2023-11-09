@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,9 +34,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -43,10 +46,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
+import com.example.speedypizza.ui.theme.gialloScuro
+import com.example.speedypizza.ui.theme.green2
+import com.example.speedypizza.ui.theme.grigiochiarissimo
 import com.example.speedypizza.ui.theme.start_color
 
 
@@ -65,9 +72,9 @@ fun ConstraintScreen(navController: NavHostController, close: () -> Unit = {}) {
         .fillMaxSize()
     ){
         Column {
-            BarraSuperiore()
+            BarraSuperiore(navController)
             ScrittaIniziale(string = "Constraints")
-            Spacer(modifier=Modifier.height(40.dp))
+            Spacer(modifier=Modifier.height(100.dp))
             ElencoGiorni()
         }
     }
@@ -77,135 +84,197 @@ fun ConstraintScreen(navController: NavHostController, close: () -> Unit = {}) {
 
 
 
-@Preview
 @Composable
 fun ElencoGiorni(){
     val buttonColor = ButtonDefaults.buttonColors(start_color)
-    Row (//riga di intestazione con le icone
-        horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
-        verticalAlignment = Alignment.CenterVertically,
+    val context= LocalContext.current
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(7.dp)
-            .offset(y=15.dp)
-    ){
-        Box(
-            modifier = Modifier
-                .width(150.dp)
-                .height(30.dp)
-                .background(Color.Transparent)
+            .fillMaxHeight()
+            .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+            .background(boxcol)
+            .padding(10.dp)
 
-        )
-        Spacer(modifier = Modifier.width(15.dp))
 
-        Icon(
-            painter = painterResource(
-            id = R.drawable.ic_alert),
-            contentDescription ="noWork",
-            tint= Color.Red,
-            modifier = Modifier
-                .size(30.dp)
-        )
-        Icon(painter = painterResource(
-            id = R.drawable.ic_alert),
-            contentDescription ="noWork",
-            tint = Color.Yellow,
-            modifier = Modifier
-                .size(30.dp)
-        )
-        Icon(painter = painterResource(
-            id = R.drawable.ic_alert),
-            contentDescription ="noWork",
-            tint = Color.Green,
-            modifier = Modifier
-                .size(30.dp)
-        )
-    }
-    Row(
-        horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(4.dp)
     ) {
-        val checkboxStates1=remember{ mutableStateMapOf<String, Boolean>() }
-        val checkboxStates2=remember{ mutableStateMapOf<String, Boolean>() }
-        val checkboxStates3=remember{ mutableStateMapOf<String, Boolean>() }
-
-
-        //Colonna giorni della settimana
-        val items = listOf("Monday", "Tuesday", "Wednesday","Thursday","Friday", "Saturday", "Sunday")
-        items.forEach {item->
-            if(!checkboxStates1.contains(item)){
-                checkboxStates1[item]=false
-            }
-        }
-        items.forEach {item->
-            if(!checkboxStates2.contains(item)){
-                checkboxStates2[item]=false
-            }
-        }
-        items.forEach {item->
-            if(!checkboxStates3.contains(item)){
-                checkboxStates3[item]=false
-            }
-        }
-
-        LazyColumn(modifier=Modifier
-            .background(color = Color.Transparent, shape = RoundedCornerShape(10.dp)),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-
+        Row(//riga di intestazione con le icone
+            horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(7.dp)
+                .offset(y = 15.dp)
         ) {
-            items(items) { item ->
-                Row(
-                    Modifier.padding(1.dp),
-                    verticalAlignment=Alignment.CenterVertically
-                ){
-                    Box(
-                        modifier = Modifier
-                            .width(150.dp)
-                            .height(50.dp)
-                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(20.dp))
-                            .background(boxcol, shape = RoundedCornerShape(8.dp)),
-                        contentAlignment = Alignment.Center
+            Box(
+                modifier = Modifier
+                    .width(150.dp)
+                    .height(30.dp)
+                    .background(Color.Transparent)
 
+            )
+            Spacer(modifier = Modifier.width(15.dp))
+
+            Icon(
+                painter = painterResource(
+                    id = R.drawable.ic_alert
+                ),
+                contentDescription = "noWork",
+                tint = center_color,
+                modifier = Modifier
+                    .size(30.dp)
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Icon(
+                painter = painterResource(
+                    id = R.drawable.ic_alert
+                ),
+                contentDescription = "noWork",
+                tint = gialloScuro,
+                modifier = Modifier
+                    .size(30.dp)
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Icon(
+                painter = painterResource(
+                    id = R.drawable.ic_alert
+                ),
+                contentDescription = "noWork",
+                tint = green2,
+                modifier = Modifier
+                    .size(30.dp)
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp)
+        ) {
+            val checkboxStates1 = remember { mutableStateMapOf<String, Boolean>() }
+            val checkboxStates2 = remember { mutableStateMapOf<String, Boolean>() }
+            val checkboxStates3 = remember { mutableStateMapOf<String, Boolean>() }
+
+
+            //Colonna giorni della settimana
+            val days = listOf(
+                R.string.Monday,
+                R.string.Tuesday,
+                R.string.Wednesday,
+                R.string.Thursday,
+                R.string.Friday,
+                R.string.Saturday,
+                R.string.Sunday
+            )
+            val items =
+                listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
+            days.forEach { day ->
+                val dayString = context.getString(day)
+                if (!checkboxStates1.contains(dayString)) {
+                    checkboxStates1[dayString] = false
+                }
+            }
+            days.forEach { day ->
+                val dayString = context.getString(day)
+                if (!checkboxStates2.contains(dayString)) {
+                    checkboxStates2[dayString] = false
+                }
+            }
+            days.forEach { day ->
+                val dayString = context.getString(day)
+                if (!checkboxStates3.contains(dayString)) {
+                    checkboxStates3[dayString] = false
+                }
+            }
+
+            LazyColumn(
+                modifier = Modifier
+                    .background(color = Color.Transparent, shape = RoundedCornerShape(10.dp)),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+
+            ) {
+                items(days) { day ->
+                    val dayString = context.getString(day)
+                    Row(
+                        Modifier.padding(1.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = item, color=Color.Black, style=TextStyle(fontSize=20.sp, fontWeight = FontWeight.Bold))
+                        Box(
+                            modifier = Modifier
+                                .width(150.dp)
+                                .height(50.dp)
+                                .shadow(elevation = 5.dp, shape = RoundedCornerShape(20.dp))
+                                .background(center_color, shape = RoundedCornerShape(8.dp)),
+                            contentAlignment = Alignment.Center
+
+                        ) {
+                            Text(
+                                text = dayString,
+                                color = Color.White,
+                                style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(15.dp))
+                        CustomCheckbox(
+                            checked = checkboxStates1[dayString] ?: false,
+                            onCheckedChange = { isChecked ->
+                                checkboxStates1[dayString] = isChecked
+                            },
+                            1
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        CustomCheckbox(
+                            checked = checkboxStates2[dayString] ?: false,
+                            onCheckedChange = { isChecked ->
+                                checkboxStates2[dayString] = isChecked
+                            },
+                            2
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        CustomCheckbox(
+                            checked = checkboxStates3[dayString] ?: false,
+                            onCheckedChange = { isChecked ->
+                                checkboxStates3[dayString] = isChecked
+                            },
+                            3
+                        )
+
                     }
-                    Spacer(modifier = Modifier.width(15.dp))
-                    CustomCheckbox(checked = checkboxStates1[item] ?:false, onCheckedChange = { isChecked ->checkboxStates1[item]=isChecked }, 1)
-                    Spacer(modifier = Modifier.width(10.dp))
-                    CustomCheckbox(checked = checkboxStates2[item] ?:false, onCheckedChange = { isChecked ->checkboxStates2[item]=isChecked }, 2)
-                    Spacer(modifier = Modifier.width(10.dp))
-                    CustomCheckbox(checked = checkboxStates3[item] ?:false, onCheckedChange = { isChecked ->checkboxStates3[item]=isChecked }, 3)
 
                 }
-                    
+            }
+        }
+        Row(
+            horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(18.dp)
+        ){
+            Button(
+                onClick = {
+                    //qui ci va il metodo associato al botone
+                    println("Exchange requests")
+                },
+                colors =buttonColor,
+                modifier = Modifier
+                    .fillMaxWidth(0.8f)
+                    .height(50.dp)
+                    .shadow(elevation = 5.dp, shape= CircleShape)
+            ){
+                val submit=context.getString(R.string.Submit)
+                Text(text = submit, color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
             }
         }
     }
-    Row(
-        horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(18.dp)
-    ){
-        Button(
-            onClick = {
-                //qui ci va il metodo associato al botone
-                println("Exchange requests")
-            },
-            colors =buttonColor,
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .height(50.dp)
-                .shadow(elevation = 5.dp, shape= CircleShape)
-        ){
-            Text(text = "Submit", color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
-        }
-    }
+
 }
 
 @Composable
@@ -214,11 +283,11 @@ fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: In
         modifier = Modifier
             .alpha(0.9f)
             .size(27.dp)
-            .border(BorderStroke(width = 1.dp, color = Color.White), CircleShape)
+            .border(BorderStroke(width = 2.dp, color = center_color), CircleShape)
             //.clip(CircleShape)
             .background(
-                if (checked && int == 1) Color.Red else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else Color.White ,
-                shape = RoundedCornerShape(8.dp),
+                if (checked && int == 1) Color.Red else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else grigiochiarissimo ,
+                shape = RoundedCornerShape(11.dp),
         )
             //.shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
             .clickable { onCheckedChange(!checked) },
@@ -232,4 +301,9 @@ fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: In
     }
 }
 
+@Preview
+@Composable
+fun Preview2() {
+    ConstraintScreen(rememberNavController())
+}
 

@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,10 +61,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.entity.Messaggio
+import com.example.speedypizza.screens.common.MessageItem
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 //contenitore
 
@@ -89,7 +94,7 @@ fun RiderHomeScreen(navController: NavHostController) {
             }
         ){
             Column {
-                BarraSuperiore()
+                BarraSuperiore(navController)
                 ScrittaIniziale("SpeedyPizza")
                 Spacer(modifier = Modifier.height(90.dp))
                 Bottoni(navController)
@@ -149,7 +154,7 @@ fun ScrittaIniziale(string: String){
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview
 @Composable
-fun BarraSuperiore (){
+fun BarraSuperiore(navController: NavHostController) {
 
 
     var expanded by remember{mutableStateOf(false)}
@@ -158,7 +163,7 @@ fun BarraSuperiore (){
    TopAppBar(title = {
        Text(text = "")
    },
-       colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent ),
+       colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent ),
        navigationIcon = {
 
 
@@ -171,80 +176,73 @@ fun BarraSuperiore (){
 
 
 
-                   Icon(
-                       painter = painterResource(id = R.drawable.baseline_account_box_24),
-                       contentDescription = "Profile",
-                       modifier = Modifier
-                           .size(40.dp),
-                       tint = Color.White
+               Icon(
+                   painter = painterResource(id = R.drawable.baseline_account_box_24),
+                   contentDescription = "Profile",
+                   modifier = Modifier
+                       .clickable{
+                           CoroutineScope(Dispatchers.Main).launch {
+                               navController.navigate("ProfilePage")
+                           }
+                       }
+                       .size(40.dp),
+                   tint = Color.White,
 
-                   )
 
+               )
 
+                Box{
+                    IconButton(onClick = { expanded = true }) {
+                        Icon(
+                            painter = painterResource(id =R.drawable.ic_menu),
+                            contentDescription = "Menu",
+                            tint = Color.White,
+                            modifier = Modifier.size(45.dp),
 
+                            )
+                    }
 
+                    DropdownMenu(expanded = expanded, onDismissRequest = {
+                        expanded = false
+                    },
+                        modifier = Modifier
+                            .background(
+                                Color.White
+                            )
+                            .align(Alignment.CenterEnd)
+                    ) {
 
-
-                        Box{
-                            IconButton(onClick = { expanded = true }) {
+                        DropdownMenuItem(
+                            text = { Text("Home") },
+                            onClick = { /* Handle edit! */ },
+                            leadingIcon = {
                                 Icon(
-                                    painter = painterResource(id =R.drawable.ic_menu),
-                                    contentDescription = "Menu",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(45.dp),
-                                    
-                                    )
-
-
-
-
-                            }
-
-                            DropdownMenu(expanded = expanded, onDismissRequest = {
-                                expanded = false
+                                    Icons.Outlined.Home,
+                                    contentDescription = null
+                                )
+                            })
+                        DropdownMenuItem(
+                            text = { Text("Settings") },
+                            onClick = { /* Handle settings! */ },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Outlined.Settings,
+                                    contentDescription = null
+                                )
+                            })
+                        Divider()
+                        DropdownMenuItem(
+                            text = { Text("Send Feedback") },
+                            onClick = { /* Handle send feedback! */ },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Outlined.Email,
+                                    contentDescription = null
+                                )
                             },
-                                modifier = Modifier
-                                    .background(
-                                        Color.White
-                                    )
-                                    .align(Alignment.CenterEnd)
-                            ) {
-
-                                DropdownMenuItem(
-                                    text = { Text("Home") },
-                                    onClick = { /* Handle edit! */ },
-                                    leadingIcon = {
-                                        Icon(
-                                            Icons.Outlined.Home,
-                                            contentDescription = null
-                                        )
-                                    })
-                                DropdownMenuItem(
-                                    text = { Text("Settings") },
-                                    onClick = { /* Handle settings! */ },
-                                    leadingIcon = {
-                                        Icon(
-                                            Icons.Outlined.Settings,
-                                            contentDescription = null
-                                        )
-                                    })
-                                Divider()
-                                DropdownMenuItem(
-                                    text = { Text("Send Feedback") },
-                                    onClick = { /* Handle send feedback! */ },
-                                    leadingIcon = {
-                                        Icon(
-                                            Icons.Outlined.Email,
-                                            contentDescription = null
-                                        )
-                                    },
-                                    )
-                            }
-                        }
-
-
-
-
+                            )
+                    }
+                }
 
            }
 
@@ -267,178 +265,179 @@ fun Bottoni(navController: NavHostController) {
         Messaggio(3, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
     )
     Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 30.dp))
+            .background(boxcol)
+            .padding(10.dp)
+
+    ){
+        Box(
+
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 30.dp))
-                .background(boxcol)
+                .height(240.dp)
                 .padding(10.dp)
-    ){
-            Box(
-
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(240.dp)
-                    .padding(10.dp)
-                    .shadow(elevation=3.dp)
-                    .border(BorderStroke(width = 3.dp, color = Color.LightGray))
-                    .background(Color.Transparent)
-            ){
+                .shadow(elevation=3.dp)
+                .border(BorderStroke(width = 3.dp, color = Color.LightGray))
+                .background(Color.Transparent)
+        ){
 //                Spacer(modifier=Modifier.height(3.dp))
-                LazyColumn(
+            LazyColumn(
 //                    verticalArrangement = Arrangement.spacedBy(6.dp),
-                    modifier=Modifier
-                        .padding(10.dp)
+                modifier=Modifier
+                    .padding(10.dp)
 //                        .offset(y=4.dp)
-                ){
-                    items(elencoMessaggi) { message ->
-                        MessageItem(message)
-                    }
-                }
-            }
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxSize()
-//                    .offset(y = 180.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
-
             ){
-                Button(
-                    onClick={
-                        navController.navigate("shiftPage")
-                        println("This is myTurn")
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor=Color.White,
-                        contentColor=Color.Black
-                    ),
-                    modifier = Modifier
-                        .width(130.dp)
-                        .height(130.dp)
-                        .offset(x = 40.dp, y = 40.dp)
-                        .shadow(20.dp),
-                    shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
-
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(2.dp)
-                    ){
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_calendar_foreground),
-                            contentDescription = "Calendar",
-                            modifier = Modifier
-                                .size(60.dp)
-                        )
-                        Text(stringResource(R.string.Shifts), modifier = Modifier.offset(y=5.dp))
-                    }
-
-                }
-
-                Button(
-                    onClick = {
-                        navController.navigate("exchangePage")
-                        println("Exchange requests")
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black
-                    ),
-                    modifier = Modifier
-                        .width(130.dp)
-                        .height(130.dp)
-                        .offset(x = 200.dp, y = 40.dp)
-                        .shadow(20.dp),
-                    shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
-
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(2.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_change),
-                            contentDescription = "Change",
-                            tint = Color.Black,
-                            modifier = Modifier.size(60.dp)
-                        )
-                        Text(stringResource(R.string.Requests))
-                    }
-
-                }
-
-                Button(
-                    onClick = {
-                        navController.navigate("messagesPage")
-                        println("This is Messages")
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black
-                    ),
-                    modifier = Modifier
-                        .width(130.dp)
-                        .height(130.dp)
-                        .offset(x = 40.dp, y = 200.dp)
-                        .shadow(20.dp),
-                    shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
-
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(2.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_notification),
-                            contentDescription = "Notification",
-                            tint = Color.Black,
-                            modifier = Modifier.size(60.dp)
-                        )
-                        Text(stringResource(id = R.string.Messages))
-                    }
-
-                }
-
-
-                Button(
-                    onClick = {
-                        navController.navigate("constraintsPage")
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black
-                    ),
-                    modifier = Modifier
-                        .width(130.dp)
-                        .height(130.dp)
-                        .offset(x = 200.dp, y = 200.dp)
-                        .shadow(20.dp),
-                    shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
-
-
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(1.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id =R.drawable.ic_constraints),
-                            contentDescription = "Change",
-                            tint = Color.Black,
-                            modifier = Modifier.size(60.dp)
-                        )
-                        Text(text= stringResource(id = R.string.Constraints))
-                    }
-
+                items(elencoMessaggi) { message ->
+                    MessageItem(message)
                 }
             }
         }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxSize()
+//                    .offset(y = 180.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
+
+        ){
+            Button(
+                onClick={
+                    navController.navigate("shiftPage")
+                    println("This is myTurn")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor=Color.White,
+                    contentColor=Color.Black
+                ),
+                modifier = Modifier
+                    .width(130.dp)
+                    .height(130.dp)
+                    .offset(x = 40.dp, y = 40.dp)
+                    .shadow(20.dp),
+                shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
+
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.padding(2.dp)
+                ){
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_calendar_foreground),
+                        contentDescription = "Calendar",
+                        modifier = Modifier
+                            .size(60.dp)
+                    )
+                    Text(stringResource(R.string.Shifts), modifier = Modifier.offset(y=5.dp))
+                }
+
+            }
+
+            Button(
+                onClick = {
+                    navController.navigate("exchangePage")
+                    println("Exchange requests")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black
+                ),
+                modifier = Modifier
+                    .width(130.dp)
+                    .height(130.dp)
+                    .offset(x = 200.dp, y = 40.dp)
+                    .shadow(20.dp),
+                shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
+
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.padding(2.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_change),
+                        contentDescription = "Change",
+                        tint = Color.Black,
+                        modifier = Modifier.size(60.dp)
+                    )
+                    Text(stringResource(R.string.Requests))
+                }
+
+            }
+
+            Button(
+                onClick = {
+                    navController.navigate("messagesPage")
+                    println("This is Messages")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black
+                ),
+                modifier = Modifier
+                    .width(130.dp)
+                    .height(130.dp)
+                    .offset(x = 40.dp, y = 200.dp)
+                    .shadow(20.dp),
+                shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
+
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.padding(2.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_notification),
+                        contentDescription = "Notification",
+                        tint = Color.Black,
+                        modifier = Modifier.size(60.dp)
+                    )
+                    Text(stringResource(id = R.string.Messages))
+                }
+
+            }
+
+
+            Button(
+                onClick = {
+                    navController.navigate("constraintsPage")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black
+                ),
+                modifier = Modifier
+                    .width(130.dp)
+                    .height(130.dp)
+                    .offset(x = 200.dp, y = 200.dp)
+                    .shadow(20.dp),
+                shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
+
+
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.padding(1.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id =R.drawable.ic_constraints),
+                        contentDescription = "Change",
+                        tint = Color.Black,
+                        modifier = Modifier.size(60.dp)
+                    )
+                    Text(text= stringResource(id = R.string.Constraints))
+                }
+
+            }
+        }
+    }
 
 
 }

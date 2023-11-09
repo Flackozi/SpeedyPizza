@@ -1,4 +1,4 @@
-package com.example.speedypizza.screens.rider
+package com.example.speedypizza.screens.common
 
 
 import androidx.compose.foundation.background
@@ -39,7 +39,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
+import com.example.speedypizza.screens.rider.BarraSuperiore
+import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -68,7 +71,7 @@ fun ShiftsPage(navController: NavHostController, close: () -> Unit = {}) {
             }
         ){
             Column {
-                BarraSuperiore()
+                BarraSuperiore(navController)
                 ScrittaIniziale("Shifts")
                 Spacer(modifier = Modifier.height(50.dp))
                 ShiftsList()
@@ -78,7 +81,6 @@ fun ShiftsPage(navController: NavHostController, close: () -> Unit = {}) {
     }
 
 }
-@Preview
 @Composable
 fun ShiftsList() {
     Column(
@@ -224,4 +226,10 @@ fun WorkerItem(workerName: String){
     }
 
 
+}
+
+@Preview
+@Composable
+fun Preview5() {
+    ShiftsPage(rememberNavController())
 }
