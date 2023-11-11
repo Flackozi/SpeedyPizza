@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,6 +19,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -32,10 +35,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,18 +46,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.speedypizza.R
@@ -97,12 +105,13 @@ fun MyRiderScreen(navController: NavHostController, close: () -> Unit = {}) {
 
 
 
-
-@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MyRiderInfo() {
 
-
+    var isPopupVisible by remember { mutableStateOf(false) }
+    val keyboardController = LocalSoftwareKeyboardController.current
     var textState = remember { mutableStateOf(TextFieldValue()) }
 
     var popupControl by remember { mutableStateOf(false) }
@@ -265,10 +274,15 @@ fun MyRiderInfo() {
             if(popupControl){
 
                 Column(modifier = Modifier
-                    .background(whitebackground), horizontalAlignment = Alignment.Start) {
-                    Popup(alignment = Alignment.Center) {
+                    .background(whitebackground)
+                    .width(50.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Popup(alignment = Alignment.Center, onDismissRequest = { popupControl = false },
+                        properties = PopupProperties(focusable = true)
+                    ) {
 
-                        Box( modifier = Modifier.background(Color.LightGray, shape = RoundedCornerShape(16.dp)).width(500.dp)){
+                        Box( modifier = Modifier
+                            .background(Color.LightGray, shape = RoundedCornerShape(16.dp))
+                            .width(200.dp)){
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center) {
@@ -277,14 +291,68 @@ fun MyRiderInfo() {
                                     .fillMaxWidth()
                                     .height(10.dp))
 
-                                TextField(value = textState.value, onValueChange = {textState.value = it}, )
+                                val text  = remember { mutableStateOf("") }
+                                Row(modifier = Modifier.fillMaxWidth()) {
+
+                                    Spacer(modifier = Modifier
+                                        .width(20.dp))
+
+                                    Box(
+                                        modifier = Modifier
+                                            .background(Color.Transparent).width(140.dp)
+                                            .height(55.dp)
+                                    ) {
+
+
+                                        OutlinedTextField(
+                                            value = text.value,
+                                            label = {
+                                                Text(
+                                                    text = "Remove Rider", style = TextStyle(
+                                                        fontSize = 14.sp
+                                                    )
+                                                )
+                                            },
+                                            onValueChange = { text.value = it },
+                                            modifier = Modifier
+                                                .defaultMinSize(
+                                                    minWidth = 60.dp,
+                                                    minHeight = 40.dp
+                                                )
+                                                .wrapContentHeight(
+                                                    Alignment.CenterVertically
+                                                )
+                                                .wrapContentWidth(Alignment.CenterHorizontally)
+                                                .width(140.dp)
+                                                .height(55.dp),
+                                            singleLine = true,
+
+                                            textStyle = TextStyle(
+                                                color = Color.Black, // Imposta il colore del testo
+                                                fontSize = 14.sp
+                                            )
+                                        )
+                                    }
+
+
+                                    //icona x
+                                    Icon(
+                                        painter = painterResource(id = com.google.android.material.R.drawable.ic_mtrl_chip_close_circle),
+                                        contentDescription = "Close",
+                                        tint = Color.Gray,
+                                        modifier = Modifier.size(25.dp).clickable{popupControl = false}
+                                    )
+                                }
+
                                 Spacer(modifier = Modifier
                                     .fillMaxWidth()
                                     .height(10.dp))
                                 Button(
                                     onClick = {popupControl = false},
                                     colors = ButtonDefaults.buttonColors(start_color),
-                                    modifier = Modifier.width(100.dp).height(40.dp)
+                                    modifier = Modifier
+                                        .width(100.dp)
+                                        .height(40.dp)
 
                                 ) {
                                     Text(text = "Submit")
@@ -310,7 +378,7 @@ fun MyRiderInfo() {
             .height(10.dp))
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            Box(modifier = Modifier.offset(x=35.dp)){
+            Box(modifier = Modifier.offset(x=45.dp)){
                 IconButton(
                     onClick = { /*aggiungi rider*/ },
                     //shape = CircleShape,
@@ -341,16 +409,16 @@ fun MyRiderInfo() {
 
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 5.dp, vertical = 5.dp).offset(x=10.dp),
+                .padding(horizontal = 5.dp, vertical = 5.dp)
+                .offset(x = 20.dp),
             contentPadding = PaddingValues(horizontal = 20.dp),
         ){
 
             items(raiderNames){ name->
                 Box(){
-                    Column(horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top) {
-                        Row {
+                        Row(horizontalArrangement = Arrangement.Start,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Image(painter = painter,
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
@@ -364,13 +432,15 @@ fun MyRiderInfo() {
                                         shape = CircleShape
                                     )
                             )
-                        }
-                        Row() {
+                            Spacer(modifier = Modifier.width(10.dp))
                             Text(text = "$name")
                         }
-                    }
+
+
+
+
                 }
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.height(10.dp))
             }
         }
     }
