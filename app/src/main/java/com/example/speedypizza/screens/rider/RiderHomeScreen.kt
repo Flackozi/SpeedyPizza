@@ -214,7 +214,7 @@ fun BarraSuperiore(navController: NavHostController) {
 
                         DropdownMenuItem(
                             text = { Text("Home") },
-                            onClick = { /* Handle edit! */ },
+                            onClick = {  navController.navigate("riderHome") },
                             leadingIcon = {
                                 Icon(
                                     Icons.Outlined.Home,

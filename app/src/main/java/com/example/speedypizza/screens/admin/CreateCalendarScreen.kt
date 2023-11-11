@@ -37,9 +37,13 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.speedypizza.screens.common.LoginPage
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.CheckBox
 import com.example.speedypizza.screens.rider.ScrittaIniziale
@@ -161,7 +165,7 @@ fun DayBox(day: String) {
         "Matteo",
         "Carlo",
         "Flacko",
-        "Amrando",
+        "Armando",
         "Francesco",
         "Franco"
     )
@@ -324,4 +328,11 @@ fun DayBox(day: String) {
 
 
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.Q)
+@Preview
+@Composable
+fun CalendarPreview() {
+    CreateCalendar(rememberNavController())
 }
