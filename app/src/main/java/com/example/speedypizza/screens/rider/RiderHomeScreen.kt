@@ -53,15 +53,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.entity.Messaggio
 import com.example.speedypizza.screens.common.MessageItem
+import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -75,7 +74,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun RiderHomeScreen(navController: NavHostController) {
+fun RiderHomeScreen(navController: NavHostController, viewModel: LoginViewModel) {
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color ),
         startY = 0f,
@@ -94,7 +93,7 @@ fun RiderHomeScreen(navController: NavHostController) {
             }
         ){
             Column {
-                BarraSuperiore(navController)
+                BarraSuperiore(navController, viewModel)
                 ScrittaIniziale("SpeedyPizza")
                 Spacer(modifier = Modifier.height(90.dp))
                 Bottoni(navController)
@@ -154,7 +153,7 @@ fun ScrittaIniziale(string: String){
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview
 @Composable
-fun BarraSuperiore(navController: NavHostController) {
+fun BarraSuperiore(navController: NavHostController, viewModel: LoginViewModel) {
 
 
     var expanded by remember{mutableStateOf(false)}
@@ -214,7 +213,12 @@ fun BarraSuperiore(navController: NavHostController) {
 
                         DropdownMenuItem(
                             text = { Text("Home") },
-                            onClick = {  navController.navigate("riderHome") },
+                            onClick = {
+
+                                if(viewModel.loggedUser!!.role==1) navController.navigate("riderHome")
+                                else navController.navigate("adminHome")
+
+                                      },
                             leadingIcon = {
                                 Icon(
                                     Icons.Outlined.Home,
@@ -441,9 +445,9 @@ fun Bottoni(navController: NavHostController) {
 
 
 }
-
+/*
 @Preview
 @Composable
 fun Preview() {
-    RiderHomeScreen(rememberNavController())
-}
+    RiderHomeScreen(rememberNavController(), user)
+}*/

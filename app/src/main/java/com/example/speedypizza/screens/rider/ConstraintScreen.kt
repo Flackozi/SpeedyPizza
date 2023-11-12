@@ -42,12 +42,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
+import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -61,7 +60,7 @@ import com.example.speedypizza.ui.theme.start_color
 
 
 @Composable
-fun ConstraintScreen(navController: NavHostController, close: () -> Unit = {}) {
+fun ConstraintScreen(navController: NavHostController, viewModel: LoginViewModel) {
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color ),
         startY = 0f,
@@ -72,7 +71,7 @@ fun ConstraintScreen(navController: NavHostController, close: () -> Unit = {}) {
         .fillMaxSize()
     ){
         Column {
-            BarraSuperiore(navController)
+            BarraSuperiore(navController, viewModel)
             ScrittaIniziale(string = "Constraints")
             Spacer(modifier=Modifier.height(100.dp))
             ElencoGiorni()
@@ -301,9 +300,9 @@ fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: In
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 fun Preview2() {
     ConstraintScreen(rememberNavController())
-}
+}*/
 

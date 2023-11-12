@@ -68,6 +68,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.speedypizza.R
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
+import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -79,7 +80,7 @@ import com.example.speedypizza.ui.theme.whitebackground
 
 
 @Composable
-fun MyRiderScreen(navController: NavHostController, close: () -> Unit = {}) {
+fun MyRiderScreen(navController: NavHostController, viewModel: LoginViewModel) {
 
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color),
@@ -93,7 +94,7 @@ fun MyRiderScreen(navController: NavHostController, close: () -> Unit = {}) {
             .fillMaxSize()
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            BarraSuperiore(navController)
+            BarraSuperiore(navController, viewModel)
             ScrittaIniziale(string = "My Rider")
             Spacer(modifier = Modifier
                 .fillMaxWidth()

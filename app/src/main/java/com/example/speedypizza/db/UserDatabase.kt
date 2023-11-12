@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
+import com.example.speedypizza.entity.User
 
 @Database(
     entities = [User::class],

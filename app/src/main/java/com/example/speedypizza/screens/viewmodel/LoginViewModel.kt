@@ -1,22 +1,23 @@
 package com.example.speedypizza.screens.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.speedypizza.db.Repository
+import com.example.speedypizza.entity.User
 import com.example.speedypizza.db.UserDatabase
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class LoginViewModel(application: Application): AndroidViewModel(application){
 
     private val loginRepository: Repository
-    var ruolo: Int = 0
+    var loggedUser: User? = null
 
     init {
         val dao = UserDatabase.getInstance(application).userDao()
@@ -24,21 +25,17 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
     }
 
 
-    /*fun login(username: String, password: String){
 
-        viewModelScope.launch(Dispatchers.IO) {
-            delay(300)
-            ruolo = loginRepository.login1(username, password)
-        }
-    }*/
+    fun login(username: String, password: String): Deferred<User> {
 
-    fun login(username: String, password: String): Deferred<Int> {
+        //Log.i("ei","ei")
         return viewModelScope.async(Dispatchers.IO) {
             delay(300)
-            return@async loginRepository.login1(username, password)
+            loggedUser= loginRepository.login(username, password)
+           // Log.i("valuetry1: ", "daje")
+            return@async loggedUser!!
         }
     }
-
 
 
     @Suppress("UNCHECKED_CAST")

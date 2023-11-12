@@ -1,6 +1,6 @@
 package com.example.speedypizza.screens.common
 
-import android.util.Log
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,9 +24,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,6 +54,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.db.Repository
+import com.example.speedypizza.entity.User
 import com.example.speedypizza.db.UserDatabase
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.center_color
@@ -62,17 +64,13 @@ import com.example.speedypizza.ui.theme.whitebackground
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Timer
-import kotlin.concurrent.schedule
 
 
 @OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
 @Composable
 fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
+
 
 
     val gradient = Brush.verticalGradient(
@@ -86,6 +84,7 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
     val passwordValue = remember { mutableStateOf("") }
 
     var em: Int
+    val user: MutableState<User?> = rememberSaveable { mutableStateOf(null) }
 
     val passwordVisibility = remember {
         mutableStateOf(false)
@@ -220,14 +219,12 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
 
 
                             CoroutineScope(Dispatchers.Main).launch {
-                                val result = viewModel.login(emailValue.value, passwordValue.value).await()
+                                val user = viewModel.login(emailValue.value, passwordValue.value).await()
 
 
-                                Log.i("valuetry1: ", result.toString())
-
-                                if (result == 1) {
+                                if (user.role==1) {
                                     navController.navigate("riderHome")
-                                } else if (result == 2){
+                                } else if (user.role == 2){
                                     navController.navigate("adminHome")
                                 }
                             }
@@ -261,6 +258,7 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
 
 
     }
+
 }
 
 @Preview
@@ -269,3 +267,16 @@ fun GradientBackgroundPreview() {
     LoginPage(rememberNavController(), viewModel())
 }
 
+
+fun saveAccess(
+    context: Context,
+    user: User?
+){
+    val sharedPreferences = context.getSharedPreferences("Profile", Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+
+    editor.putString("Email", user?.email)
+    editor.putString("Password", user?.password)
+
+    editor.apply()
+}

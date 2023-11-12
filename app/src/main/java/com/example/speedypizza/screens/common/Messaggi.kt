@@ -34,16 +34,13 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 
 import androidx.compose.ui.res.painterResource
 
-import androidx.compose.ui.tooling.preview.Preview
-
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.entity.Messaggio
 import com.example.speedypizza.R
-import com.example.speedypizza.screens.admin.AdminDashboard
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
+import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -54,7 +51,7 @@ import com.example.speedypizza.ui.theme.start_color
 
 
 @Composable
-fun SchermataMessaggi(navController: NavHostController) {
+fun SchermataMessaggi(navController: NavHostController, viewModel: LoginViewModel) {
 
     var elencoMessaggi = listOf(
         Messaggio(1, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
@@ -83,7 +80,7 @@ fun SchermataMessaggi(navController: NavHostController) {
                 horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            BarraSuperiore(navController)
+            BarraSuperiore(navController, viewModel)
 
             ScrittaIniziale(string = "Messages")
             Spacer(modifier = Modifier.height(100.dp))
@@ -193,8 +190,8 @@ fun Modifier.scrollEnabled(
     }
 )
 
-@Preview
+/*@Preview
 @Composable
 fun Preview2() {
-    SchermataMessaggi(rememberNavController())
-}
+    SchermataMessaggi(rememberNavController(), user)
+}*/

@@ -31,17 +31,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.entity.Messaggio
 import com.example.speedypizza.screens.common.MessageItem
 import com.example.speedypizza.screens.rider.BarraSuperiore
-import com.example.speedypizza.screens.rider.RiderHomeScreen
 import com.example.speedypizza.screens.rider.ScrittaIniziale
+import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -54,7 +52,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun AdminDashboard(navController: NavHostController) {
+fun AdminDashboard(navController: NavHostController, viewModel: LoginViewModel) {
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color ),
         startY = 0f,
@@ -73,7 +71,7 @@ fun AdminDashboard(navController: NavHostController) {
             }
         ){
             Column {
-                BarraSuperiore(navController)
+                BarraSuperiore(navController, viewModel)
                 ScrittaIniziale("SpeedyPizza")
                 Spacer(modifier = Modifier.height(100.dp))
                 PrimoMenu(navController)
@@ -439,8 +437,8 @@ fun PrimoMenu(navController: NavHostController) {
 
 }
 
-@Preview
+/*@Preview
 @Composable
 fun Preview() {
-    AdminDashboard(rememberNavController())
-}
+    AdminDashboard(rememberNavController(), user)
+}*/

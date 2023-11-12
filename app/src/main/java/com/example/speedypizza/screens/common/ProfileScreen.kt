@@ -43,9 +43,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.speedypizza.R
+import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.arrowProfile
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
@@ -55,7 +55,7 @@ import com.example.speedypizza.ui.theme.start_color
 
 
 @Composable
-fun ProfileScreen(navController: NavHostController) {
+fun ProfileScreen(navController: NavHostController, viewModel: LoginViewModel) {
 
 
     val gradient = Brush.verticalGradient(
@@ -107,7 +107,7 @@ fun ProfileScreen(navController: NavHostController) {
                     .fillMaxWidth()
                     .height(10.dp))
 
-                Text(text = "Matteo Francobollini",
+                Text(text = viewModel.loggedUser!!.nickname,
                     fontSize = 25.sp,
                     fontStyle = FontStyle.Italic,
                     color = Color.White,
@@ -119,7 +119,7 @@ fun ProfileScreen(navController: NavHostController) {
                     .fillMaxWidth()
                     .height(5.dp))
 
-                Text(text = "Rider",
+                Text(text = if(viewModel.loggedUser!!.role == 1) "Rider" else "Admin",
                     fontSize = 18.sp,
                     fontStyle = FontStyle.Italic,
                     color = Color.White,
@@ -145,7 +145,7 @@ fun ProfileScreen(navController: NavHostController) {
             Row (modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .height(500.dp)){
-                ProfileInfo()
+                ProfileInfo(viewModel)
             }
 
         }
@@ -153,7 +153,7 @@ fun ProfileScreen(navController: NavHostController) {
 }
 
 @Composable
-fun ProfileInfo() {
+fun ProfileInfo(viewModel: LoginViewModel) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom,
@@ -235,7 +235,7 @@ fun ProfileInfo() {
                         tint = start_color
                     )
 
-                    Text(text = "justointer@gmail.com",
+                    Text(text = viewModel.loggedUser!!.email,
                         modifier = Modifier.offset(x=60.dp),
                         fontSize = 18.sp,
                         color = arrowProfile,
@@ -273,7 +273,7 @@ fun ProfileInfo() {
                         tint = start_color
                     )
 
-                    Text(text = "3490705950",
+                    Text(text = viewModel.loggedUser!!.phone,
                         modifier = Modifier.offset(x=60.dp),
                         fontSize = 18.sp,
                         color = arrowProfile,
@@ -371,8 +371,8 @@ fun BarraSuperioreProfile(){
     )
 
 }
-@Preview
+/*@Preview
 @Composable
 fun Preview() {
-    ProfileScreen(rememberNavController())
-}
+    ProfileScreen(rememberNavController(), user)
+}*/
