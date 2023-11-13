@@ -1,6 +1,7 @@
 package com.example.speedypizza.screens.admin
 
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,19 +48,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
@@ -75,8 +73,6 @@ import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.search
 import com.example.speedypizza.ui.theme.start_color
 import com.example.speedypizza.ui.theme.whitebackground
-
-
 
 
 @Composable
@@ -99,21 +95,19 @@ fun MyRiderScreen(navController: NavHostController, viewModel: LoginViewModel) {
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp))
-            MyRiderInfo()
+            MyRiderInfo(viewModel)
         }
     }
 }
 
 
 
-@Preview
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
-@Composable
-fun MyRiderInfo() {
 
-    var isPopupVisible by remember { mutableStateOf(false) }
-    val keyboardController = LocalSoftwareKeyboardController.current
-    var textState = remember { mutableStateOf(TextFieldValue()) }
+@SuppressLint("CoroutineCreationDuringComposition")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyRiderInfo(viewModel: LoginViewModel) {
+
 
     var popupControl by remember { mutableStateOf(false) }
 
@@ -122,10 +116,18 @@ fun MyRiderInfo() {
         imageUri.value.ifEmpty{R.drawable.baseline_person_2_24}
     )
 
+    val nicknamesList = viewModel.myRiders!!.map { user -> user.nickname }
+
+    //val myRidersDeferred: Deferred<List<User>> = viewModel.retrieveMyRider()
+    //val myRiders: List<User> = myRidersDeferred.await()
+
+
+
+
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
 
-    val raiderNames= listOf("Carlo", "Matteo", "Flavio", "Mirko", "aghislov", "becknabour", "franco", "armando")
+    //val riderNames= listOf("Carlo", "Matteo", "Flavio", "Mirko", "aghislov", "becknabour", "franco", "armando")
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -213,7 +215,8 @@ fun MyRiderInfo() {
             contentPadding = PaddingValues(horizontal = 20.dp)
             ){
 
-            items(raiderNames){ name->
+            items(nicknamesList)
+            { name->
                 Box(){
                     Column(horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top) {
@@ -411,11 +414,14 @@ fun MyRiderInfo() {
         LazyColumn(
             modifier = Modifier
                 .padding(horizontal = 5.dp, vertical = 5.dp)
-                .offset(x = 20.dp),
+                .offset(x = 20.dp)
+                .fillMaxHeight(),
             contentPadding = PaddingValues(horizontal = 20.dp),
         ){
 
-            items(raiderNames){ name->
+
+
+            items(nicknamesList){ name->
                 Box(){
                         Row(horizontalArrangement = Arrangement.Start,
                             verticalAlignment = Alignment.CenterVertically

@@ -12,6 +12,12 @@ class Repository(private val dao: UserDAO) {
 
     }
 
+    fun retrieveMyRider(): List<User> {
+
+        return dao.retrieveMyRiders()
+
+    }
+
 
 }
 

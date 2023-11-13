@@ -25,11 +25,11 @@ import com.example.speedypizza.screens.admin.CreateCalendar
 import com.example.speedypizza.screens.admin.MyRiderScreen
 import com.example.speedypizza.screens.common.LoginPage
 import com.example.speedypizza.screens.common.ProfileScreen
+import com.example.speedypizza.screens.common.SchermataMessaggi
+import com.example.speedypizza.screens.common.ShiftsPage
 import com.example.speedypizza.screens.rider.ConstraintScreen
 import com.example.speedypizza.screens.rider.ExchangeRequests
 import com.example.speedypizza.screens.rider.RiderHomeScreen
-import com.example.speedypizza.screens.common.SchermataMessaggi
-import com.example.speedypizza.screens.common.ShiftsPage
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.SpeedyPizzaTheme
 import com.example.speedypizza.ui.theme.center_color
@@ -94,7 +94,11 @@ class MainActivity : ComponentActivity() {
                        composable("profilePage"){ ProfileScreen(navController,viewModel)}
                        composable("shiftPage"){ ShiftsPage(navController, viewModel) }
                        composable("constraintsPage"){ ConstraintScreen(navController,viewModel) }
-                       composable("myRiderPage"){ MyRiderScreen(navController,viewModel) }
+                       composable("myRiderPage"){
+                           viewModel.retrieveMyRider()
+                           MyRiderScreen(navController,viewModel)
+
+                       }
                        composable("CreateCalendarPage"){ CreateCalendar(navController,viewModel)}
 
 
