@@ -1,5 +1,6 @@
 package com.example.speedypizza.db
 
+import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.entity.User
 
 
@@ -12,15 +13,9 @@ class Repository(private val dao: UserDAO) {
 
     }
     fun SendConstraint(
-        lunedi: Int,
-        martedi: Int,
-        mercoledi: Int,
-        giovedi: Int,
-        venerdi: Int,
-        sabato: Int,
-        domenica: Int
+        constraints: Constraints
     ){
-        dao.sendConstraint(lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica)
+        dao.sendConstraint(constraints)
 
     }
 

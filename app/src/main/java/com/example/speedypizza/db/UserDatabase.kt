@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
+import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.entity.User
 
 @Database(
-    entities = [User::class],
+    entities = [User::class, Constraints::class],
     version = 2
 )
 
