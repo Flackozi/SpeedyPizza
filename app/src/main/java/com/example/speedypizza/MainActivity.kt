@@ -30,6 +30,7 @@ import com.example.speedypizza.screens.rider.ExchangeRequests
 import com.example.speedypizza.screens.rider.RiderHomeScreen
 import com.example.speedypizza.screens.common.SchermataMessaggi
 import com.example.speedypizza.screens.common.ShiftsPage
+import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.SpeedyPizzaTheme
 import com.example.speedypizza.ui.theme.center_color
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
                profile.nickname = sharedPreferencesProfile.*/
 
                val viewModel: LoginViewModel = viewModel(factory = LoginViewModel.LoginViewModelFactory(context.applicationContext as Application))
+               val constraintViewModel: ConstraintViewModel = viewModel(factory = ConstraintViewModel.ConstraintViewModelFactory(context.applicationContext as Application))
 
                val gradient = Brush.verticalGradient(
                    colors = listOf(start_color, center_color, end_color ),
@@ -93,7 +95,7 @@ class MainActivity : ComponentActivity() {
                        composable("exchangePage"){ ExchangeRequests(navController, viewModel) }
                        composable("profilePage"){ ProfileScreen(navController,viewModel)}
                        composable("shiftPage"){ ShiftsPage(navController, viewModel) }
-                       composable("constraintsPage"){ ConstraintScreen(navController,viewModel) }
+                       composable("constraintsPage"){ ConstraintScreen(navController,viewModel, constraintViewModel) }
                        composable("myRiderPage"){ MyRiderScreen(navController,viewModel) }
                        composable("CreateCalendarPage"){ CreateCalendar(navController,viewModel)}
 

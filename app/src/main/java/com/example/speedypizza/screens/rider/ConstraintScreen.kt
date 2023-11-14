@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -42,10 +41,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
+import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
@@ -54,13 +57,17 @@ import com.example.speedypizza.ui.theme.gialloScuro
 import com.example.speedypizza.ui.theme.green2
 import com.example.speedypizza.ui.theme.grigiochiarissimo
 import com.example.speedypizza.ui.theme.start_color
-
-
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun ConstraintScreen(navController: NavHostController, viewModel: LoginViewModel) {
+fun ConstraintScreen(
+    navController: NavHostController,
+    viewModel: LoginViewModel,
+    constraintViewModel: ConstraintViewModel
+) {
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color ),
         startY = 0f,
@@ -74,19 +81,40 @@ fun ConstraintScreen(navController: NavHostController, viewModel: LoginViewModel
             BarraSuperiore(navController, viewModel)
             ScrittaIniziale(string = "Constraints")
             Spacer(modifier=Modifier.height(100.dp))
-            ElencoGiorni()
+            ElencoGiorni(navController, constraintViewModel)
         }
     }
 
 }
 
 
-
+object GlobalVariables {
+    //questa variabile servirà a tenere il valore dei vincoli associati ai giorni della settimana
+    val checkBoxValues = MutableList(7) { 0 }
+}
 
 @Composable
-fun ElencoGiorni(){
+fun ElencoGiorni(navController: NavHostController, constraintViewModel: ConstraintViewModel) {
     val buttonColor = ButtonDefaults.buttonColors(start_color)
     val context= LocalContext.current
+
+    val checkboxStates1 = remember { mutableStateMapOf<String, Boolean>() }
+    val checkboxStates2 = remember { mutableStateMapOf<String, Boolean>() }
+    val checkboxStates3 = remember { mutableStateMapOf<String, Boolean>() }
+
+    var i=0
+
+    //Colonna giorni della settimana
+    val days = listOf(
+        R.string.Monday,
+        R.string.Tuesday,
+        R.string.Wednesday,
+        R.string.Thursday,
+        R.string.Friday,
+        R.string.Saturday,
+        R.string.Sunday
+    )
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -155,23 +183,7 @@ fun ElencoGiorni(){
                 .fillMaxWidth()
                 .padding(4.dp)
         ) {
-            val checkboxStates1 = remember { mutableStateMapOf<String, Boolean>() }
-            val checkboxStates2 = remember { mutableStateMapOf<String, Boolean>() }
-            val checkboxStates3 = remember { mutableStateMapOf<String, Boolean>() }
 
-
-            //Colonna giorni della settimana
-            val days = listOf(
-                R.string.Monday,
-                R.string.Tuesday,
-                R.string.Wednesday,
-                R.string.Thursday,
-                R.string.Friday,
-                R.string.Saturday,
-                R.string.Sunday
-            )
-            val items =
-                listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
             days.forEach { day ->
                 val dayString = context.getString(day)
@@ -195,12 +207,13 @@ fun ElencoGiorni(){
             LazyColumn(
                 modifier = Modifier
                     .background(color = Color.Transparent, shape = RoundedCornerShape(10.dp)),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+//                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(5.dp)
 
             ) {
-                items(days) { day ->
-                    val dayString = context.getString(day)
+                items(days) { giorno ->
+                    val dayString = context.getString(giorno)
+                    val index = days.indexOfFirst { context.getString(it) == dayString }
                     Row(
                         Modifier.padding(1.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -224,7 +237,12 @@ fun ElencoGiorni(){
                         CustomCheckbox(
                             checked = checkboxStates1[dayString] ?: false,
                             onCheckedChange = { isChecked ->
+                                //questo lo faccio per far si che solo una delle tre possa essere selezionata
                                 checkboxStates1[dayString] = isChecked
+                                checkboxStates2[dayString] = false
+                                checkboxStates3[dayString] = false
+                                GlobalVariables.checkBoxValues[index]=1//setto il valore della checkBox del giorno con il valore 1
+
                             },
                             1
                         )
@@ -232,7 +250,10 @@ fun ElencoGiorni(){
                         CustomCheckbox(
                             checked = checkboxStates2[dayString] ?: false,
                             onCheckedChange = { isChecked ->
+                                checkboxStates1[dayString] = false
                                 checkboxStates2[dayString] = isChecked
+                                checkboxStates3[dayString] = false
+                                GlobalVariables.checkBoxValues[index]=2//setto il valore della checkBox del giorno con il valore 2
                             },
                             2
                         )
@@ -240,13 +261,15 @@ fun ElencoGiorni(){
                         CustomCheckbox(
                             checked = checkboxStates3[dayString] ?: false,
                             onCheckedChange = { isChecked ->
+                                checkboxStates1[dayString] = false
+                                checkboxStates2[dayString] = false
                                 checkboxStates3[dayString] = isChecked
+                                GlobalVariables.checkBoxValues[index]=3//setto il valore della checkBox del giorno con il valore 3
                             },
                             3
                         )
 
                     }
-
                 }
             }
         }
@@ -260,13 +283,17 @@ fun ElencoGiorni(){
             Button(
                 onClick = {
                     //qui ci va il metodo associato al botone
-                    println("Exchange requests")
+                    println(GlobalVariables.checkBoxValues)
+                    CoroutineScope(Dispatchers.Main).launch {
+                        constraintViewModel.submit(GlobalVariables.checkBoxValues)
+                        navController.navigate("riderHome")
+                    }
                 },
                 colors =buttonColor,
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(50.dp)
-                    .shadow(elevation = 5.dp, shape= CircleShape)
+                    .shadow(elevation = 5.dp, shape = CircleShape)
             ){
                 val submit=context.getString(R.string.Submit)
                 Text(text = submit, color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
@@ -275,6 +302,9 @@ fun ElencoGiorni(){
     }
 
 }
+
+
+
 
 @Composable
 fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
@@ -285,9 +315,9 @@ fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: In
             .border(BorderStroke(width = 2.dp, color = center_color), CircleShape)
             //.clip(CircleShape)
             .background(
-                if (checked && int == 1) Color.Red else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else grigiochiarissimo ,
+                if (checked && int == 1) center_color else if (checked && int == 2) gialloScuro else if (checked && int == 3) green2 else grigiochiarissimo,
                 shape = RoundedCornerShape(11.dp),
-        )
+            )
             //.shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
             .clickable { onCheckedChange(!checked) },
         contentAlignment = Alignment.Center
@@ -300,9 +330,9 @@ fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: In
     }
 }
 
-/*@Preview
-@Composable
-fun Preview2() {
-    ConstraintScreen(rememberNavController())
-}*/
+//@Preview
+//@Composable
+//fun Preview2() {
+//    ConstraintScreen(rememberNavController(), viewModel())
+//}
 

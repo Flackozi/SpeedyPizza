@@ -12,6 +12,23 @@ class Repository(private val dao: UserDAO) {
 
     }
 
+    fun SendConstraint(lunedi: Int, martedi: Int, mercoledi: Int, giovedi: Int, venerdi: Int, sabato: Int, domenica: Int) {
+        dao.sendConstraint(lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica)
+    }
+
+    fun SendConstraint(
+        lunedi: Int,
+        martedi: Int,
+        mercoledi: Int,
+        giovedi: Int,
+        venerdi: Int,
+        sabato: Int,
+        domenica: Int
+    ){
+        dao.sendConstraint(lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica)
+
+    }
+
 
 }
 
