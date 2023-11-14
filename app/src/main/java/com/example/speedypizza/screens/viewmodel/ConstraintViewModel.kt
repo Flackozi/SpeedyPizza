@@ -33,7 +33,7 @@ class ConstraintViewModel (application: Application): AndroidViewModel(applicati
         private val application: Application
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return LoginViewModel(application) as T
+            return ConstraintViewModel(application) as T
         }
     }
 }
