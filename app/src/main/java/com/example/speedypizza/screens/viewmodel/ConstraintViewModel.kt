@@ -4,9 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.speedypizza.db.Repository
 import com.example.speedypizza.db.UserDatabase
-import com.example.speedypizza.entity.Constraints
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 
 class ConstraintViewModel (application: Application): AndroidViewModel(application){
     private val repository: Repository
@@ -24,8 +27,12 @@ class ConstraintViewModel (application: Application): AndroidViewModel(applicati
         val venerdi= checkBoxValues[4]
         val sabato= checkBoxValues[5]
         val domenica= checkBoxValues[6]
+        viewModelScope.async (Dispatchers.IO){
+            repository.SendConstraint("giustiniman", lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica)
 
-        repository.SendConstraint(Constraints("giustiniman",lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica))
+        }
+
+        //repository.SendConstraint(Constraints("giustiniman",lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica))
     }
 
     @Suppress("UNCHECKED_CAST")

@@ -59,6 +59,7 @@ import com.example.speedypizza.ui.theme.grigiochiarissimo
 import com.example.speedypizza.ui.theme.start_color
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -283,11 +284,13 @@ fun ElencoGiorni(navController: NavHostController, constraintViewModel: Constrai
             Button(
                 onClick = {
                     //qui ci va il metodo associato al botone
-                    println(GlobalVariables.checkBoxValues)
+                    //println(GlobalVariables.checkBoxValues)
                     CoroutineScope(Dispatchers.Main).launch {
                         constraintViewModel.submit(GlobalVariables.checkBoxValues)
+                        delay(300)
                         navController.navigate("riderHome")
                     }
+
                 },
                 colors =buttonColor,
                 modifier = Modifier
