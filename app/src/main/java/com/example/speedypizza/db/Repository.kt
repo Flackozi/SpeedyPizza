@@ -42,6 +42,14 @@ class Repository(private val dao: UserDAO) {
 
     }
 
+    fun deleteRider(username: String){
+         return dao.deleteRider(username)
+    }
+
+    fun getPhone(nickname: String): String? {
+        return dao.getPhone(nickname)
+    }
+
 
 }
 

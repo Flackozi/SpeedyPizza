@@ -34,5 +34,10 @@ interface UserDAO {
     @Query("SELECT * FROM User WHERE role = 1")
     fun retrieveMyRiders(): List<User>
 
+    @Query("DELETE FROM User WHERE nickname = :username")
+    fun deleteRider(username: String)
+
+    @Query("SELECT phone FROM User WHERE nickname = :nickname")
+    fun getPhone(nickname: String): String?
 
 }

@@ -18,20 +18,43 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
 
     private val loginRepository: Repository
     private val myRiderRepository: Repository
+    private val deleteRider: Repository
+    private val getPhone: Repository
 
     var myRiders: List<User>? = null
     var loggedUser: User? = null
+
+
 
     init {
         val dao = UserDatabase.getInstance(application).userDao()
         loginRepository = Repository(dao)
         myRiderRepository = Repository(dao)
+        deleteRider = Repository(dao)
+        getPhone = Repository(dao)
     }
 
     fun retrieveMyRider() {
         viewModelScope.launch(Dispatchers.IO){
             myRiders = myRiderRepository.retrieveMyRider()
         }
+    }
+
+    fun deleteRider(username: String){
+        viewModelScope.launch(Dispatchers.IO){
+           deleteRider.deleteRider(username)
+        }
+    }
+
+fun getPhone(nickname: String): String? {
+
+       return getPhone.getPhone(nickname)
+
+
+}
+
+    fun getEmail(nickname: String){
+
     }
 
     fun login(username: String, password: String): Deferred<User> {
