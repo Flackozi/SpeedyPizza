@@ -2,6 +2,7 @@ package com.example.speedypizza.screens.admin
 
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -60,6 +61,7 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.speedypizza.R
+import com.example.speedypizza.entity.User
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
@@ -112,7 +114,7 @@ fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
     )
 
     val nicknamesList = viewModel.myRiders!!.map { user -> user.nickname }
-   var phone by remember { mutableStateOf("") }
+    var rider: User? = null
 
 
 
@@ -241,15 +243,17 @@ fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
                             Column(modifier = Modifier.fillMaxWidth()) {
 
                                 Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.padding(all = 5.dp)) {
-                                    Text(text = "Phone:")
-                                    val c = viewModel.getPhone(text)
 
-                                    
-                                        Text(text = c )
+                                    Text(text = "Phone: ")
+
+                                    rider = viewModel.myRiders!!.find { it.nickname == text }
+
+                                    Text(text = rider!!.phone )
 
                                 }
                                 Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.padding(all = 5.dp)) {
-                                    Text(text = "Email:")
+                                    Text(text = "Email: ")
+                                    Text(text = rider!!.email)
                                 }
                             }
 

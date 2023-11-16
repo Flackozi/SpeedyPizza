@@ -1,5 +1,6 @@
 package com.example.speedypizza.db
 
+import android.util.Log
 import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.entity.User
 import com.example.speedypizza.screens.rider.GlobalVariables
@@ -24,16 +25,10 @@ class Repository(private val dao: UserDAO) {
         domenica: Int
     ) {
 //        dao.sendConstraint(nickname, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica)
-        println(nickname)
-        println(lunedi)
-        println(martedi)
-        println(mercoledi)
-        println(giovedi)
-        println(venerdi)
-        println(sabato)
-        println(domenica)
-
-        dao.sendConstraint(Constraints(nickname, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica))
+        Log.d("prova", nickname + lunedi)
+        val constraints = Constraints(nickname, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica)
+        Log.d("provadopo", constraints.nickname)
+        dao.sendConstraint(constraints)
     }
 
     fun retrieveMyRider(): List<User> {
@@ -46,7 +41,7 @@ class Repository(private val dao: UserDAO) {
          return dao.deleteRider(username)
     }
 
-    fun getPhone(nickname: String): String? {
+    fun getPhone(nickname: String): String {
         return dao.getPhone(nickname)
     }
 

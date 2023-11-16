@@ -2,6 +2,7 @@ package com.example.speedypizza.db
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.entity.User
@@ -17,8 +18,9 @@ interface UserDAO {
     fun login(username: String, password: String): User
 
 
-    @Insert(entity = Constraints::class)
-//   @Query("INSERT INTO Constraints (nickname, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica) VALUES (:nickname, :lunedi, :martedi, :mercoledi, :giovedi, :venerdi, :sabato, :domenica)")
+    //@Insert(entity = Constraints::class, onConflict = OnConflictStrategy.REPLACE)
+    //@Query("INSERT INTO Constraints VALUES (:nickname, :lunedi, :martedi, :mercoledi, :giovedi, :venerdi, :sabato, :domenica)")
+    @Insert(entity = Constraints::class, onConflict = OnConflictStrategy.REPLACE)
     fun sendConstraint(
         /*nickname: String,
         lunedi: Int,
@@ -38,6 +40,6 @@ interface UserDAO {
     fun deleteRider(username: String)
 
     @Query("SELECT phone FROM User WHERE nickname = :nickname")
-    fun getPhone(nickname: String): String?
+    fun getPhone(nickname: String): String
 
 }
