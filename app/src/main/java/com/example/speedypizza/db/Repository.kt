@@ -3,7 +3,6 @@ package com.example.speedypizza.db
 import android.util.Log
 import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.entity.User
-import com.example.speedypizza.screens.rider.GlobalVariables
 
 
 class Repository(private val dao: UserDAO) {
@@ -40,11 +39,6 @@ class Repository(private val dao: UserDAO) {
     fun deleteRider(username: String){
          return dao.deleteRider(username)
     }
-
-    fun getPhone(nickname: String): String {
-        return dao.getPhone(nickname)
-    }
-
 
 }
 

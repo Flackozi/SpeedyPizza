@@ -23,7 +23,6 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
 
     var myRiders: List<User>? = null
     var loggedUser: User? = null
-    var phone: String? = null
 
 
 
@@ -47,17 +46,9 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-fun getPhone(nickname: String) {
 
-    viewModelScope.launch(Dispatchers.IO) {
-        phone = getPhone.getPhone(nickname)
-    }
 
-}
 
-    fun getEmail(nickname: String){
-
-    }
 
     fun login(username: String, password: String): Deferred<User> {
 

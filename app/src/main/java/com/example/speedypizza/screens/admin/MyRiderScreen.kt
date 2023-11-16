@@ -2,7 +2,6 @@ package com.example.speedypizza.screens.admin
 
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -56,6 +55,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.navigation.NavHostController
@@ -227,7 +227,7 @@ fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
                     Box( modifier = Modifier
                         .background(Color.LightGray, shape = RoundedCornerShape(16.dp))
                         .width(350.dp)
-                        .height(200.dp)
+                        .height(150.dp)
                         .padding(all = 14.dp)
                     ){
                         Column(
@@ -259,9 +259,9 @@ fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
 
 
 
-
                             Spacer(modifier = Modifier
-                                .height(100.dp))
+                                .fillMaxWidth()
+                                .height(15.dp))
 
                             Row {
 
@@ -273,7 +273,9 @@ fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
                                         .height(40.dp)
 
                                 ) {
-                                    Text(text = "Delete Rider")
+                                    Text(text = "Delete to My Rider",
+                                        style = TextStyle(fontSize = 12.sp)
+                                        )
                                 }
                                 Spacer(modifier = Modifier
                                     .width(30.dp))
@@ -286,7 +288,9 @@ fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
                                         .height(40.dp)
 
                                 ) {
-                                    Text(text = "Add Rider")
+                                    Text(text = "Add to My Rider",
+                                        style = TextStyle(fontSize = 12.sp)
+                                        )
                                 }
 
                             }

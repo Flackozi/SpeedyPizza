@@ -39,7 +39,6 @@ interface UserDAO {
     @Query("DELETE FROM User WHERE nickname = :username")
     fun deleteRider(username: String)
 
-    @Query("SELECT phone FROM User WHERE nickname = :nickname")
-    fun getPhone(nickname: String): String
+
 
 }
