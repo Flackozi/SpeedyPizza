@@ -96,7 +96,9 @@ class MainActivity : ComponentActivity() {
                        composable("profilePage"){ ProfileScreen(navController,viewModel)}
                        composable("shiftPage"){ ShiftsPage(navController, viewModel) }
                        composable("constraintsPage"){ ConstraintScreen(navController,viewModel, constraintViewModel) }
-                       composable("myRiderPage"){ MyRiderScreen(navController,viewModel) }
+                       composable("myRiderPage"){
+                           viewModel.retrieveMyRider()
+                           MyRiderScreen(navController,viewModel) }
                        composable("CreateCalendarPage"){ CreateCalendar(navController,viewModel)}
 
 

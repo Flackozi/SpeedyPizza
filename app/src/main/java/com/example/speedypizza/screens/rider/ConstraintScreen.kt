@@ -287,7 +287,7 @@ fun ElencoGiorni(navController: NavHostController, constraintViewModel: Constrai
                     //println(GlobalVariables.checkBoxValues)
                     CoroutineScope(Dispatchers.Main).launch {
                         constraintViewModel.submit(GlobalVariables.checkBoxValues)
-                        delay(300)
+                        //delay(300)
                         navController.navigate("riderHome")
                     }
 

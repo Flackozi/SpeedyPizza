@@ -9,7 +9,7 @@ import com.example.speedypizza.entity.User
 
 @Database(
     entities = [User::class, Constraints::class],
-    version = 2
+    version = 3
 )
 
 abstract class UserDatabase: RoomDatabase() {
