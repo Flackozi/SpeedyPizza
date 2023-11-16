@@ -27,7 +27,7 @@ abstract class UserDatabase: RoomDatabase() {
                     "speedypizza.db"
                 )
                     .fallbackToDestructiveMigration()
-                    .createFromAsset("speedypizza.db")
+                    //.createFromAsset("speedypizza.db")
                     .build()
             }
             return db as UserDatabase

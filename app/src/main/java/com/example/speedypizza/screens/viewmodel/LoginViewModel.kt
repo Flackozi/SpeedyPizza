@@ -20,6 +20,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
     private val myRiderRepository: Repository
     private val deleteRider: Repository
     private val getPhone: Repository
+    private val addRider: Repository
 
     var myRiders: List<User>? = null
     var loggedUser: User? = null
@@ -32,6 +33,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
         myRiderRepository = Repository(dao)
         deleteRider = Repository(dao)
         getPhone = Repository(dao)
+        addRider = Repository(dao)
     }
 
     fun retrieveMyRider() {
@@ -44,6 +46,13 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
         viewModelScope.launch(Dispatchers.IO){
            deleteRider.deleteRider(username)
         }
+    }
+
+    fun addRider(username: String){
+        viewModelScope.launch(Dispatchers.IO){
+            addRider.addRider(username)
+        }
+
     }
 
 

@@ -70,6 +70,9 @@ import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.search
 import com.example.speedypizza.ui.theme.start_color
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -114,6 +117,7 @@ fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
     )
 
     val nicknamesList = viewModel.myRiders!!.map { user -> user.nickname }
+    val myRider = viewModel.myRiders!!.filter {it.role == 1}.map { it.nickname }
     var rider: User? = null
 
 
@@ -266,7 +270,14 @@ fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
                             Row {
 
                                 Button(
-                                    onClick = {popupControl = false},
+                                    onClick = {
+                                        popupControl = false
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            viewModel.deleteRider(text)
+                                        }
+                                        viewModel.retrieveMyRider()
+                                        navController.navigate("myRiderPage")
+                                    },
                                     colors = ButtonDefaults.buttonColors(start_color),
                                     modifier = Modifier
                                         .width(150.dp)
@@ -281,7 +292,14 @@ fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
                                     .width(30.dp))
 
                                 Button(
-                                    onClick = {popupControl = false},
+                                    onClick = {popupControl = false
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            viewModel.addRider(text)
+                                        }
+                                        viewModel.retrieveMyRider()
+                                        navController.navigate("myRiderPage")
+
+                                              },
                                     colors = ButtonDefaults.buttonColors(Color.Black),
                                     modifier = Modifier
                                         .width(150.dp)
@@ -335,7 +353,7 @@ fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
             contentPadding = PaddingValues(horizontal = 20.dp)
             ){
 
-            items(nicknamesList)
+            items(myRider)
             { name->
                 Box(){
                     Column(horizontalAlignment = Alignment.CenterHorizontally,

@@ -33,12 +33,12 @@ interface UserDAO {
         constraints: Constraints
     )
 
-    @Query("SELECT * FROM User WHERE role = 1")
+    @Query("SELECT * FROM User WHERE role = 1 or role = 3")
     fun retrieveMyRiders(): List<User>
 
-    @Query("DELETE FROM User WHERE nickname = :username")
+    @Query("UPDATE User SET role = 3 WHERE nickname = :username")
     fun deleteRider(username: String)
 
-
-
+    @Query("UPDATE User SET role = 1 WHERE nickname =:username")
+    fun addRider(username: String)
 }

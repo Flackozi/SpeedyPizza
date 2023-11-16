@@ -40,6 +40,10 @@ class Repository(private val dao: UserDAO) {
          return dao.deleteRider(username)
     }
 
+    fun addRider(username: String){
+        return dao.addRider(username)
+    }
+
 }
 
 
