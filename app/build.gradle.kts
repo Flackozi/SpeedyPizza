@@ -4,6 +4,7 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.google.devtools.ksp")
+    //id("android.room")
 }
 
 
@@ -22,6 +23,13 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
         }
     }
 

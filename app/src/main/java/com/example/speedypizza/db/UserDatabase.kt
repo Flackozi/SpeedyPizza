@@ -1,15 +1,22 @@
 package com.example.speedypizza.db
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
+import androidx.room.DeleteColumn
+import androidx.room.RenameColumn
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
+import androidx.room.migration.AutoMigrationSpec
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.entity.User
 
 @Database(
     entities = [User::class, Constraints::class],
-    version = 3
+    version = 5,
+    autoMigrations = [AutoMigration(4,5, spec = UserDatabase.MigrazioneConstraints::class)],
+    exportSchema = true
 )
 
 abstract class UserDatabase: RoomDatabase() {
@@ -26,12 +33,23 @@ abstract class UserDatabase: RoomDatabase() {
                     UserDatabase::class.java,
                     "speedypizza.db"
                 )
-                    .fallbackToDestructiveMigration()
+                    //.fallbackToDestructiveMigration()
                     //.createFromAsset("speedypizza.db")
+                    //.addAutoMigrationSpec()
                     .build()
             }
             return db as UserDatabase
         }
     }
+
+    @RenameColumn(tableName = "Constraints", fromColumnName = "cc", toColumnName = "max")
+    @DeleteColumn(tableName = "Constraints", columnName = "cc")
+    class MigrazioneConstraints: AutoMigrationSpec{
+        @Override
+        override fun onPostMigrate(db: SupportSQLiteDatabase) {
+            super.onPostMigrate(db)
+        }
+    }
+
 
 }

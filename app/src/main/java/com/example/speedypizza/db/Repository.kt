@@ -25,7 +25,7 @@ class Repository(private val dao: UserDAO) {
     ) {
 //        dao.sendConstraint(nickname, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica)
         Log.d("prova", nickname + lunedi)
-        val constraints = Constraints(nickname, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica)
+        val constraints = Constraints(nickname, 4, 5, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica)
         Log.d("provadopo", constraints.nickname)
         dao.sendConstraint(constraints)
     }

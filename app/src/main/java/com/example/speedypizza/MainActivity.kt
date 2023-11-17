@@ -59,9 +59,8 @@ class MainActivity : ComponentActivity() {
                var user: User? = null
                /*var user = User("","","","","","",0)
 
-
-
                profile.nickname = sharedPreferencesProfile.*/
+
 
                val viewModel: LoginViewModel = viewModel(factory = LoginViewModel.LoginViewModelFactory(context.applicationContext as Application))
                val constraintViewModel: ConstraintViewModel= viewModel(factory=ConstraintViewModel.ConstraintViewModelFactory(context.applicationContext as Application))

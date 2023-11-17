@@ -1,0 +1,150 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "7ae315aacd4947ad47ec50e0bb61bec6",
+    "entities": [
+      {
+        "tableName": "User",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`nickname` TEXT NOT NULL, `name` TEXT NOT NULL, `surname` TEXT NOT NULL, `password` TEXT NOT NULL, `phone` TEXT NOT NULL, `email` TEXT NOT NULL, `role` INTEGER NOT NULL, PRIMARY KEY(`nickname`))",
+        "fields": [
+          {
+            "fieldPath": "nickname",
+            "columnName": "nickname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "surname",
+            "columnName": "surname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phone",
+            "columnName": "phone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "role",
+            "columnName": "role",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "nickname"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Constraints",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`nickname` TEXT NOT NULL, `cc` INTEGER, `lunedi` INTEGER NOT NULL, `martedi` INTEGER NOT NULL, `mercoledi` INTEGER NOT NULL, `giovedi` INTEGER NOT NULL, `venerdi` INTEGER NOT NULL, `sabato` INTEGER NOT NULL, `domenica` INTEGER NOT NULL, PRIMARY KEY(`nickname`), FOREIGN KEY(`nickname`) REFERENCES `User`(`nickname`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "nickname",
+            "columnName": "nickname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cc",
+            "columnName": "cc",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lunedi",
+            "columnName": "lunedi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "martedi",
+            "columnName": "martedi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mercoledi",
+            "columnName": "mercoledi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "giovedi",
+            "columnName": "giovedi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "venerdi",
+            "columnName": "venerdi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sabato",
+            "columnName": "sabato",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "domenica",
+            "columnName": "domenica",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "nickname"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "nickname"
+            ],
+            "referencedColumns": [
+              "nickname"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ae315aacd4947ad47ec50e0bb61bec6')"
+    ]
+  }
+}
