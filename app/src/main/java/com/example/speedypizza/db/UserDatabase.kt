@@ -15,7 +15,7 @@ import com.example.speedypizza.entity.User
 @Database(
     entities = [User::class, Constraints::class],
     version = 5,
-    autoMigrations = [AutoMigration(4,5, spec = UserDatabase.MigrazioneConstraints::class)],
+    autoMigrations = [AutoMigration(3,5, spec = UserDatabase.MigrazioneConstraints::class)],
     exportSchema = true
 )
 

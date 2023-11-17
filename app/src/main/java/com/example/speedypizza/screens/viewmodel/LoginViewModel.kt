@@ -12,17 +12,12 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class LoginViewModel(application: Application): AndroidViewModel(application){
 
     private val loginRepository: Repository
-    private val myRiderRepository: Repository
-    private val deleteRider: Repository
-    private val getPhone: Repository
-    private val addRider: Repository
 
-    var myRiders: List<User>? = null
+
     var loggedUser: User? = null
 
 
@@ -30,34 +25,8 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
     init {
         val dao = UserDatabase.getInstance(application).userDao()
         loginRepository = Repository(dao)
-        myRiderRepository = Repository(dao)
-        deleteRider = Repository(dao)
-        getPhone = Repository(dao)
-        addRider = Repository(dao)
-    }
-
-    fun retrieveMyRider() {
-        viewModelScope.launch(Dispatchers.IO){
-            myRiders = myRiderRepository.retrieveMyRider()
-        }
-    }
-
-    fun deleteRider(username: String){
-        viewModelScope.launch(Dispatchers.IO){
-           deleteRider.deleteRider(username)
-        }
-    }
-
-    fun addRider(username: String){
-        viewModelScope.launch(Dispatchers.IO){
-            addRider.addRider(username)
-        }
 
     }
-
-
-
-
 
     fun login(username: String, password: String): Deferred<User> {
 

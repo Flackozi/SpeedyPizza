@@ -1,8 +1,6 @@
 package com.example.speedypizza.screens.admin
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -272,8 +270,7 @@ fun PrimoMenu(navController: NavHostController) {
                 .fillMaxWidth()
                 .height(240.dp)
                 .padding(10.dp)
-                .shadow(elevation=3.dp)
-                .border(BorderStroke(width = 3.dp, color = Color.LightGray))
+                //.border(BorderStroke(width = 3.dp, color = Color.LightGray))
                 .background(Color.Transparent)
         ){
 //                Spacer(modifier=Modifier.height(3.dp))

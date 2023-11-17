@@ -32,8 +32,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
@@ -65,6 +63,7 @@ import com.example.speedypizza.entity.User
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.screens.viewmodel.MyRiderViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -76,7 +75,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun MyRiderScreen(navController: NavHostController, viewModel: LoginViewModel) {
+fun MyRiderScreen(navController: NavHostController, viewModel: LoginViewModel, myRiderViewModel: MyRiderViewModel) {
 
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color),
@@ -95,7 +94,7 @@ fun MyRiderScreen(navController: NavHostController, viewModel: LoginViewModel) {
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp))
-            MyRiderInfo(viewModel, navController)
+            MyRiderInfo(myRiderViewModel, navController)
         }
     }
 }
@@ -106,7 +105,7 @@ fun MyRiderScreen(navController: NavHostController, viewModel: LoginViewModel) {
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
+fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
 
 
     var popupControl by remember { mutableStateOf(false) }
@@ -416,35 +415,6 @@ fun MyRiderInfo(viewModel: LoginViewModel, navController: NavHostController) {
             .fillMaxWidth()
             .height(10.dp))
 
-        //add rider
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Box(modifier = Modifier.offset(x=45.dp)){
-                IconButton(
-                    onClick = { /*aggiungi rider*/ },
-                    //shape = CircleShape,
-                    modifier = Modifier.background(color = Color.LightGray, shape = MaterialTheme.shapes.extraLarge)
-                    //colors = ButtonDefaults.buttonColors(start_color)
-                ) {
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_add_24),
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                        tint = start_color
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier
-                .width(50.dp))
-
-            Text(text = "Add new rider", color = start_color,
-                style = TextStyle(
-                    fontFamily = FontFamily(Font(R.font.lato)),
-                ),
-                modifier = Modifier.align(Alignment.CenterVertically)
-                )
-        }
 
         //rider che conosco
         LazyColumn(
