@@ -1,9 +1,7 @@
 package com.example.speedypizza.screens.rider
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -284,8 +282,8 @@ fun Bottoni(navController: NavHostController) {
                 .fillMaxWidth()
                 .height(240.dp)
                 .padding(10.dp)
-                .shadow(elevation=3.dp)
-                .border(BorderStroke(width = 3.dp, color = Color.LightGray))
+                //.shadow(elevation=3.dp)
+                //.border(BorderStroke(width = 3.dp, color = Color.LightGray))
                 .background(Color.Transparent)
         ){
 //                Spacer(modifier=Modifier.height(3.dp))
