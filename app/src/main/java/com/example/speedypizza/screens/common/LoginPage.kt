@@ -53,8 +53,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.db.Repository
+import com.example.speedypizza.db.UserDatabase
 import com.example.speedypizza.entity.User
-import com.example.speedypizza.db.SpeedyPizzaDatabase
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -88,7 +88,7 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
     }
 
     val context = LocalContext.current
-    val db = SpeedyPizzaDatabase.getInstance(context)
+    val db = UserDatabase.getInstance(context)
     val repository = Repository(db.userDao())
 
 

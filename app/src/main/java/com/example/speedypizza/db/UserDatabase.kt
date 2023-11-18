@@ -1,22 +1,17 @@
 package com.example.speedypizza.db
 
 import android.content.Context
-import androidx.room.AutoMigration
 import androidx.room.Database
-import androidx.room.DeleteColumn
-import androidx.room.RenameColumn
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
-import androidx.room.migration.AutoMigrationSpec
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.entity.User
 
 @Database(
     entities = [User::class, Constraints::class],
-    version = 5,
-    autoMigrations = [AutoMigration(3,5, spec = UserDatabase.MigrazioneConstraints::class)],
-    exportSchema = true
+    version = 6,
+    /*autoMigrations = [AutoMigration(3,5, spec = UserDatabase.MigrazioneConstraints::class)],
+    exportSchema = true*/
 )
 
 abstract class UserDatabase: RoomDatabase() {
@@ -33,8 +28,8 @@ abstract class UserDatabase: RoomDatabase() {
                     UserDatabase::class.java,
                     "speedypizza.db"
                 )
-                    //.fallbackToDestructiveMigration()
-                    //.createFromAsset("speedypizza.db")
+                    .fallbackToDestructiveMigration()
+                    .createFromAsset("speedypizza.db")
                     //.addAutoMigrationSpec()
                     .build()
             }
@@ -42,14 +37,14 @@ abstract class UserDatabase: RoomDatabase() {
         }
     }
 
-    @RenameColumn(tableName = "Constraints", fromColumnName = "cc", toColumnName = "max")
-    @DeleteColumn(tableName = "Constraints", columnName = "cc")
-    class MigrazioneConstraints: AutoMigrationSpec{
-        @Override
-        override fun onPostMigrate(db: SupportSQLiteDatabase) {
-            super.onPostMigrate(db)
-        }
-    }
+    /* @RenameColumn(tableName = "Constraints", fromColumnName = "cc", toColumnName = "max")
+     @DeleteColumn(tableName = "Constraints", columnName = "cc")
+     class MigrazioneConstraints: AutoMigrationSpec{
+         @Override
+         override fun onPostMigrate(db: SupportSQLiteDatabase) {
+             super.onPostMigrate(db)
+         }
+     }*/
 
 
 }
