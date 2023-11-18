@@ -1,55 +1,50 @@
 package com.example.speedypizza.db
 
 import android.content.Context
-import androidx.room.AutoMigration
 import androidx.room.Database
-import androidx.room.DeleteColumn
-import androidx.room.RenameColumn
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
-import androidx.room.migration.AutoMigrationSpec
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.entity.User
 
 @Database(
     entities = [User::class, Constraints::class],
-    version = 5,
-    autoMigrations = [AutoMigration(4,5, spec = UserDatabase.MigrazioneConstraints::class)],
+    version = 6,
+    //autoMigrations = [AutoMigration(4,5, spec = SpeedyPizzaDatabase.MigrazioneConstraints::class)],
     exportSchema = true
 )
 
-abstract class UserDatabase: RoomDatabase() {
+abstract class SpeedyPizzaDatabase: RoomDatabase() {
 
     abstract fun userDao(): UserDAO
 
     companion object{
-        private var db: UserDatabase? = null
+        private var db: SpeedyPizzaDatabase? = null
 
-        fun getInstance(context: Context): UserDatabase{
+        fun getInstance(context: Context): SpeedyPizzaDatabase{
             if(db==null){
                 db = databaseBuilder(
                     context,
-                    UserDatabase::class.java,
+                    SpeedyPizzaDatabase::class.java,
                     "speedypizza.db"
                 )
-                    //.fallbackToDestructiveMigration()
-                    //.createFromAsset("speedypizza.db")
+                    .fallbackToDestructiveMigration()
+                    .createFromAsset("speedypizza.db")
                     //.addAutoMigrationSpec()
                     .build()
             }
-            return db as UserDatabase
+            return db as SpeedyPizzaDatabase
         }
     }
 
-    @RenameColumn(tableName = "Constraints", fromColumnName = "cc", toColumnName = "max")
+    /*@RenameColumn(tableName = "Constraints", fromColumnName = "cc", toColumnName = "max")
     @DeleteColumn(tableName = "Constraints", columnName = "cc")
     class MigrazioneConstraints: AutoMigrationSpec{
         @Override
         override fun onPostMigrate(db: SupportSQLiteDatabase) {
             super.onPostMigrate(db)
         }
-    }
+    }*/
 
 
 }

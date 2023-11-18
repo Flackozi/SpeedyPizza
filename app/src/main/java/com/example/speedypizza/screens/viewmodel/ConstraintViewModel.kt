@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.speedypizza.db.Repository
-import com.example.speedypizza.db.UserDatabase
-import com.example.speedypizza.entity.Constraints
+import com.example.speedypizza.db.SpeedyPizzaDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -15,7 +14,7 @@ class ConstraintViewModel (application: Application): AndroidViewModel(applicati
     private val repository: Repository
 
     init {
-        val dao = UserDatabase.getInstance(application).userDao()
+        val dao = SpeedyPizzaDatabase.getInstance(application).userDao()
         repository = Repository(dao)
     }
 

@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -55,14 +54,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.db.Repository
 import com.example.speedypizza.entity.User
-import com.example.speedypizza.db.UserDatabase
+import com.example.speedypizza.db.SpeedyPizzaDatabase
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 import com.example.speedypizza.ui.theme.whitebackground
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -90,7 +88,7 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
     }
 
     val context = LocalContext.current
-    val db = UserDatabase.getInstance(context)
+    val db = SpeedyPizzaDatabase.getInstance(context)
     val repository = Repository(db.userDao())
 
 
