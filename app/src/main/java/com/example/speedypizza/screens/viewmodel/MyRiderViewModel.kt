@@ -5,8 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.speedypizza.db.DBGenerator
 import com.example.speedypizza.db.Repository
-import com.example.speedypizza.db.UserDatabase
 import com.example.speedypizza.entity.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +21,7 @@ class MyRiderViewModel(application: Application): AndroidViewModel(application) 
     var myRiders: List<User>? = null
 
     init {
-        val dao = UserDatabase.getInstance(application).userDao()
+        val dao = DBGenerator.getInstance(application).speedyPizzaDao()
         myRiderRepository = Repository(dao)
         deleteRider = Repository(dao)
         getPhone = Repository(dao)

@@ -5,8 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.speedypizza.db.DBGenerator
 import com.example.speedypizza.db.Repository
-import com.example.speedypizza.db.UserDatabase
 import com.example.speedypizza.entity.User
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +23,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
 
 
     init {
-        val dao = UserDatabase.getInstance(application).userDao()
+        val dao = DBGenerator.getInstance(application).speedyPizzaDao()
         loginRepository = Repository(dao)
 
     }

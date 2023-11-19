@@ -22,5 +22,6 @@
     <string name="Your_Turns">Your Turns</string>
     <string name="Send">Send</string>
     <string name="Sent_To_All">Send To All</string>
+    <string name="Username">Username</string>
 
 </resources>

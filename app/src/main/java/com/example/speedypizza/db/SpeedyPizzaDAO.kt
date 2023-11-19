@@ -9,29 +9,16 @@ import com.example.speedypizza.entity.User
 
 
 @Dao
-interface UserDAO {
+interface SpeedyPizzaDAO {
 
-    @Insert
+    @Insert(entity = User::class)
     fun insertUser(user: User)
 
     @Query("SELECT nickname, name, surname, password, phone, email, role  FROM User WHERE nickname = :username and password = :password")
     fun login(username: String, password: String): User
 
-
-    //@Insert(entity = Constraints::class, onConflict = OnConflictStrategy.REPLACE)
-    //@Query("INSERT INTO Constraints VALUES (:nickname, :lunedi, :martedi, :mercoledi, :giovedi, :venerdi, :sabato, :domenica)")
     @Insert(entity = Constraints::class, onConflict = OnConflictStrategy.REPLACE)
-    fun sendConstraint(
-        /*nickname: String,
-        lunedi: Int,
-        martedi: Int,
-        mercoledi: Int,
-        giovedi: Int,
-        venerdi: Int,
-        sabato: Int,
-        domenica: Int*/
-        constraints: Constraints
-    )
+    fun sendConstraint(constraints: Constraints)
 
     @Query("SELECT * FROM User WHERE role = 1 or role = 3")
     fun retrieveMyRiders(): List<User>

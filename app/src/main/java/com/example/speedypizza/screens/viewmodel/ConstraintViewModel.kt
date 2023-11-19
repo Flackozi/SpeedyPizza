@@ -5,8 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.speedypizza.db.DBGenerator
 import com.example.speedypizza.db.Repository
-import com.example.speedypizza.db.UserDatabase
+import com.example.speedypizza.entity.Constraints
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -14,7 +15,7 @@ class ConstraintViewModel (application: Application): AndroidViewModel(applicati
     private val repository: Repository
 
     init {
-        val dao = UserDatabase.getInstance(application).userDao()
+        val dao = DBGenerator.getInstance(application).speedyPizzaDao()
         repository = Repository(dao)
     }
 
@@ -30,7 +31,7 @@ class ConstraintViewModel (application: Application): AndroidViewModel(applicati
         viewModelScope.launch(Dispatchers.IO) {
 
 
-            repository.SendConstraint("giustiniman", lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica )
+            repository.SendConstraint(Constraints("giustiniman", 4, 5, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica ))
         }
     }
 

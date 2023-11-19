@@ -10,22 +10,22 @@ import com.example.speedypizza.entity.User
 @Database(
     entities = [User::class, Constraints::class],
     version = 6,
-    /*autoMigrations = [AutoMigration(3,5, spec = UserDatabase.MigrazioneConstraints::class)],
+    /*autoMigrations = [AutoMigration(3,5, spec = DBGenerator.MigrazioneConstraints::class)],
     exportSchema = true*/
 )
 
-abstract class UserDatabase: RoomDatabase() {
+abstract class DBGenerator: RoomDatabase() {
 
-    abstract fun userDao(): UserDAO
+    abstract fun speedyPizzaDao(): SpeedyPizzaDAO
 
     companion object{
-        private var db: UserDatabase? = null
+        private var db: DBGenerator? = null
 
-        fun getInstance(context: Context): UserDatabase{
+        fun getInstance(context: Context): DBGenerator{
             if(db==null){
                 db = databaseBuilder(
                     context,
-                    UserDatabase::class.java,
+                    DBGenerator::class.java,
                     "speedypizza.db"
                 )
                     .fallbackToDestructiveMigration()
@@ -33,7 +33,7 @@ abstract class UserDatabase: RoomDatabase() {
                     //.addAutoMigrationSpec()
                     .build()
             }
-            return db as UserDatabase
+            return db as DBGenerator
         }
     }
 
