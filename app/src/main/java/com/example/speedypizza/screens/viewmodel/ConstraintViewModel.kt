@@ -19,7 +19,7 @@ class ConstraintViewModel (application: Application): AndroidViewModel(applicati
         repository = Repository(dao)
     }
 
-    fun submit(checkBoxValues: MutableList<Int>) {
+    fun submit(nickname: String, min: Int, max: Int, checkBoxValues: MutableList<Int>) {
         val lunedi= checkBoxValues[0]
         val martedi= checkBoxValues[1]
         val mercoledi= checkBoxValues[2]
@@ -31,7 +31,7 @@ class ConstraintViewModel (application: Application): AndroidViewModel(applicati
         viewModelScope.launch(Dispatchers.IO) {
 
 
-            repository.SendConstraint(Constraints("giustiniman", 4, 5, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica ))
+            repository.SendConstraint(Constraints(nickname, max, min, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica ))
         }
     }
 
