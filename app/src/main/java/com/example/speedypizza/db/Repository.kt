@@ -31,10 +31,6 @@ class Repository(private val dao: SpeedyPizzaDAO) {
         return dao.addRider(username)
     }
 
-    fun insertUser(newUser: User){
-        return dao.insertUser(newUser)
-    }
-
 }
 
 

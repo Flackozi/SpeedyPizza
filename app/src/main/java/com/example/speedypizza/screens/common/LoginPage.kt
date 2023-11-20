@@ -243,9 +243,7 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                         ),
-                        modifier = Modifier.clickable(onClick = {
-                            navController.navigate("newAccountPage")
-                        })
+                        modifier = Modifier.clickable(onClick = {})
                     )
                     Spacer(modifier = Modifier.padding(20.dp))
                 }
