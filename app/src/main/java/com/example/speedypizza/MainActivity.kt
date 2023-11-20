@@ -30,6 +30,7 @@ import com.example.speedypizza.screens.common.ShiftsPage
 import com.example.speedypizza.screens.rider.ConstraintScreen
 import com.example.speedypizza.screens.rider.ExchangeRequests
 import com.example.speedypizza.screens.rider.RiderHomeScreen
+import com.example.speedypizza.screens.viewmodel.CalendarViewModel
 import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.screens.viewmodel.MyRiderViewModel
@@ -66,6 +67,7 @@ class MainActivity : ComponentActivity() {
                val viewModel: LoginViewModel = viewModel(factory = LoginViewModel.LoginViewModelFactory(context.applicationContext as Application))
                val constraintViewModel: ConstraintViewModel= viewModel(factory=ConstraintViewModel.ConstraintViewModelFactory(context.applicationContext as Application))
                val myRiderViewModel: MyRiderViewModel = viewModel(factory = MyRiderViewModel.MyRiderViewModelFactory(context.applicationContext as Application))
+               val createCalenadr: CalendarViewModel = viewModel(factory = CalendarViewModel.CalendarViewModelFactory(context.applicationContext as Application))
 
                val gradient = Brush.verticalGradient(
                    colors = listOf(start_color, center_color, end_color ),
@@ -100,7 +102,9 @@ class MainActivity : ComponentActivity() {
                        composable("myRiderPage"){
                            myRiderViewModel.retrieveMyRider()
                            MyRiderScreen(navController,viewModel, myRiderViewModel) }
-                       composable("CreateCalendarPage"){ CreateCalendar(navController,viewModel)}
+                       composable("CreateCalendarPage"){
+                           myRiderViewModel.retrieveMyRider()
+                           CreateCalendar(navController,viewModel, myRiderViewModel, createCalenadr)}
 
 
                    }

@@ -1,6 +1,7 @@
 package com.example.speedypizza.db
 
 import com.example.speedypizza.entity.Constraints
+import com.example.speedypizza.entity.ScheduleItem
 import com.example.speedypizza.entity.User
 
 
@@ -30,6 +31,16 @@ class Repository(private val dao: SpeedyPizzaDAO) {
     fun addRider(username: String){
         return dao.addRider(username)
     }
+
+    fun createCalendar(scheduleItemList: MutableList<ScheduleItem>) {
+        scheduleItemList.forEach{item->
+            dao.createCalendar1(item.day, item.min.toInt(), item.max.toInt())
+            item.rider.forEach{rider->
+                dao.createCalendar2(rider, item.day)
+            }
+        }
+    }
+
 
 }
 

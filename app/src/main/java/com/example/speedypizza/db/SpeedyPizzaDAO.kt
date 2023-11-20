@@ -28,4 +28,10 @@ interface SpeedyPizzaDAO {
 
     @Query("UPDATE User SET role = 1 WHERE nickname =:username")
     fun addRider(username: String)
+
+    @Query("INSERT INTO Shifts VALUES (:rider, :day)")
+    fun createCalendar2(rider: String, day: String)
+
+    @Query("INSERT INTO Days VALUES (:day, :min, :max)")
+    fun createCalendar1(day: String, min: Int, max:Int)
 }

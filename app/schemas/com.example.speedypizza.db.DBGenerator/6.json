@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 6,
-    "identityHash": "1d5fc794ac33ef64666740c39ed3604e",
+    "identityHash": "258b7b1e6f3fa9a45ddc03443a437e46",
     "entities": [
       {
         "tableName": "User",
@@ -145,12 +145,94 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "Shifts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rider` TEXT NOT NULL, `day` TEXT NOT NULL, PRIMARY KEY(`rider`, `day`), FOREIGN KEY(`rider`) REFERENCES `User`(`nickname`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`day`) REFERENCES `Days`(`day`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "rider",
+            "columnName": "rider",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day",
+            "columnName": "day",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "rider",
+            "day"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "rider"
+            ],
+            "referencedColumns": [
+              "nickname"
+            ]
+          },
+          {
+            "table": "Days",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "day"
+            ],
+            "referencedColumns": [
+              "day"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Days",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`day` TEXT NOT NULL, `min` INTEGER NOT NULL, `max` INTEGER NOT NULL, PRIMARY KEY(`day`))",
+        "fields": [
+          {
+            "fieldPath": "day",
+            "columnName": "day",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "min",
+            "columnName": "min",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "max",
+            "columnName": "max",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "day"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1d5fc794ac33ef64666740c39ed3604e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '258b7b1e6f3fa9a45ddc03443a437e46')"
     ]
   }
 }

@@ -5,10 +5,12 @@ import androidx.room.Database
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
 import com.example.speedypizza.entity.Constraints
+import com.example.speedypizza.entity.Days
+import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.entity.User
 
 @Database(
-    entities = [User::class, Constraints::class],
+    entities = [User::class, Constraints::class, Shifts::class, Days::class],
     version = 6,
     /*autoMigrations = [AutoMigration(3,5, spec = DBGenerator.MigrazioneConstraints::class)],
     exportSchema = true*/
@@ -28,8 +30,8 @@ abstract class DBGenerator: RoomDatabase() {
                     DBGenerator::class.java,
                     "speedypizza.db"
                 )
-//                    .fallbackToDestructiveMigration()
-//                    .createFromAsset("speedypizza.db")
+                    .fallbackToDestructiveMigration()
+                    .createFromAsset("speedypizza.db")
                     //.addAutoMigrationSpec()
                     .build()
             }
