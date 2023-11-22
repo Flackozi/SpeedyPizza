@@ -121,7 +121,7 @@ fun ShiftsList() {
 @Composable
 fun DailyItem(day:String){
 
-    val LaunchWorker= listOf("Matt", "Carlo", "Flavio")
+    val LaunchWorker= listOf("Matt", "Carlo", "Flavio", "Francesco", "Andrea", "Mario")
     val DinnerWorker= listOf("Romolo", "Franco", "Sebastiano")
 
     Card(
@@ -138,7 +138,7 @@ fun DailyItem(day:String){
         Column(modifier=Modifier.background(Color.Transparent)) {
             Box(
                 modifier = Modifier
-                    .width(350.dp)
+                    .fillMaxWidth()
                     .height(25.dp)
                     .shadow(elevation = 5.dp)
                     .background(start_color),
