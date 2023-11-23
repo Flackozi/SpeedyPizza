@@ -67,7 +67,7 @@ fun CreateAccountPage(navController: NavHostController, viewModel: LoginViewMode
             ScrittaIniziale(string = "Create Account")
             Spacer(modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp))
+                .height(50.dp))
             CreateAccountInfo(viewModel, navController)
         }
     }
@@ -145,7 +145,7 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
 
         Row(modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp), horizontalArrangement = Arrangement.Center, verticalAlignment =Alignment.CenterVertically) {
+            .height(70.dp), horizontalArrangement = Arrangement.Center, verticalAlignment =Alignment.CenterVertically) {
 
             Checkbox(
                 checked = isChecked,
@@ -153,7 +153,7 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
                 modifier = Modifier.padding(16.dp)
             )
 
-            Text(text = text, modifier = Modifier.width(200.dp))
+            Text(text = text, modifier = Modifier.width(220.dp))
 
         }
         Spacer(
