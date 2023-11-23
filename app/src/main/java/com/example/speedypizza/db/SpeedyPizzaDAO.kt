@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.speedypizza.entity.Constraints
+import com.example.speedypizza.entity.Message
 import com.example.speedypizza.entity.User
 
 
@@ -34,4 +35,9 @@ interface SpeedyPizzaDAO {
 
     @Query("INSERT INTO Days VALUES (:day, :min, :max)")
     fun createCalendar1(day: String, min: Int, max:Int)
+
+    @Query("SELECT messageID, messageText, messageDate, messageReceiver, messageType FROM Message WHERE messageReceiver = :nickname")
+    fun retrieveMessages(nickname: String): List<Message>
+
+
 }

@@ -1,6 +1,7 @@
 package com.example.speedypizza.db
 
 import com.example.speedypizza.entity.Constraints
+import com.example.speedypizza.entity.Message
 import com.example.speedypizza.entity.ScheduleItem
 import com.example.speedypizza.entity.User
 
@@ -43,6 +44,12 @@ class Repository(private val dao: SpeedyPizzaDAO) {
 
     fun insertUser(newUser: User){
         return dao.insertUser(newUser)
+    }
+
+    fun retrieveMessages(nickname: String): List<Message> {
+
+        return dao.retrieveMessages(nickname)
+
     }
 
 
