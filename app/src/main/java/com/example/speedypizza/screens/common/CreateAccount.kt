@@ -196,6 +196,7 @@ fun Item(item: String, profileData: MutableList<String>){
 
     if(item == "Nickname"){
         icon = painterResource(id = R.drawable.baseline_person_outline_24)
+        profileData.add(0, text.value)
     }else if(item == "Name"){
         icon = painterResource(id = R.drawable.baseline_person_outline_24)
         profileData.add(1, text.value)
