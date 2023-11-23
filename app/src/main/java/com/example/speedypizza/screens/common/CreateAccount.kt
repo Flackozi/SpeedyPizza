@@ -37,18 +37,22 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.speedypizza.R
+import com.example.speedypizza.entity.User
 import com.example.speedypizza.screens.rider.ScrittaIniziale
+import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.start_color
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
-@Preview
 @Composable
-fun CreateAccountPage(){
+fun CreateAccountPage(navController: NavHostController, viewModel: LoginViewModel) {
 
 
     Box(
@@ -64,18 +68,20 @@ fun CreateAccountPage(){
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp))
-            CreateAccountInfo()
+            CreateAccountInfo(viewModel, navController)
         }
     }
 
 }
 
 @Composable
-fun CreateAccountInfo(){
+fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostController){
 
-    var itemList = listOf("Nickname", "Name", "Surname", "Phone", "Email", "Password")
+    val itemList = listOf("Nickname", "Name", "Surname", "Phone", "Email", "Password")
     var isChecked by remember { mutableStateOf(false) }
     val buttonColor = ButtonDefaults.buttonColors(start_color)
+    val profileData: MutableList<String> = mutableListOf("", "", "", "", "", "")
+
 
     val text = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Color.Black)) {
@@ -130,14 +136,16 @@ fun CreateAccountInfo(){
 
 
         itemList.forEach{item ->
-            Item(item)
+            Item(item, profileData)
             Spacer(
                 modifier = Modifier
                     .height(10.dp)
             )
         }
 
-        Row(modifier = Modifier.fillMaxWidth().height(50.dp), horizontalArrangement = Arrangement.Center, verticalAlignment =Alignment.CenterVertically) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp), horizontalArrangement = Arrangement.Center, verticalAlignment =Alignment.CenterVertically) {
 
             Checkbox(
                 checked = isChecked,
@@ -153,7 +161,16 @@ fun CreateAccountInfo(){
                 .height(15.dp)
         )
         Button(
-            onClick = { /*creazione account*/ },
+            onClick = {
+
+                CoroutineScope(Dispatchers.Main).launch {
+
+                    viewModel.createAccount(User(profileData[0], profileData[1], profileData[2], profileData[5], profileData[3], profileData[4], 1))
+                    navController.navigate("riderHome")
+                }
+
+
+            },
             colors = buttonColor,
             modifier = Modifier
                 .width(230.dp)
@@ -171,26 +188,35 @@ fun CreateAccountInfo(){
 }
 
 @Composable
-fun Item(item: String){
+fun Item(item: String, profileData: MutableList<String>){
 
     val icon: Painter
 
     val text = remember { mutableStateOf("") }
 
-    if(item == "Nickname" || item == "Name" || item == "Surname"){
+    if(item == "Nickname"){
         icon = painterResource(id = R.drawable.baseline_person_outline_24)
+    }else if(item == "Name"){
+        icon = painterResource(id = R.drawable.baseline_person_outline_24)
+        profileData.add(1, text.value)
+    }else if(item == "Surname") {
+        icon = painterResource(id = R.drawable.baseline_person_outline_24)
+        profileData.add(2, text.value)
     }else if(item == "Phone"){
-         icon = painterResource(id = R.drawable.baseline_contact_phone_24)
+        icon = painterResource(id = R.drawable.baseline_contact_phone_24)
+        profileData.add(3, text.value)
     }else if(item == "Email"){
-         icon = painterResource(id = R.drawable.baseline_mail_outline_24)
+        icon = painterResource(id = R.drawable.baseline_mail_outline_24)
+        profileData.add(4, text.value)
     }else{
-         icon = painterResource(id = R.drawable.baseline_lock_24)
+        icon = painterResource(id = R.drawable.baseline_lock_24)
+        profileData.add(5, text.value)
     }
 
     Row (
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp),
+            .height(56.dp),
         horizontalArrangement = Arrangement.Center
         ){
 
@@ -203,7 +229,8 @@ fun Item(item: String){
             modifier = Modifier.fillMaxWidth(0.8f),
             trailingIcon = {
                 Icon(painter = icon, contentDescription = null)
-            }
+            },
+            textStyle = TextStyle(fontSize = 12.sp)
         )
     }
 }

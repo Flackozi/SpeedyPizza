@@ -23,6 +23,7 @@ import com.example.speedypizza.entity.User
 import com.example.speedypizza.screens.admin.AdminDashboard
 import com.example.speedypizza.screens.admin.CreateCalendar
 import com.example.speedypizza.screens.admin.MyRiderScreen
+import com.example.speedypizza.screens.common.CreateAccountPage
 import com.example.speedypizza.screens.common.LoginPage
 import com.example.speedypizza.screens.common.ProfileScreen
 import com.example.speedypizza.screens.common.SchermataMessaggi
@@ -105,6 +106,7 @@ class MainActivity : ComponentActivity() {
                        composable("CreateCalendarPage"){
                            myRiderViewModel.retrieveMyRider()
                            CreateCalendar(navController,viewModel, myRiderViewModel, createCalenadr)}
+                       composable("newAccountPage") { CreateAccountPage(navController, viewModel) }
 
 
                    }

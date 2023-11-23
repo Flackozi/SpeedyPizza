@@ -38,7 +38,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -51,7 +50,9 @@ import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -65,7 +66,7 @@ fun ProfileScreen(navController: NavHostController, viewModel: LoginViewModel) {
     )
     val imageUri = rememberSaveable{ mutableStateOf("") }
     val painter = rememberAsyncImagePainter(
-        imageUri.value.ifEmpty{R.drawable.baseline_person_2_24}
+        imageUri.value.ifEmpty{ R.drawable.baseline_person_2_24 }
     )
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -87,7 +88,7 @@ fun ProfileScreen(navController: NavHostController, viewModel: LoginViewModel) {
             }
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                BarraSuperioreProfile()
+                BarraSuperioreProfile(navController,viewModel)
 
                 Image(painter = painter,
                     contentDescription = null,
@@ -145,7 +146,7 @@ fun ProfileScreen(navController: NavHostController, viewModel: LoginViewModel) {
             Row (modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .height(500.dp)){
-                ProfileInfo(viewModel)
+                ProfileInfo(navController,viewModel)
             }
 
         }
@@ -153,7 +154,7 @@ fun ProfileScreen(navController: NavHostController, viewModel: LoginViewModel) {
 }
 
 @Composable
-fun ProfileInfo(viewModel: LoginViewModel) {
+fun ProfileInfo(navController: NavHostController, viewModel: LoginViewModel) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom,
@@ -185,30 +186,52 @@ fun ProfileInfo(viewModel: LoginViewModel) {
                     contentAlignment = Alignment.CenterStart
                 ){
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_lock_open_24),
-                        contentDescription = "Lock Open",
+                        painter = painterResource(id = R.drawable.baseline_person_outline_24),
+                        contentDescription = "person name",
                         modifier = Modifier
                             .size(30.dp)
                             .offset(x = 15.dp),
                         tint = start_color
                     )
 
-                    Text(text = "Password",
+                    Text(text = viewModel.loggedUser!!.name,
                         modifier = Modifier.offset(x=60.dp),
                         fontSize = 18.sp,
                         color = arrowProfile,
                         fontWeight = FontWeight.Bold
                     )
 
+
+                }
+
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp))
+
+                Box(modifier = Modifier
+                    .width(330.dp)
+                    .height(60.dp)
+                    .background(
+                        Color.LightGray,
+                        shape = RoundedCornerShape(15.dp)
+                    ),
+                    contentAlignment = Alignment.CenterStart
+                ){
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
-                        contentDescription = "arrow",
+                        painter = painterResource(id = R.drawable.baseline_person_outline_24),
+                        contentDescription = "person surname",
                         modifier = Modifier
-                            .size(45.dp)
-                            .offset(x = 275.dp),
-                        tint = arrowProfile
+                            .size(30.dp)
+                            .offset(x = 15.dp),
+                        tint = start_color
                     )
 
+                    Text(text = viewModel.loggedUser!!.surname,
+                        modifier = Modifier.offset(x=60.dp),
+                        fontSize = 18.sp,
+                        color = arrowProfile,
+                        fontWeight = FontWeight.Bold
+                    )
 
 
                 }
@@ -242,14 +265,7 @@ fun ProfileInfo(viewModel: LoginViewModel) {
                         fontWeight = FontWeight.Bold
                     )
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
-                        contentDescription = "arrow",
-                        modifier = Modifier
-                            .size(45.dp)
-                            .offset(x = 275.dp),
-                        tint = arrowProfile
-                    )
+
                 }
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
@@ -280,14 +296,7 @@ fun ProfileInfo(viewModel: LoginViewModel) {
                         fontWeight = FontWeight.Bold
                     )
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
-                        contentDescription = "arrow",
-                        modifier = Modifier
-                            .size(45.dp)
-                            .offset(x = 275.dp),
-                        tint = arrowProfile
-                    )
+
                 }
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
@@ -297,9 +306,13 @@ fun ProfileInfo(viewModel: LoginViewModel) {
                     .width(330.dp)
                     .height(60.dp)
                     .background(
-                        Color.LightGray,
+                        Color.LightGray
+                        ,
                         shape = RoundedCornerShape(15.dp)
-                    ),
+                    )
+                    .clickable{
+                        navController.navigate("loginPage")
+                    },
                     contentAlignment = Alignment.CenterStart
                 ){
                     Icon(
@@ -318,14 +331,6 @@ fun ProfileInfo(viewModel: LoginViewModel) {
                         fontWeight = FontWeight.Bold
                     )
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
-                        contentDescription = "arrow",
-                        modifier = Modifier
-                            .size(45.dp)
-                            .offset(x = 275.dp),
-                        tint = arrowProfile
-                    )
                 }
             }
 
@@ -334,9 +339,8 @@ fun ProfileInfo(viewModel: LoginViewModel) {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun BarraSuperioreProfile(){
+fun BarraSuperioreProfile(navController: NavHostController, viewModel: LoginViewModel) {
 
 
 
@@ -358,7 +362,14 @@ fun BarraSuperioreProfile(){
                     painter = painterResource(id = R.drawable.baseline_keyboard_backspace_24),
                     contentDescription = "Profile",
                     modifier = Modifier
-                        .size(40.dp),
+                        .size(40.dp)
+                        .clickable{
+                            CoroutineScope(Dispatchers.Main).launch {
+                                if(viewModel.loggedUser!!.role==1) navController.navigate("riderHome")
+                                else navController.navigate("adminHome")
+                            }
+                        }
+                    ,
                     tint = Color.White
 
                 )
@@ -371,8 +382,4 @@ fun BarraSuperioreProfile(){
     )
 
 }
-/*@Preview
-@Composable
-fun Preview() {
-    ProfileScreen(rememberNavController(), user)
-}*/
+

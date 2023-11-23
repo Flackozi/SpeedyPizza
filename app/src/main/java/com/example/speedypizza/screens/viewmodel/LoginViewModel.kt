@@ -12,6 +12,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LoginViewModel(application: Application): AndroidViewModel(application){
 
@@ -36,6 +37,14 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
             loggedUser= loginRepository.login(username, password)
            // Log.i("valuetry1: ", "daje")
             return@async loggedUser!!
+        }
+    }
+
+    fun createAccount(newUser: User){
+
+        viewModelScope.launch(Dispatchers.IO) {
+            loginRepository.insertUser(newUser)
+            loggedUser = newUser
         }
     }
 
