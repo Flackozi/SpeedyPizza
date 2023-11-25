@@ -7,7 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.speedypizza.db.DBGenerator
 import com.example.speedypizza.db.Repository
-import com.example.speedypizza.entity.ScheduleItem
+import com.example.speedypizza.entity.Days
+import com.example.speedypizza.entity.Shifts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -21,9 +22,9 @@ class CalendarViewModel(application: Application): AndroidViewModel(application)
     }
 
 
-    fun newCalendar(scheduleItemList: MutableList<ScheduleItem>) {
+    fun newCalendar(dayList: MutableList<Days>, shiftList: MutableList<Shifts>) {
         viewModelScope.launch(Dispatchers.IO){
-            newCal.createCalendar(scheduleItemList)
+            newCal.createCalendar(dayList, shiftList)
         }
     }
 

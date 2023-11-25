@@ -1,0 +1,368 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 9,
+    "identityHash": "1f4ac4d01b106e7a67ed9bb6b2e7c359",
+    "entities": [
+      {
+        "tableName": "User",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`nickname` TEXT NOT NULL, `name` TEXT NOT NULL, `surname` TEXT NOT NULL, `password` TEXT NOT NULL, `phone` TEXT NOT NULL, `email` TEXT NOT NULL, `role` INTEGER NOT NULL, PRIMARY KEY(`nickname`))",
+        "fields": [
+          {
+            "fieldPath": "nickname",
+            "columnName": "nickname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "surname",
+            "columnName": "surname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phone",
+            "columnName": "phone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "role",
+            "columnName": "role",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "nickname"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Constraints",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`nickname` TEXT NOT NULL, `max` INTEGER NOT NULL, `min` INTEGER NOT NULL, `lunedi` INTEGER NOT NULL, `martedi` INTEGER NOT NULL, `mercoledi` INTEGER NOT NULL, `giovedi` INTEGER NOT NULL, `venerdi` INTEGER NOT NULL, `sabato` INTEGER NOT NULL, `domenica` INTEGER NOT NULL, PRIMARY KEY(`nickname`), FOREIGN KEY(`nickname`) REFERENCES `User`(`nickname`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "nickname",
+            "columnName": "nickname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "max",
+            "columnName": "max",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "min",
+            "columnName": "min",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lunedi",
+            "columnName": "lunedi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "martedi",
+            "columnName": "martedi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mercoledi",
+            "columnName": "mercoledi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "giovedi",
+            "columnName": "giovedi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "venerdi",
+            "columnName": "venerdi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sabato",
+            "columnName": "sabato",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "domenica",
+            "columnName": "domenica",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "nickname"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "nickname"
+            ],
+            "referencedColumns": [
+              "nickname"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Shifts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rider` TEXT NOT NULL, `day` TEXT NOT NULL, PRIMARY KEY(`rider`, `day`), FOREIGN KEY(`rider`) REFERENCES `User`(`nickname`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`day`) REFERENCES `Days`(`day`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "rider",
+            "columnName": "rider",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day",
+            "columnName": "day",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "rider",
+            "day"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "rider"
+            ],
+            "referencedColumns": [
+              "nickname"
+            ]
+          },
+          {
+            "table": "Days",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "day"
+            ],
+            "referencedColumns": [
+              "day"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Days",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`day` TEXT NOT NULL, `min` INTEGER NOT NULL, `max` INTEGER NOT NULL, PRIMARY KEY(`day`))",
+        "fields": [
+          {
+            "fieldPath": "day",
+            "columnName": "day",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "min",
+            "columnName": "min",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "max",
+            "columnName": "max",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "day"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Message",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`messageID` INTEGER NOT NULL, `messageText` TEXT NOT NULL, `messageDate` TEXT NOT NULL, `messageReceiver` TEXT NOT NULL, `messageType` INTEGER NOT NULL, PRIMARY KEY(`messageID`))",
+        "fields": [
+          {
+            "fieldPath": "messageID",
+            "columnName": "messageID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "messageText",
+            "columnName": "messageText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "messageDate",
+            "columnName": "messageDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "messageReceiver",
+            "columnName": "messageReceiver",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "messageType",
+            "columnName": "messageType",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "messageID"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Exchanges",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sender` TEXT NOT NULL, `receiver` TEXT NOT NULL, `senderShift` TEXT NOT NULL, `receiverShift` TEXT NOT NULL, PRIMARY KEY(`sender`, `receiver`, `senderShift`, `receiverShift`), FOREIGN KEY(`sender`) REFERENCES `User`(`nickname`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`receiver`) REFERENCES `User`(`nickname`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`senderShift`) REFERENCES `Days`(`day`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`receiverShift`) REFERENCES `Days`(`day`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "sender",
+            "columnName": "sender",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "receiver",
+            "columnName": "receiver",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "senderShift",
+            "columnName": "senderShift",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "receiverShift",
+            "columnName": "receiverShift",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "sender",
+            "receiver",
+            "senderShift",
+            "receiverShift"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sender"
+            ],
+            "referencedColumns": [
+              "nickname"
+            ]
+          },
+          {
+            "table": "User",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "receiver"
+            ],
+            "referencedColumns": [
+              "nickname"
+            ]
+          },
+          {
+            "table": "Days",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "senderShift"
+            ],
+            "referencedColumns": [
+              "day"
+            ]
+          },
+          {
+            "table": "Days",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "receiverShift"
+            ],
+            "referencedColumns": [
+              "day"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1f4ac4d01b106e7a67ed9bb6b2e7c359')"
+    ]
+  }
+}

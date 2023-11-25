@@ -30,8 +30,7 @@ class ConstraintViewModel (application: Application): AndroidViewModel(applicati
 
         viewModelScope.launch(Dispatchers.IO) {
 
-
-            repository.SendConstraint(Constraints(nickname, max, min, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica ))
+            repository.sendConstraint(Constraints(nickname, max, min, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica ))
         }
     }
 

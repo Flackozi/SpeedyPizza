@@ -1,8 +1,9 @@
 package com.example.speedypizza.db
 
 import com.example.speedypizza.entity.Constraints
+import com.example.speedypizza.entity.Days
 import com.example.speedypizza.entity.Message
-import com.example.speedypizza.entity.ScheduleItem
+import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.entity.User
 
 
@@ -14,7 +15,7 @@ class Repository(private val dao: SpeedyPizzaDAO) {
         return dao.login(username, password)
 
     }
-    fun SendConstraint(constraints: Constraints) {
+    fun sendConstraint(constraints: Constraints) {
 
         dao.sendConstraint(constraints)
     }
@@ -33,13 +34,24 @@ class Repository(private val dao: SpeedyPizzaDAO) {
         return dao.addRider(username)
     }
 
-    fun createCalendar(scheduleItemList: MutableList<ScheduleItem>) {
-        scheduleItemList.forEach{item->
-            dao.createCalendar1(item.day, item.min.toInt(), item.max.toInt())
-            item.rider.forEach{rider->
+    fun createCalendar(dayList: MutableList<Days>, shiftList: MutableList<Shifts>) {
+
+        dao.deleteExchanges()
+        dao.deleteShifts()
+        dao.deleteDays()
+        dao.deleteNotifications()
+
+        dayList.forEach { day ->
+            dao.createCalendar1(day)
+        }
+
+        shiftList.forEach { shift ->
+            dao.createCalendar2(shift)
+        }
+           /* item.rider.forEach{rider->
                 dao.createCalendar2(rider, item.day)
             }
-        }
+        }*/
     }
 
     fun insertUser(newUser: User){

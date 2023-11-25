@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -38,10 +39,13 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.speedypizza.entity.Days
 import com.example.speedypizza.entity.ScheduleItem
+import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.CheckBox
 import com.example.speedypizza.screens.rider.ScrittaIniziale
@@ -71,6 +75,9 @@ fun CreateCalendar(
 
     val myRider = myRiderViewModel.myRiders!!.filter {it.role == 1}.map { it.nickname }
     val scheduleItemList = mutableListOf<ScheduleItem>()
+
+    val dayList = mutableListOf<Days>()
+    val shiftList = mutableListOf<Shifts>()
 
     Box(
         modifier = Modifier
@@ -109,7 +116,11 @@ fun CreateCalendar(
 
                 days.forEach { day ->
                     val scheduleItem = DayBox(day, myRider)
-                    scheduleItemList.add(scheduleItem)
+                    dayList.add(scheduleItem.first)
+                    scheduleItem.second.forEach {shift ->
+                        shiftList.add(shift)
+                    }
+                    //scheduleItemList.add(scheduleItem)
                     Spacer(
                         modifier = Modifier
                             .height(10.dp)
@@ -133,7 +144,7 @@ fun CreateCalendar(
                         onClick = {
 
                             CoroutineScope(Dispatchers.Main).launch {
-                                createCalenadr.newCalendar(scheduleItemList)
+                                createCalenadr.newCalendar(dayList, shiftList)
                             }
                         },
                         shape = RoundedCornerShape(
@@ -167,9 +178,11 @@ fun CreateCalendar(
 }
 
 @Composable
-fun DayBox(day: String, myRider: List<String>): ScheduleItem {
+fun DayBox(day: String, myRider: List<String>): Pair<Days, List<Shifts>> {
+
     var textMin = remember { mutableStateOf("") }
     var textMax = remember { mutableStateOf("") }
+    var listaShift: List<Shifts>
 
 
 
@@ -296,6 +309,9 @@ fun DayBox(day: String, myRider: List<String>): ScheduleItem {
                 textStyle = TextStyle(
                     color = Color.Black, // Imposta il colore del testo
                     fontSize = 14.sp
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number
                 )
             )
         }
@@ -332,17 +348,20 @@ fun DayBox(day: String, myRider: List<String>): ScheduleItem {
                 textStyle = TextStyle(
                     color = Color.Black, // Imposta il colore del testo
                     fontSize = 14.sp
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number
                 )
 
             )
         }
 
-
-
-
     }
 
-    return ScheduleItem(day, selectedRiders.toList(), textMin.value, textMax.value)
+    listaShift = selectedRiders.map { rider ->
+        Shifts(rider, day)
+    }
+    return Pair(Days(day, if (textMin.value.isEmpty()) 0 else textMin.value.toInt(), if (textMax.value.isEmpty()) 0 else textMax.value.toInt()), listaShift)//ScheduleItem(day, selectedRiders.toList(), textMin.value, textMax.value)
 }
 /*
 @RequiresApi(Build.VERSION_CODES.Q)
