@@ -1,6 +1,9 @@
 package com.example.speedypizza.db
 
+import android.util.Log
 import com.example.speedypizza.entity.Constraints
+import com.example.speedypizza.entity.Exchanges
+import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.entity.User
 
 
@@ -33,6 +36,31 @@ class Repository(private val dao: SpeedyPizzaDAO) {
 
     fun insertUser(newUser: User){
         return dao.insertUser(newUser)
+    }
+
+    fun retrieveShifts(nickname: String): List<Shifts> {
+        return dao.retrieveShifts(nickname)
+    }
+
+    fun retrieveRequests(nickname: String): List<Exchanges> {
+        return dao.retrieveRequests(nickname)
+    }
+
+    fun deleteRequest(nickname: String, senderName: String, senderShift: String, recieverShift: String) {
+        dao.deleteRequest(nickname, senderName, senderShift, recieverShift)
+    }
+
+    fun updateShift(rider: String, newShift: String, oldShift: String) {
+
+        dao.updateShift(rider, newShift, oldShift)
+    }
+
+    fun deleteOtherRequest(senderName: String, senderShift: String) {
+        dao.deleteOtherRequest(senderName, senderShift)
+    }
+
+    fun newRequest(exchanges: Exchanges) {
+        dao.sendRequest(exchanges)
     }
 
 }

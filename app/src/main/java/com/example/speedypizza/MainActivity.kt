@@ -32,6 +32,7 @@ import com.example.speedypizza.screens.rider.ConstraintScreen
 import com.example.speedypizza.screens.rider.ExchangeRequests
 import com.example.speedypizza.screens.rider.RiderHomeScreen
 import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
+import com.example.speedypizza.screens.viewmodel.ExchangeViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.screens.viewmodel.MyRiderViewModel
 import com.example.speedypizza.ui.theme.SpeedyPizzaTheme
@@ -67,7 +68,7 @@ class MainActivity : ComponentActivity() {
                val viewModel: LoginViewModel = viewModel(factory = LoginViewModel.LoginViewModelFactory(context.applicationContext as Application))
                val constraintViewModel: ConstraintViewModel= viewModel(factory=ConstraintViewModel.ConstraintViewModelFactory(context.applicationContext as Application))
                val myRiderViewModel: MyRiderViewModel = viewModel(factory = MyRiderViewModel.MyRiderViewModelFactory(context.applicationContext as Application))
-
+               val exchangeViewModel: ExchangeViewModel =viewModel(factory=ExchangeViewModel.ExchangeViewModelFactory(context.applicationContext as Application))
                val gradient = Brush.verticalGradient(
                    colors = listOf(start_color, center_color, end_color ),
                    startY = 0f,
@@ -94,7 +95,7 @@ class MainActivity : ComponentActivity() {
                        composable("riderHome") { RiderHomeScreen(navController, viewModel) }
                        composable("messagesPage"){ SchermataMessaggi(navController, viewModel) }
                        composable("adminHome"){ AdminDashboard(navController, viewModel) }
-                       composable("exchangePage"){ ExchangeRequests(navController, viewModel) }
+                       composable("exchangePage"){ ExchangeRequests(navController, viewModel, exchangeViewModel) }
                        composable("profilePage"){ ProfileScreen(navController,viewModel)}
                        composable("shiftPage"){ ShiftsPage(navController, viewModel) }
                        composable("constraintsPage"){ ConstraintScreen(navController,viewModel, constraintViewModel) }

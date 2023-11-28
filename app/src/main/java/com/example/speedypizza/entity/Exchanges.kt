@@ -9,15 +9,12 @@ import androidx.room.PrimaryKey
     ForeignKey(entity=User::class, parentColumns =["nickname"], childColumns = ["receiver"]),
     ForeignKey(entity=Days::class, parentColumns =["day"], childColumns = ["senderShift"]),
     ForeignKey(entity=Days::class, parentColumns =["day"], childColumns = ["receiverShift"])
-]
+],
+    primaryKeys = ["sender", "receiver", "senderShift", "receiverShift"]
 )
 data class Exchanges(
-    @PrimaryKey
     val sender: String,
-    @PrimaryKey
     val receiver: String,
-    @PrimaryKey
     val senderShift:String,
-    @PrimaryKey
     val receiverShift: String
 )

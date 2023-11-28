@@ -5,6 +5,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.speedypizza.entity.Constraints
+import com.example.speedypizza.entity.Exchanges
+import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.entity.User
 
 
@@ -28,4 +30,28 @@ interface SpeedyPizzaDAO {
 
     @Query("UPDATE User SET role = 1 WHERE nickname =:username")
     fun addRider(username: String)
+
+    @Query("SELECT * FROM Shifts WHERE rider=:nickname")
+    fun retrieveShifts(nickname: String): List<Shifts>
+
+    @Query("SELECT * FROM Exchanges WHERE receiver=:nickname")
+    fun retrieveRequests(nickname: String): List<Exchanges>
+
+    @Query("DELETE FROM Exchanges WHERE sender = :senderName AND receiver= :nickname  AND senderShift= :senderShift AND receiverShift= :receiverShift")
+    fun deleteRequest(
+        nickname: String,
+        senderName: String,
+        senderShift: String,
+        receiverShift: String
+    )
+
+    @Query("DELETE FROM Exchanges WHERE (sender= :senderName AND senderShift= :senderShift) OR (receiver= :senderName AND receiverShift= :senderShift)")
+    fun deleteOtherRequest(senderName: String, senderShift: String)
+
+    @Query("UPDATE Shifts SET day = :newShift WHERE rider =:rider AND day= :oldShift")
+    fun updateShift(rider: String, newShift: String, oldShift: String)
+
+    @Insert(entity = Exchanges::class)
+    fun sendRequest(exchanges: Exchanges)
+
 }

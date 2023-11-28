@@ -1,6 +1,7 @@
 package com.example.speedypizza.screens.rider
 
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,7 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -39,6 +40,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -53,20 +55,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import com.example.speedypizza.R
+import com.example.speedypizza.screens.rider.globalExchangeVariables.shiftsList
+import com.example.speedypizza.screens.viewmodel.ExchangeViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.green2
 import com.example.speedypizza.ui.theme.start_color
-
-
+import kotlinx.coroutines.delay
+import java.util.Arrays
 
 
 @Composable
-
-fun ExchangeRequests(navController: NavHostController, viewModel: LoginViewModel) {
+fun ExchangeRequests(
+    navController: NavHostController,
+    viewModel: LoginViewModel,
+    exchangeViewModel: ExchangeViewModel ) {
 
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color),
@@ -89,7 +97,7 @@ fun ExchangeRequests(navController: NavHostController, viewModel: LoginViewModel
                 BarraSuperiore(navController, viewModel)
                 ScrittaIniziale("Exchange Requests")
                 Spacer(modifier = Modifier.height(50.dp))
-                RequestsList()
+                RequestsList(navController, viewModel, exchangeViewModel, viewModel.loggedUser!!.nickname)
             }
         }
 
@@ -97,11 +105,27 @@ fun ExchangeRequests(navController: NavHostController, viewModel: LoginViewModel
 
 }
 
+
+
+object globalExchangeVariables {
+    //questa variabile servirà a tenere il valore dei vincoli associati ai giorni della settimana
+    var checkBoxValue=0
+    val shiftsList: MutableList<Pair<String, String>> = mutableListOf()
+}
+
+
 @Composable
-fun RequestsList(){
+fun RequestsList(
+    navController: NavHostController,
+    LoginViewModel: LoginViewModel,
+    viewModel: ExchangeViewModel,
+    nickname: String
+) {
     val context= LocalContext.current
 
-    val raiderNames= listOf("Carlo ", "Matteo ", "Flavio ")
+    //faccio una query per prendere tutti i nomi dei raider
+    viewModel.retrieveMyRider()
+    val nicknamesList = viewModel.myRiders?.map { user -> user.nickname }
 
     var expanded by remember {
         mutableStateOf(false)
@@ -110,7 +134,20 @@ fun RequestsList(){
         mutableStateOf("Seleziona un'opzione")
     }
 
-    val myShifts= listOf("Mercoledi' 10:00/13:00", "Venerdi 19:00/21:30", "Sabato 21:00/23:00", "Domenica 21:00/23:00") //qui ci andranno tutti i turni attuali del raider
+    //faccio una query per prendere i turni del rider che ha eseguito l'accesso
+    viewModel.retrieveMyShifts(nickname)
+    val myShifts= viewModel.myShifts?.map { shift -> shift.day }
+
+    //faccio una query per prendere le richieste ricevuto dal rider
+    viewModel.retrieveExchange(nickname)
+    val receivedRequestsSender=viewModel.receivedRequests?.map{request-> request.sender}
+    val receivedRequestsMyShift=viewModel.receivedRequests?.map{request-> request.receiverShift}
+    val receivedRequestsSenderShift=viewModel.receivedRequests?.map{request-> request.senderShift}
+
+
+
+
+
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -133,26 +170,28 @@ fun RequestsList(){
                 horizontalArrangement = Arrangement.Center,
                 contentPadding = PaddingValues(horizontal = 5.dp),
             ) {
-                items(raiderNames) { name ->
-                    RichiesteItem(name)
+                itemsIndexed(receivedRequestsSender.orEmpty()) { index, name ->
+                    val senderShift=receivedRequestsSenderShift?.get(index).toString()
+                    val receiverShift=receivedRequestsMyShift?.get(index).toString()
+                    RichiesteItem(nickname, name,  receiverShift, senderShift, viewModel)
                     Spacer(modifier = Modifier.width(10.dp))
-
                 }
             }
         }
 
 
+        var selectedCheckBoxIndex by remember { mutableIntStateOf(-1) }
 
 
         Column(modifier=Modifier.fillMaxHeight()){
 
             Card(
                 modifier= Modifier
-                    .fillMaxWidth()
+                    .width(300.dp)
                     .height(150.dp)
                     .padding(top = 15.dp)
-                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(20.dp))
-//                    .background(Color.White, shape = RoundedCornerShape(8.dp)),
+                    .align(CenterHorizontally)
+                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(20.dp)),
             ){
                 Row (
                     horizontalArrangement=Arrangement.Center,
@@ -173,20 +212,21 @@ fun RequestsList(){
 
                 }
                 val checkboxStates1=remember{ mutableStateMapOf<String, Boolean>() }
-                myShifts.forEach { shift->
+                myShifts?.forEach { shift->
                     if(!checkboxStates1.contains(shift)){
                         checkboxStates1[shift]=false
                     }
                 }
+
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(2.dp),
                     modifier=Modifier.padding(top=4.dp)
                 ) {
-                    items(myShifts){ shift->
+                    itemsIndexed(items = myShifts.orEmpty()) { index, shift ->
                         Row(
-                            horizontalArrangement = Arrangement.Center,
+                            horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment=Alignment.CenterVertically,
-                            modifier=Modifier.padding(start=15.dp)
+                            modifier=Modifier.padding(start = 5.dp)
                         ){
                             Box(
                                 modifier = Modifier
@@ -195,10 +235,19 @@ fun RequestsList(){
                                 contentAlignment = Alignment.Center
 
                             ){
-                                Text(text = shift, style=TextStyle(fontSize=13.sp, fontWeight = FontWeight.Bold))
+                                Text(text = shift, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
                             }
-                            Spacer(modifier = Modifier.width(140.dp))
-                            CheckBox(checked = checkboxStates1[shift] ?:false, onCheckedChange = { isChecked ->checkboxStates1[shift]=isChecked }, 1)
+                            Spacer(modifier = Modifier.width(100.dp))
+                            CheckBox(
+                                checked = checkboxStates1[shift] ?: false,
+                                onCheckedChangeWithIndex = { isChecked, index ->
+                                    checkboxStates1[shift] = isChecked
+                                    selectedCheckBoxIndex = if (isChecked) index else -1
+                                    onCheckBoxClicked(index)
+                                },
+                                index = index,
+                                selected = index == selectedCheckBoxIndex
+                            )
                         }
 
                     }
@@ -214,8 +263,10 @@ fun RequestsList(){
                     .padding(15.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(raiderNames) {name ->
-                    Turns(name)
+                itemsIndexed(items = nicknamesList.orEmpty()) {index, name ->
+                    if(name!=nickname){
+                        Turns(name, viewModel, index)
+                    }
 
                 }
 
@@ -232,13 +283,24 @@ fun RequestsList(){
                 Button(
                     onClick = {
                         //qui ci va il metodo associato al botone
-                        println("Send only to selected riders")
+//                        println(globalExchangeVariables.shiftsList)
+                        for ((name, shift) in shiftsList) {
+                            if (myShifts != null && myShifts.get(globalExchangeVariables.checkBoxValue)!=shift) {
+//                                Log.d("dati per la query", nickname)
+//                                Log.d("dati per la query", myShifts.get(globalExchangeVariables.checkBoxValue))
+//                                Log.d("dati per la query", name)
+//                                Log.d("dati per la query", shift)
+
+                                viewModel.sendRequest(nickname, myShifts.get(globalExchangeVariables.checkBoxValue),name, shift)
+                            }
+                        }
+                        navController.navigate("riderHome")
                     },
                     colors = buttonColor,
                     modifier = Modifier
                         .width(150.dp)
                         .height(50.dp)
-                        .shadow(elevation = 5.dp, shape= CircleShape)
+                        .shadow(elevation = 5.dp, shape = CircleShape)
                 ){
                     val send=context.getString(R.string.Send)
                     Text(text = send, color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
@@ -249,14 +311,36 @@ fun RequestsList(){
 
                 Button(
                     onClick = {
-                        //qui ci va il metodo associato al botone
-                        println("Send to All the raiders")
+                        //qui mi setto una variabile con il nome del turno che il rider vuole scambiare
+                        val senderShift=myShifts!![globalExchangeVariables.checkBoxValue]
+                        var turns: List<String>?=null
+                        //prima mi devo prendere la lista di tutti i rider
+                        for(riderName in nicknamesList!!){
+                            if(riderName!=nickname) {
+                                println(riderName)
+                                viewModel.retrieveRiderShifts(riderName)
+                                turns = viewModel.riderTurns
+                                println(riderName)
+                                Log.d("turni pre", "Lista di stringhe pre: ${turns?.joinToString()}")
+                                Log.d("turni post", "Lista di stringhe post: ${turns?.joinToString()}")
+                                //println(turns)
+                                //per ogni rider prendere la lista dei propri turni e inviare una richiesta di scambio per ogni turno diverso da quello che si vuole scambiare
+                                if (turns != null) {
+                                    for (shift in turns) {
+                                        if (senderShift != shift) {
+                                            viewModel.sendRequest(nickname, senderShift, riderName, shift)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        navController.navigate("riderHome")
                     },
                     colors = buttonColor,
                     modifier = Modifier
                         .width(150.dp)
                         .height(50.dp)
-                        .shadow(elevation = 5.dp, shape= CircleShape)
+                        .shadow(elevation = 5.dp, shape = CircleShape)
                 ){
                     val sendAll=context.getString(R.string.Sent_To_All)
                     Text(text = sendAll, color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
@@ -268,19 +352,29 @@ fun RequestsList(){
 }
 
 @Composable
-fun CheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
+//fun CheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
+fun CheckBox(checked: Boolean,
+             onCheckedChangeWithIndex: (Boolean, Int) -> Unit,
+             index: Int,
+             selected: Boolean
+) {
+
     Box(
         modifier = Modifier
             .alpha(0.9f)
-            .size(18.dp)
+            .size(20.dp)
             .border(BorderStroke(width = 1.dp, color = Color.LightGray), CircleShape)
             .clip(CircleShape)
             .background(
-                if (checked && int == 1) start_color else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else Color.White ,
+                start_color,
                 shape = RoundedCornerShape(8.dp),
             )
             //.shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
-            .clickable { onCheckedChange(!checked) },
+            .clickable {
+                if (!selected) {
+                    onCheckedChangeWithIndex(!checked, index)
+                }
+            },
         contentAlignment = Alignment.Center
     ) {
         if (checked) {
@@ -291,15 +385,28 @@ fun CheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
     }
 }
 
+fun onCheckBoxClicked(index: Int) {
+    // Ora puoi fare qualcosa con l'indice della CheckBox selezionata
+    globalExchangeVariables.checkBoxValue=index
+    Log.d("valore della checkBox", globalExchangeVariables.checkBoxValue.toString())
+}
+
 @Composable
-fun RichiesteItem(string: String){
-    val hisTurn="Monday: 12:00/15:00" //qui ci andra' il turno che gli viene proposto
-    val myTurn="Friday: 12:00/15:00" //qui ci andra' quello attuale suo
+fun RichiesteItem(
+    nickname: String,
+    senderName: String,
+    receiverShift: String,
+    senderShift: String,
+    viewModel: ExchangeViewModel
+){
+    //val hisTurn="Monday: 12:00/15:00" //qui ci andra' il turno che gli viene proposto
+    //val myTurn="Friday: 12:00/15:00" //qui ci andra' quello attuale suo
     Card(
         modifier= Modifier
             .height(130.dp)
             .width(150.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+
     ) {
         Column(
             modifier = Modifier.padding(3.dp)
@@ -317,12 +424,27 @@ fun RichiesteItem(string: String){
                             .size(60.dp),
                         tint = Color.Black
                     )
-                    Text(text=string, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                    Text(text=senderName, fontSize = 13.sp, fontWeight = FontWeight.Bold)
                 }
+
+                //box in cui il rider accetta il turno
                 Box(
                     modifier= Modifier
                         .width(25.dp)
-                        .height(25.dp),
+                        .height(25.dp)
+                        .clickable(onClick = {
+                            Log.d("rider", senderName)
+                            Log.d("day", senderShift)
+
+                            //aggiorna il turno al rider che ha accettato
+                            viewModel.updateShift(senderName, receiverShift, senderShift,)
+                            //aggiorna il turno del rider che ha inviato la richiesta
+                            viewModel.updateShift(nickname, senderShift, receiverShift)
+                            //bisogna eliminare le altre richieste riguardanti rider che ha inviato lo scambio che icnludevano lo stesso giorno
+                            viewModel.deleteOtherRequest(senderName, senderShift)
+                            //bisogna eliminare le richieste che il rider loggato ha inviato che includevano il giorno appena scambiato
+                            viewModel.deleteOtherRequest(nickname, receiverShift)
+                        }),
                 ) {
                     Icon(
                         modifier = Modifier
@@ -333,10 +455,16 @@ fun RichiesteItem(string: String){
                         tint = Color.Black
                     )
                 }
+
+                //box in cui rifiuta la richiesta
                 Box(
                     modifier= Modifier
                         .width(25.dp)
-                        .height(25.dp),
+                        .height(25.dp)
+                        .clickable(onClick = {
+                            //cancella la richiesta dal db
+                            viewModel.deleteRequest(nickname, senderName, senderShift, receiverShift)
+                        }),
 
                     ) {
                     Icon(
@@ -354,16 +482,22 @@ fun RichiesteItem(string: String){
             Spacer(modifier = Modifier.height(2.dp))
 
             Text(
-                text = hisTurn,
+                text = "His: ".plus(senderShift),
                 color = Color.Black,
-                style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold),
+                modifier=Modifier.padding(start = 10.dp)
             )
+            //Log.d("you", senderShift)
+
 
             Text(
-                text = myTurn,
+                text = "Your: ".plus(receiverShift),
                 color = Color.Black,
-                style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold),
+                modifier=Modifier.padding(start = 10.dp)
             )
+            //Log.d("his", receiverShift)
+
 
         }
     }
@@ -373,8 +507,10 @@ fun RichiesteItem(string: String){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Turns(name: String) {
-    val raidersTurn=listOf("Lunedi' 11:00/14:00", "Martedi' 11:00/14:00", "Martedi' 19:00/22:00", "Sabato 12:00/15:00") //qui ci andranno tutti i turni del raider
+fun Turns(name: String, viewModel: ExchangeViewModel, index: Int) {
+    //val raidersTurn=listOf("Lunedi", "Martedi", "Mercoledi", "Sabato") //qui ci andranno tutti i turni del raider
+    viewModel.retrieveRiderShifts(name)
+
 
     var isExpanded by remember {
         mutableStateOf(false)
@@ -385,7 +521,7 @@ fun Turns(name: String) {
     }
 
     val textStyle = TextStyle(
-        fontSize = 13.sp,
+        fontSize = 15.sp,
         fontWeight = FontWeight.Bold
     )
 
@@ -399,7 +535,7 @@ fun Turns(name: String) {
             onExpandedChange = { isExpanded = it }
         ) {
             TextField(
-                value =name.plus(gender),
+                value =name.plus("->").plus(gender),
                 onValueChange = {},
                 textStyle=textStyle,
                 readOnly = true,
@@ -407,11 +543,11 @@ fun Turns(name: String) {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
                 },
                 colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                modifier=Modifier
+                modifier= Modifier
                     .menuAnchor()
                     .border(
                         width = 2.dp,
-                        color = Color.Gray,
+                        color = center_color,
                         shape = RoundedCornerShape(8.dp) // Imposta il raggio degli angoli desiderato
                     )
             )
@@ -423,8 +559,10 @@ fun Turns(name: String) {
 //                    .align(Alignment.Center)
 //                    .background(center_color),
             ) {
+                val raidersTurn= viewModel.riderShifts?.map { shift -> shift.day }
+                println(raidersTurn)
 
-                for(turn in raidersTurn){
+                for(turn in raidersTurn.orEmpty()){
                     DropdownMenuItem(
                         text = { Text(text = turn) },//al posto di quesi ci andranno i turni presi con la query
                         onClick = {
@@ -437,13 +575,19 @@ fun Turns(name: String) {
 
             }
         }
+    }
+    //globalExchangeVariables.shiftsList.add(name to gender)
+    //questo blocco serve ad aggiungere alla lista dei turni con cui si vuole proporre lo scambio la coppia nome e turno appena selezionata
+    if(gender.isNotBlank()) {
+        //assegna all'indiceEsistente l'indice della prima coppia all'interno di shiftsList in cui il primo elemento della coppia è uguale al valore di name
+        val indiceEsistente = globalExchangeVariables.shiftsList.indexOfFirst { it.first == name }
 
+        if (indiceEsistente != -1) {
+            // Sovrascrivi la coppia esistente
+            globalExchangeVariables.shiftsList[indiceEsistente] = name to gender
+        } else {
+            // Aggiungi una nuova coppia
+            globalExchangeVariables.shiftsList.add(name to gender)
+        }
     }
 }
-
-/*@Preview
-@Composable
-fun Preview3() {
-    ExchangeRequests(rememberNavController())
-}
-*/
