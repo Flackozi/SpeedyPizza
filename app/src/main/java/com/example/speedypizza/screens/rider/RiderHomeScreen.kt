@@ -56,9 +56,9 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.speedypizza.R
-import com.example.speedypizza.entity.Messaggio
 import com.example.speedypizza.screens.common.MessageItem
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.screens.viewmodel.MessageViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -72,7 +72,11 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun RiderHomeScreen(navController: NavHostController, viewModel: LoginViewModel) {
+fun RiderHomeScreen(
+    navController: NavHostController,
+    viewModel: LoginViewModel,
+    messageViewModel: MessageViewModel
+) {
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color ),
         startY = 0f,
@@ -94,7 +98,7 @@ fun RiderHomeScreen(navController: NavHostController, viewModel: LoginViewModel)
                 BarraSuperiore(navController, viewModel)
                 ScrittaIniziale("SpeedyPizza")
                 Spacer(modifier = Modifier.height(90.dp))
-                Bottoni(navController)
+                Bottoni(navController, messageViewModel)
             }
         }
 
@@ -259,13 +263,16 @@ fun BarraSuperiore(navController: NavHostController, viewModel: LoginViewModel) 
 
 //@Preview
 @Composable
-fun Bottoni(navController: NavHostController) {
+fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel) {
 
-    var elencoMessaggi = listOf(
-        Messaggio(1, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
-        Messaggio(2, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario"),
-        Messaggio(3, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
-    )
+    /*var elencoMessaggi = listOf(
+        Message(1, "Nuovi turni disponibili", "21/10/2023", 1),
+        Message(2, "Calendario dei turni pubblicato", "19/10/2023", 2),
+        Message(3, "Nuovi turni disponibili", "21/10/2023", 1),
+    )*/
+
+    val messageList = messageViewModel.messageList!!.map { message -> message.copy() }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -293,7 +300,7 @@ fun Bottoni(navController: NavHostController) {
                     .padding(10.dp)
 //                        .offset(y=4.dp)
             ){
-                items(elencoMessaggi) { message ->
+                items(messageList) { message ->
                     MessageItem(message)
                 }
             }

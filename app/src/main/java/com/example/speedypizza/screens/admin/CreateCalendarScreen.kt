@@ -25,6 +25,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -34,6 +35,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,27 +48,45 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.speedypizza.entity.Days
+import com.example.speedypizza.entity.ScheduleItem
+import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.CheckBox
 import com.example.speedypizza.screens.rider.ScrittaIniziale
+import com.example.speedypizza.screens.viewmodel.CalendarViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.screens.viewmodel.MyRiderViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.start_color
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 
 
-fun CreateCalendar(navController: NavHostController, viewModel: LoginViewModel) {
+fun CreateCalendar(
+    navController: NavHostController,
+    viewModel: LoginViewModel,
+    myRiderViewModel: MyRiderViewModel,
+    createCalenadr: CalendarViewModel
+) {
 
 
     val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
+    val myRider = myRiderViewModel.myRiders!!.filter {it.role == 1}.map { it.nickname }
+    val scheduleItemList = mutableListOf<ScheduleItem>()
 
+    val dayList = mutableListOf<Days>()
+    val shiftList = mutableListOf<Shifts>()
 
     Box(
         modifier = Modifier
@@ -104,7 +124,12 @@ fun CreateCalendar(navController: NavHostController, viewModel: LoginViewModel) 
 
 
                 days.forEach { day ->
-                    DayBox(day)
+                    val scheduleItem = DayBox(day, myRider)
+                    dayList.add(scheduleItem.first)
+                    scheduleItem.second.forEach {shift ->
+                        shiftList.add(shift)
+                    }
+                    //scheduleItemList.add(scheduleItem)
                     Spacer(
                         modifier = Modifier
                             .height(10.dp)
@@ -125,7 +150,12 @@ fun CreateCalendar(navController: NavHostController, viewModel: LoginViewModel) 
                             containerColor = Color.White,
                             contentColor = Color.Black
                         ),
-                        onClick = { /*TODO*/ },
+                        onClick = {
+
+                            CoroutineScope(Dispatchers.Main).launch {
+                                createCalenadr.newCalendar(dayList, shiftList)
+                            }
+                        },
                         shape = RoundedCornerShape(
                             topStart = 15.dp,
                             topEnd = 15.dp,
@@ -157,9 +187,11 @@ fun CreateCalendar(navController: NavHostController, viewModel: LoginViewModel) 
 }
 
 @Composable
-fun DayBox(day: String) {
+fun DayBox(day: String, myRider: List<String>): Pair<Days, List<Shifts>> {
+
     var textMin = remember { mutableStateOf("") }
     var textMax = remember { mutableStateOf("") }
+    var listaShift: List<Shifts>
 
 
 
@@ -167,19 +199,13 @@ fun DayBox(day: String) {
         mutableStateOf(false)
     }
 
-    val items = listOf(
-        "Matteo",
-        "Carlo",
-        "Flacko",
-        "Armando",
-        "Francesco",
-        "Franco"
-    )
 
-    var selectedItem by remember { mutableStateOf(items[0]) }
+
+    val selectedRiders = remember { mutableStateListOf<String>() }
+
 
     val checkboxStates = remember { mutableStateMapOf<String, Boolean>() }
-    items.forEach { item ->
+    myRider.forEach { item ->
         if (!checkboxStates.contains(item)) {
             checkboxStates[item] = false
         }
@@ -218,7 +244,7 @@ fun DayBox(day: String) {
                     .background(boxcol)
             ) {
 
-                items.forEach { item ->
+                myRider.forEach { item ->
 
                     DropdownMenuItem(
                         text = {
@@ -226,10 +252,14 @@ fun DayBox(day: String) {
                                 Text(text = item)
                                 Spacer(modifier = Modifier.width(10.dp))
                                 CheckBox(
-                                    checked = checkboxStates[item]
-                                        ?: false,
+                                    checked = checkboxStates[item] ?: false,
                                     onCheckedChange = { isChecked ->
                                         checkboxStates[item] = isChecked
+                                        if (isChecked) {
+                                            selectedRiders.add(item)
+                                        } else {
+                                            selectedRiders.remove(item)
+                                        }
                                     },
                                     1
                                 )
@@ -238,7 +268,6 @@ fun DayBox(day: String) {
 
                         },
                         onClick = {
-                            selectedItem = item
                             expanded = false
                         }
                     )
@@ -289,6 +318,9 @@ fun DayBox(day: String) {
                 textStyle = TextStyle(
                     color = Color.Black, // Imposta il colore del testo
                     fontSize = 14.sp
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number
                 )
             )
         }
@@ -325,13 +357,18 @@ fun DayBox(day: String) {
                 textStyle = TextStyle(
                     color = Color.Black, // Imposta il colore del testo
                     fontSize = 14.sp
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number
                 )
 
             )
         }
 
+    }
 
-
+    listaShift = selectedRiders.map { rider ->
+        Shifts(rider, day)
 
     }
 }
@@ -362,6 +399,7 @@ fun CheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
             //non faccio nulla
         }
     }
+    return Pair(Days(day, if (textMin.value.isEmpty()) 0 else textMin.value.toInt(), if (textMax.value.isEmpty()) 0 else textMax.value.toInt()), listaShift)//ScheduleItem(day, selectedRiders.toList(), textMin.value, textMax.value)
 }
 /*
 @RequiresApi(Build.VERSION_CODES.Q)

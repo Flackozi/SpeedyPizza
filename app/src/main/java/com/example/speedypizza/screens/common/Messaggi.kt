@@ -17,11 +17,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,16 +29,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-
 import androidx.compose.ui.res.painterResource
-
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.speedypizza.entity.Messaggio
 import com.example.speedypizza.R
+import com.example.speedypizza.entity.Message
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.screens.viewmodel.MessageViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -51,18 +48,25 @@ import com.example.speedypizza.ui.theme.start_color
 
 
 @Composable
-fun SchermataMessaggi(navController: NavHostController, viewModel: LoginViewModel) {
+fun SchermataMessaggi(
+    navController: NavHostController,
+    viewModel: LoginViewModel,
+    messageViewModel: MessageViewModel
+) {
 
-    var elencoMessaggi = listOf(
-        Messaggio(1, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
-        Messaggio(2, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario"),
-        Messaggio(3, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
-        Messaggio(4, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario"),
-        Messaggio(1, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
-        Messaggio(2, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario"),
-        Messaggio(3, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
-        Messaggio(4, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario")
-    )
+    /*var elencoMessaggi = listOf(
+        Message(1, "Nuovi turni disponibili", "21/10/2023", 1),
+        Message(2, "Calendario dei turni pubblicato", "19/10/2023", 2),
+        Message(3, "Nuovi turni disponibili", "21/10/2023", 1),
+        Message(4, "Calendario dei turni pubblicato", "19/10/2023", 2),
+        Message(1, "Nuovi turni disponibili", "21/10/2023", 1),
+        Message(2, "Calendario dei turni pubblicato", "19/10/2023", 2),
+        Message(3, "Nuovi turni disponibili", "21/10/2023", 1),
+        Message(4, "Calendario dei turni pubblicato", "19/10/2023", 2)
+    )*/
+
+    val messageList = messageViewModel.messageList!!.map { message -> message.copy() }
+    val messageDate = messageViewModel.messageList!!.map { message -> message.messageDate }
 
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color),
@@ -93,9 +97,11 @@ fun SchermataMessaggi(navController: NavHostController, viewModel: LoginViewMode
                 .padding(horizontal = 20.dp, vertical = 70.dp)
                 //.background(color = Color.Transparent, shape = RoundedCornerShape(10.dp))
                 .scrollEnabled(enabled = true)) {
-                items(elencoMessaggi) { message ->
+                items(messageList) { message ->
                     MessageItem(message)
                 }
+
+
             }
 
 
@@ -104,7 +110,7 @@ fun SchermataMessaggi(navController: NavHostController, viewModel: LoginViewMode
 
 }
 @Composable
-fun MessageItem(message: Messaggio) {
+fun MessageItem(message: Message) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -116,7 +122,7 @@ fun MessageItem(message: Messaggio) {
     ) {
 
         Row(modifier = Modifier.padding(16.dp)) {
-            if (message.tipoMessaggio == "Cambio Turni")
+            if (message.messageType == 1)
                 Image(
                     painterResource(id = R.drawable.ic_change),
                     contentDescription = "cambio turni",
@@ -133,8 +139,8 @@ fun MessageItem(message: Messaggio) {
                 .fillMaxSize()
                 .padding(horizontal = 10.dp)) {
                 Alignment.Top
-                Text(text = message.testoMessaggio)
-                Text(text = message.dataMessaggio)
+                Text(text = message.messageText)
+                Text(text = message.messageDate)
 
             }
 

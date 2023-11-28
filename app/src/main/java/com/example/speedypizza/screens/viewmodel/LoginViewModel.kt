@@ -31,11 +31,11 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
 
     fun login(username: String, password: String): Deferred<User> {
 
-
+        //Log.i("ei","ei")
         return viewModelScope.async(Dispatchers.IO) {
             delay(300)
             loggedUser= loginRepository.login(username, password)
-
+           // Log.i("valuetry1: ", "daje")
             return@async loggedUser!!
         }
     }

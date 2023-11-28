@@ -31,9 +31,11 @@ import com.example.speedypizza.screens.common.ShiftsPage
 import com.example.speedypizza.screens.rider.ConstraintScreen
 import com.example.speedypizza.screens.rider.ExchangeRequests
 import com.example.speedypizza.screens.rider.RiderHomeScreen
+import com.example.speedypizza.screens.viewmodel.CalendarViewModel
 import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
 import com.example.speedypizza.screens.viewmodel.ExchangeViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.screens.viewmodel.MessageViewModel
 import com.example.speedypizza.screens.viewmodel.MyRiderViewModel
 import com.example.speedypizza.ui.theme.SpeedyPizzaTheme
 import com.example.speedypizza.ui.theme.center_color
@@ -69,6 +71,10 @@ class MainActivity : ComponentActivity() {
                val constraintViewModel: ConstraintViewModel= viewModel(factory=ConstraintViewModel.ConstraintViewModelFactory(context.applicationContext as Application))
                val myRiderViewModel: MyRiderViewModel = viewModel(factory = MyRiderViewModel.MyRiderViewModelFactory(context.applicationContext as Application))
                val exchangeViewModel: ExchangeViewModel =viewModel(factory=ExchangeViewModel.ExchangeViewModelFactory(context.applicationContext as Application))
+               val createCalendar: CalendarViewModel = viewModel(factory = CalendarViewModel.CalendarViewModelFactory(context.applicationContext as Application))
+               val messageViewModel: MessageViewModel = viewModel(factory = MessageViewModel.MessageViewModelFactory(context.applicationContext as Application))
+
+
                val gradient = Brush.verticalGradient(
                    colors = listOf(start_color, center_color, end_color ),
                    startY = 0f,
@@ -92,17 +98,24 @@ class MainActivity : ComponentActivity() {
 
 
                        }
-                       composable("riderHome") { RiderHomeScreen(navController, viewModel) }
-                       composable("messagesPage"){ SchermataMessaggi(navController, viewModel) }
-                       composable("adminHome"){ AdminDashboard(navController, viewModel) }
+                       composable("riderHome") {
+                           messageViewModel.retrieveMessages(user!!.nickname)
+                           RiderHomeScreen(navController, viewModel, messageViewModel) }
+                       composable("messagesPage"){
+                           SchermataMessaggi(navController, viewModel, messageViewModel) }
+                       composable("adminHome"){
+                           myRiderViewModel.retrieveMyRider()
+                           AdminDashboard(navController, viewModel) }
                        composable("exchangePage"){ ExchangeRequests(navController, viewModel, exchangeViewModel) }
                        composable("profilePage"){ ProfileScreen(navController,viewModel)}
                        composable("shiftPage"){ ShiftsPage(navController, viewModel) }
                        composable("constraintsPage"){ ConstraintScreen(navController,viewModel, constraintViewModel) }
                        composable("myRiderPage"){
-                           myRiderViewModel.retrieveMyRider()
+                           //myRiderViewModel.retrieveMyRider()
                            MyRiderScreen(navController,viewModel, myRiderViewModel) }
-                       composable("CreateCalendarPage"){ CreateCalendar(navController,viewModel)}
+                       composable("createCalendarPage"){
+                          // myRiderViewModel.retrieveMyRider()
+                           CreateCalendar(navController,viewModel, myRiderViewModel, createCalendar)}
                        composable("newAccountPage") { CreateAccountPage(navController, viewModel) }
 
 

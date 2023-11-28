@@ -51,7 +51,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-//@Preview
 @Composable
 fun CreateAccountPage(navController: NavHostController, viewModel: LoginViewModel) {
 
@@ -68,7 +67,7 @@ fun CreateAccountPage(navController: NavHostController, viewModel: LoginViewMode
             ScrittaIniziale(string = "Create Account")
             Spacer(modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp))
+                .height(50.dp))
             CreateAccountInfo(viewModel, navController)
         }
     }
@@ -82,6 +81,7 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
     var isChecked by remember { mutableStateOf(false) }
     val buttonColor = ButtonDefaults.buttonColors(start_color)
     val profileData: MutableList<String> = mutableListOf("", "", "", "", "", "")
+
 
     val text = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Color.Black)) {
@@ -141,12 +141,11 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
                 modifier = Modifier
                     .height(10.dp)
             )
-
         }
 
         Row(modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp), horizontalArrangement = Arrangement.Center, verticalAlignment =Alignment.CenterVertically) {
+            .height(70.dp), horizontalArrangement = Arrangement.Center, verticalAlignment =Alignment.CenterVertically) {
 
             Checkbox(
                 checked = isChecked,
@@ -154,7 +153,7 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
                 modifier = Modifier.padding(16.dp)
             )
 
-            Text(text = text, modifier = Modifier.width(200.dp))
+            Text(text = text, modifier = Modifier.width(220.dp))
 
         }
         Spacer(
@@ -164,14 +163,14 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
         Button(
             onClick = {
 
-                      CoroutineScope(Dispatchers.Main).launch {
+                CoroutineScope(Dispatchers.Main).launch {
 
-                          viewModel.createAccount(User(profileData[0], profileData[1], profileData[2], profileData[5], profileData[3], profileData[4], 1))
-                          navController.navigate("riderHome")
-                      }
+                    viewModel.createAccount(User(profileData[0], profileData[1], profileData[2], profileData[5], profileData[3], profileData[4], 1))
+                    navController.navigate("riderHome")
+                }
 
 
-                      },
+            },
             colors = buttonColor,
             modifier = Modifier
                 .width(230.dp)
@@ -189,12 +188,11 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
 }
 
 @Composable
-fun Item(item: String, profileData: MutableList<String>)  {
+fun Item(item: String, profileData: MutableList<String>){
 
     val icon: Painter
 
     val text = remember { mutableStateOf("") }
-
 
     if(item == "Nickname"){
         icon = painterResource(id = R.drawable.baseline_person_outline_24)
@@ -202,20 +200,19 @@ fun Item(item: String, profileData: MutableList<String>)  {
     }else if(item == "Name"){
         icon = painterResource(id = R.drawable.baseline_person_outline_24)
         profileData.add(1, text.value)
-    }else if(item == "Surname"){
+    }else if(item == "Surname") {
         icon = painterResource(id = R.drawable.baseline_person_outline_24)
         profileData.add(2, text.value)
     }else if(item == "Phone"){
-         icon = painterResource(id = R.drawable.baseline_contact_phone_24)
-         profileData.add(3, text.value)
+        icon = painterResource(id = R.drawable.baseline_contact_phone_24)
+        profileData.add(3, text.value)
     }else if(item == "Email"){
-         icon = painterResource(id = R.drawable.baseline_mail_outline_24)
-         profileData.add(4, text.value)
+        icon = painterResource(id = R.drawable.baseline_mail_outline_24)
+        profileData.add(4, text.value)
     }else{
-         icon = painterResource(id = R.drawable.baseline_lock_24)
-         profileData.add(5, text.value)
+        icon = painterResource(id = R.drawable.baseline_lock_24)
+        profileData.add(5, text.value)
     }
-
 
     Row (
         modifier = Modifier
@@ -237,7 +234,4 @@ fun Item(item: String, profileData: MutableList<String>)  {
             textStyle = TextStyle(fontSize = 12.sp)
         )
     }
-
-
-
 }

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -33,8 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.speedypizza.R
-import com.example.speedypizza.entity.Messaggio
-import com.example.speedypizza.screens.common.MessageItem
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
@@ -246,11 +243,11 @@ fun DashBoard(){
 }
 @Composable
 fun PrimoMenu(navController: NavHostController) {
-    var elencoMessaggi = listOf(
-        Messaggio(1, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
-        Messaggio(2, "Calendario dei turni pubblicato", "19/10/2023", "Nuovo Calendario"),
-        Messaggio(3, "Nuovi turni disponibili", "21/10/2023", "Cambio Turni"),
-    )
+    /*var elencoMessaggi = listOf(
+        Message(1, "Nuovi turni disponibili", "21/10/2023", 1),
+        Message(2, "Calendario dei turni pubblicato", "19/10/2023", 2),
+        Message(3, "Nuovi turni disponibili", "21/10/2023", 1),
+    )*/
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -280,9 +277,9 @@ fun PrimoMenu(navController: NavHostController) {
                     .padding(10.dp)
 //                        .offset(y=4.dp)
             ){
-                items(elencoMessaggi) { message ->
+                /*items(elencoMessaggi) { message ->
                     MessageItem(message)
-                }
+                }*/
             }
         }
 
@@ -330,8 +327,8 @@ fun PrimoMenu(navController: NavHostController) {
             Button( //Bottone Create Calendar
                 onClick = {
                     //qui ci va il metodo associato al bottone
-                    CoroutineScope(Dispatchers.Main).launch {
-                    navController.navigate("CreateCalendarPage")}
+                    //CoroutineScope(Dispatchers.Main).launch {
+                    navController.navigate("createCalendarPage")
 
                 },
                 colors = ButtonDefaults.buttonColors(

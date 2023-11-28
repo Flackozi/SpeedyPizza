@@ -47,6 +47,8 @@ class MyRiderViewModel(application: Application): AndroidViewModel(application) 
 
     }
 
+
+
     @Suppress("UNCHECKED_CAST")
     class MyRiderViewModelFactory(
         private val application: Application
