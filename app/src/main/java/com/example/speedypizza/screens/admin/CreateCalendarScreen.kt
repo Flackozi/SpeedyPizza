@@ -371,6 +371,8 @@ fun DayBox(day: String, myRider: List<String>): Pair<Days, List<Shifts>> {
         Shifts(rider, day)
 
     }
+    return Pair(Days(day, if (textMin.value.isEmpty()) 0 else textMin.value.toInt(), if (textMax.value.isEmpty()) 0 else textMax.value.toInt()), listaShift)//ScheduleItem(day, selectedRiders.toList(), textMin.value, textMax.value)
+
 }
 
 @Composable
@@ -399,7 +401,6 @@ fun CheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
             //non faccio nulla
         }
     }
-    return Pair(Days(day, if (textMin.value.isEmpty()) 0 else textMin.value.toInt(), if (textMax.value.isEmpty()) 0 else textMax.value.toInt()), listaShift)//ScheduleItem(day, selectedRiders.toList(), textMin.value, textMax.value)
 }
 /*
 @RequiresApi(Build.VERSION_CODES.Q)
