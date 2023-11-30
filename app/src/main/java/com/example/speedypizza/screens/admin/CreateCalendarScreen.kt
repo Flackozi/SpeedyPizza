@@ -174,6 +174,8 @@ fun CreateCalendar(
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
+
+                        navController.navigate("adminHome")
                     }
 
                 }
