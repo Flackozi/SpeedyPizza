@@ -1,4 +1,4 @@
-package com.example.speedypizza.screens.common
+package com.example.speedypizza.screens.rider
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
@@ -34,13 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.speedypizza.R
 import com.example.speedypizza.entity.Message
-import com.example.speedypizza.screens.rider.BarraSuperiore
-import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.screens.viewmodel.MessageViewModel
 import com.example.speedypizza.ui.theme.boxcol
-import com.example.speedypizza.ui.theme.center_color
-import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
 
 
@@ -54,32 +49,15 @@ fun SchermataMessaggi(
     messageViewModel: MessageViewModel
 ) {
 
-    /*var elencoMessaggi = listOf(
-        Message(1, "Nuovi turni disponibili", "21/10/2023", 1),
-        Message(2, "Calendario dei turni pubblicato", "19/10/2023", 2),
-        Message(3, "Nuovi turni disponibili", "21/10/2023", 1),
-        Message(4, "Calendario dei turni pubblicato", "19/10/2023", 2),
-        Message(1, "Nuovi turni disponibili", "21/10/2023", 1),
-        Message(2, "Calendario dei turni pubblicato", "19/10/2023", 2),
-        Message(3, "Nuovi turni disponibili", "21/10/2023", 1),
-        Message(4, "Calendario dei turni pubblicato", "19/10/2023", 2)
-    )*/
-
     val messageList = messageViewModel.messageList!!.map { message -> message.copy() }
     val messageDate = messageViewModel.messageList!!.map { message -> message.messageDate }
-
-    val gradient = Brush.verticalGradient(
-        colors = listOf(start_color, center_color, end_color),
-        startY = 0f,
-        endY = 2000f
-    )
 
 
 
     Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(gradient)
+                .background(start_color)
                 ,verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -95,6 +73,7 @@ fun SchermataMessaggi(
                 .background(boxcol)
                 .padding(10.dp)
                 .padding(horizontal = 20.dp, vertical = 70.dp)
+                .fillMaxSize()
                 //.background(color = Color.Transparent, shape = RoundedCornerShape(10.dp))
                 .scrollEnabled(enabled = true)) {
                 items(messageList) { message ->

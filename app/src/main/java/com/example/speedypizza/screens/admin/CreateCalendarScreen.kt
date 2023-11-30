@@ -23,9 +23,9 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -52,16 +52,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.entity.Days
-import com.example.speedypizza.entity.ScheduleItem
 import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.BarraSuperiore
-import com.example.speedypizza.screens.rider.CheckBox
 import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.screens.viewmodel.CalendarViewModel
+import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.screens.viewmodel.MyRiderViewModel
 import com.example.speedypizza.ui.theme.boxcol
+import com.example.speedypizza.ui.theme.end_color
+import com.example.speedypizza.ui.theme.green2
 import com.example.speedypizza.ui.theme.start_color
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -76,15 +78,14 @@ fun CreateCalendar(
     navController: NavHostController,
     viewModel: LoginViewModel,
     myRiderViewModel: MyRiderViewModel,
-    createCalenadr: CalendarViewModel
+    createCalenadr: CalendarViewModel,
+    constraintViewModel: ConstraintViewModel
 ) {
 
 
     val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
     val myRider = myRiderViewModel.myRiders!!.filter {it.role == 1}.map { it.nickname }
-    val scheduleItemList = mutableListOf<ScheduleItem>()
-
     val dayList = mutableListOf<Days>()
     val shiftList = mutableListOf<Shifts>()
 
@@ -124,7 +125,7 @@ fun CreateCalendar(
 
 
                 days.forEach { day ->
-                    val scheduleItem = DayBox(day, myRider)
+                    val scheduleItem = DayBox(day, myRider, constraintViewModel)
                     dayList.add(scheduleItem.first)
                     scheduleItem.second.forEach {shift ->
                         shiftList.add(shift)
@@ -187,13 +188,15 @@ fun CreateCalendar(
 }
 
 @Composable
-fun DayBox(day: String, myRider: List<String>): Pair<Days, List<Shifts>> {
+fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintViewModel): Pair<Days, List<Shifts>> {
 
     var textMin = remember { mutableStateOf("") }
     var textMax = remember { mutableStateOf("") }
     var listaShift: List<Shifts>
-
-
+    var constraintsMin: List<Int>?
+    var constraintsMax: List<Int>?
+    var constraint: Constraints
+    var constraintDay: List<Int>?
 
     var expanded by remember {
         mutableStateOf(false)
@@ -240,17 +243,48 @@ fun DayBox(day: String, myRider: List<String>): Pair<Days, List<Shifts>> {
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
                 modifier = Modifier
-                    .width(200.dp)
+                    .width(250.dp)
                     .background(boxcol)
             ) {
 
                 myRider.forEach { item ->
 
+
+                    constraintsMin = constraintViewModel.con?.filter {it.nickname == item}?.map { it.min }
+                    constraintsMax = constraintViewModel.con?.filter {it.nickname == item}?.map { it.max }
+                    constraintDay = constraintViewModel.con?.filter {it.nickname == item }?.mapNotNull {
+                        when (day) {
+                            "Lunedi", "Monday" -> it.lunedi
+                            "Martedi", "Tuesday" -> it.martedi
+                            "Mercoledi", "Wednesday"-> it.mercoledi
+                            "Giovedi", "Thursday" -> it.giovedi
+                            "Venerdi", "Friday" -> it.venerdi
+                            "Sabato", "Saturday" -> it.sabato
+                            "Domenica", "Sunday" -> it.domenica
+                            else -> null  // Ritorna null se il giorno non corrisponde a nessuna colonna
+                        }
+                    }
+
+                    //constraintDay --> 1 No, -->2 possNo,-->3 Si
+
                     DropdownMenuItem(
                         text = {
                             Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text(text = item)
-                                Spacer(modifier = Modifier.width(10.dp))
+                                if (constraintDay != null && constraintDay!!.isNotEmpty()) {
+                                    when (constraintDay!![0]) {
+                                        1 -> Text(text = item, color = start_color, fontWeight = FontWeight.Bold)
+                                        2 -> Text(text = item, color = end_color, fontWeight = FontWeight.Bold)
+                                        3 -> Text(text = item, color = green2, fontWeight = FontWeight.Bold)
+                                        else -> Text(text = item)
+                                    }
+                                } else {
+                                    Text(text = item)
+                                }
+                                Spacer(modifier = Modifier.width(5.dp))
+                                Text(text = "min: ${constraintsMin?.joinToString(", ")}")
+                                Spacer(modifier = Modifier.width(5.dp))
+                                Text(text = "max: ${constraintsMax?.joinToString(", ")}")
+                                Spacer(modifier = Modifier.width(5.dp))
                                 CheckBox(
                                     checked = checkboxStates[item] ?: false,
                                     onCheckedChange = { isChecked ->

@@ -54,6 +54,8 @@ interface SpeedyPizzaDAO {
     @Query("DELETE FROM Message")
     fun deleteNotifications()
 
+    @Query("SELECT * FROM Constraints")
+    fun getConstraints(): List<Constraints>
 
 
     @Query("SELECT * FROM Shifts WHERE rider=:nickname")

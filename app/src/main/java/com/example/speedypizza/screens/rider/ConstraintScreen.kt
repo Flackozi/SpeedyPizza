@@ -146,7 +146,7 @@ fun ElencoGiorni(
             Box(
                 modifier = Modifier
                     .height(56.dp)
-                    .width(60.dp)
+                    .width(60.dp).offset(x=10.dp)
                     .background(Color.Transparent)
             ) {
                 OutlinedTextField(
@@ -188,7 +188,7 @@ fun ElencoGiorni(
                 modifier = Modifier
                     .height(56.dp)
                     .width(60.dp)
-                    .background(Color.Transparent)
+                    .background(Color.Transparent).offset(x=10.dp)
             ) {
                 OutlinedTextField(
                     value = textMax.value,
@@ -216,7 +216,7 @@ fun ElencoGiorni(
                 )
             }
 
-            Spacer(modifier=Modifier.width(25.dp))
+            Spacer(modifier=Modifier.width(25.dp).height(15.dp))
 
             Icon(
                 painter = painterResource(
@@ -251,7 +251,7 @@ fun ElencoGiorni(
             )
         }
 
-        Spacer(modifier=Modifier.height(5.dp))
+        Spacer(modifier=Modifier.height(15.dp))
 
         Row(
             horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni

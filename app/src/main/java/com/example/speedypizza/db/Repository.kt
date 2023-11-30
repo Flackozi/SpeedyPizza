@@ -1,9 +1,8 @@
 package com.example.speedypizza.db
 
-import android.util.Log
 import com.example.speedypizza.entity.Constraints
-import com.example.speedypizza.entity.Exchanges
 import com.example.speedypizza.entity.Days
+import com.example.speedypizza.entity.Exchanges
 import com.example.speedypizza.entity.Message
 import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.entity.User
@@ -17,7 +16,7 @@ class Repository(private val dao: SpeedyPizzaDAO) {
         return dao.login(username, password)
 
     }
-    fun SendConstraint(constraints: Constraints) {
+    fun sendConstraint(constraints: Constraints) {
 
         dao.sendConstraint(constraints)
     }
@@ -64,6 +63,10 @@ class Repository(private val dao: SpeedyPizzaDAO) {
 
         return dao.retrieveMessages(nickname)
 
+    }
+
+    fun getConstraints(): List<Constraints>{
+        return dao.getConstraints()
     }
 
 

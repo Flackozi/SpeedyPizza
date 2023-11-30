@@ -32,8 +32,8 @@ abstract class DBGenerator: RoomDatabase() {
                     DBGenerator::class.java,
                     "speedypizza.db"
                 )
-//                    .fallbackToDestructiveMigration()
-//                    .createFromAsset("speedypizza.db")
+                    //.fallbackToDestructiveMigration()
+                    //.createFromAsset("speedypizza.db")
                     //.addAutoMigrationSpec()
                     .build()
             }

@@ -56,7 +56,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.speedypizza.R
-import com.example.speedypizza.screens.common.MessageItem
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.screens.viewmodel.MessageViewModel
 import com.example.speedypizza.ui.theme.boxcol
@@ -278,7 +277,7 @@ fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 30.dp))
+            .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
             .background(boxcol)
             .padding(10.dp)
 
@@ -310,8 +309,7 @@ fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxSize()
-//                    .offset(y = 180.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
-
+                .offset(x=15.dp)
         ){
             Button(
                 onClick={

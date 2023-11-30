@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -68,7 +67,7 @@ fun AdminDashboard(navController: NavHostController, viewModel: LoginViewModel) 
             Column {
                 BarraSuperiore(navController, viewModel)
                 ScrittaIniziale("SpeedyPizza")
-                Spacer(modifier = Modifier.height(100.dp))
+                Spacer(modifier = Modifier.height(200.dp))
                 PrimoMenu(navController)
             }
         }
@@ -79,168 +78,6 @@ fun AdminDashboard(navController: NavHostController, viewModel: LoginViewModel) 
 
 
 
-@Composable
-fun DashBoard(){
-
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-            .background(boxcol)
-            .padding(10.dp)
-
-
-    ){
-
-
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxSize()
-                .offset(y = 180.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
-
-        ){
-            Button(
-                onClick={
-                    //qui ci va il metodo associato al bottone
-                    println("This is myTurn")
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor=Color.White,
-                    contentColor=Color.Black
-                ),
-                modifier = Modifier
-                    .width(130.dp)
-                    .height(130.dp)
-                    .offset(x = 40.dp, y = 40.dp)
-                    .shadow(20.dp),
-                shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
-
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(2.dp)
-                ){
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_calendar_foreground),
-                        contentDescription = "Calendar",
-                        modifier = Modifier
-                            .size(60.dp)
-                    )
-                    Text(stringResource(R.string.Rider_Management), modifier = Modifier.offset(y=5.dp))
-                }
-
-            }
-
-            Button(
-                onClick = {
-                    //qui ci va il metodo associato al botone
-                    println("Exchange requests")
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
-                ),
-                modifier = Modifier
-                    .width(130.dp)
-                    .height(130.dp)
-                    .offset(x = 200.dp, y = 40.dp)
-                    .shadow(20.dp),
-                shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
-
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(2.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_change),
-                        contentDescription = "Change",
-                        tint = Color.Black,
-                        modifier = Modifier.size(60.dp)
-                    )
-                    Text(stringResource(R.string.Create_Calendar))
-                }
-
-            }
-
-            Button(
-                onClick = {
-                    //qui ci va il metodo associato al botone
-                    println("This is Messages")
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
-                ),
-                modifier = Modifier
-                    .width(130.dp)
-                    .height(130.dp)
-                    .offset(x = 40.dp, y = 200.dp)
-                    .shadow(20.dp),
-                shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
-
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(2.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_notification),
-                        contentDescription = "Notification",
-                        tint = Color.Black,
-                        modifier = Modifier.size(60.dp)
-                    )
-                    Text(stringResource(id = R.string.Messages))
-                }
-
-            }
-
-
-            Button(
-                onClick = {
-                    //qui ci va il metodo associato al botone
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
-                ),
-                modifier = Modifier
-                    .width(130.dp)
-                    .height(130.dp)
-                    .offset(x = 200.dp, y = 200.dp)
-                    .shadow(20.dp),
-                shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
-
-
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(1.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id =R.drawable.ic_constraints),
-                        contentDescription = "Change",
-                        tint = Color.Black,
-                        modifier = Modifier.size(60.dp)
-                    )
-                    Text(text= stringResource(id = R.string.Constraints))
-                }
-
-            }
-        }
-    }
-
-
-}
 @Composable
 fun PrimoMenu(navController: NavHostController) {
     /*var elencoMessaggi = listOf(
@@ -262,38 +99,15 @@ fun PrimoMenu(navController: NavHostController) {
     ){
 
         Box(
-
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(240.dp)
-                .padding(10.dp)
-                //.border(BorderStroke(width = 3.dp, color = Color.LightGray))
-                .background(Color.Transparent)
-        ){
-//                Spacer(modifier=Modifier.height(3.dp))
-            LazyColumn(
-//                    verticalArrangement = Arrangement.spacedBy(6.dp),
-                modifier=Modifier
-                    .padding(10.dp)
-//                        .offset(y=4.dp)
-            ){
-                /*items(elencoMessaggi) { message ->
-                    MessageItem(message)
-                }*/
-            }
-        }
-
-        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxSize()
-                .offset(y = 5.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
-
+                .offset(x=15.dp, y = 60.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
         ){
             Button( //Bottone RaiderManagement
                 onClick={
                     CoroutineScope(Dispatchers.Main).launch {
-                    navController.navigate("MyRiderPage")
+                      navController.navigate("MyRiderPage")
                 }
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -327,8 +141,8 @@ fun PrimoMenu(navController: NavHostController) {
             Button( //Bottone Create Calendar
                 onClick = {
                     //qui ci va il metodo associato al bottone
-                    //CoroutineScope(Dispatchers.Main).launch {
-                    navController.navigate("createCalendarPage")
+                    CoroutineScope(Dispatchers.Main).launch {
+                    navController.navigate("createCalendarPage")}
 
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -359,53 +173,21 @@ fun PrimoMenu(navController: NavHostController) {
 
             }
 
-            Button( //Bottone messaggi
-                onClick = {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        navController.navigate("messagesPage")}
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
-                ),
-                modifier = Modifier
-                    .width(130.dp)
-                    .height(130.dp)
-                    .offset(x = 40.dp, y = 200.dp)
-                    .shadow(20.dp),
-                shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
-
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(2.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_notification),
-                        contentDescription = "Notification",
-                        tint = Color.Black,
-                        modifier = Modifier.size(60.dp)
-                    )
-                    Text(stringResource(id = R.string.Messages), textAlign = TextAlign.Center)
-                }
-
-            }
-
 
             Button( // bottone shift
                 onClick = {
                     CoroutineScope(Dispatchers.Main).launch {
-                        navController.navigate("shiftPage")}
+                        navController.navigate("shiftPage")
+                                                            }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
                     contentColor = Color.Black
                 ),
                 modifier = Modifier
-                    .width(130.dp)
+                    .width(292.dp)
                     .height(130.dp)
-                    .offset(x = 200.dp, y = 200.dp)
+                    .offset(x = 40.dp, y = 200.dp)
                     .shadow(20.dp),
                 shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
 
@@ -431,8 +213,3 @@ fun PrimoMenu(navController: NavHostController) {
 
 }
 
-/*@Preview
-@Composable
-fun Preview() {
-    AdminDashboard(rememberNavController(), user)
-}*/

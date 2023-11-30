@@ -13,10 +13,14 @@ import kotlinx.coroutines.launch
 
 class ConstraintViewModel (application: Application): AndroidViewModel(application){
     private val repository: Repository
+    private val constraints: Repository
+
+    var con: List<Constraints>? = null
 
     init {
         val dao = DBGenerator.getInstance(application).speedyPizzaDao()
         repository = Repository(dao)
+        constraints  = Repository(dao)
     }
 
     fun submit(nickname: String, min: Int, max: Int, checkBoxValues: MutableList<Int>) {
@@ -31,6 +35,12 @@ class ConstraintViewModel (application: Application): AndroidViewModel(applicati
         viewModelScope.launch(Dispatchers.IO) {
 
             repository.sendConstraint(Constraints(nickname, max, min, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica ))
+        }
+    }
+
+    fun getConstraints(){
+        viewModelScope.launch(Dispatchers.IO){
+            con = constraints.getConstraints()
         }
     }
 

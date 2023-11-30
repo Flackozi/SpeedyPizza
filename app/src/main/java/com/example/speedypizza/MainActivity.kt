@@ -26,7 +26,7 @@ import com.example.speedypizza.screens.admin.MyRiderScreen
 import com.example.speedypizza.screens.common.CreateAccountPage
 import com.example.speedypizza.screens.common.LoginPage
 import com.example.speedypizza.screens.common.ProfileScreen
-import com.example.speedypizza.screens.common.SchermataMessaggi
+import com.example.speedypizza.screens.rider.SchermataMessaggi
 import com.example.speedypizza.screens.common.ShiftsPage
 import com.example.speedypizza.screens.rider.ConstraintScreen
 import com.example.speedypizza.screens.rider.ExchangeRequests
@@ -114,8 +114,9 @@ class MainActivity : ComponentActivity() {
                            //myRiderViewModel.retrieveMyRider()
                            MyRiderScreen(navController,viewModel, myRiderViewModel) }
                        composable("createCalendarPage"){
-                          // myRiderViewModel.retrieveMyRider()
-                           CreateCalendar(navController,viewModel, myRiderViewModel, createCalendar)}
+                           //myRiderViewModel.retrieveMyRider()
+                           constraintViewModel.getConstraints()
+                           CreateCalendar(navController,viewModel, myRiderViewModel, createCalendar, constraintViewModel)}
                        composable("newAccountPage") { CreateAccountPage(navController, viewModel) }
 
 
@@ -127,49 +128,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-/*@RequiresApi(Build.VERSION_CODES.Q)
-@Composable
-fun SpeedyPizzaApp(sharedPreferencesProfile: SharedPreferences) {
-
-    val context = LocalContext.current
-    var user = User("","","","","","",0)
-
-
-
-    val viewModel: LoginViewModel = viewModel(factory = LoginViewModel.LoginViewModelFactory(context.applicationContext as Application))
-
-    val gradient = Brush.verticalGradient(
-        colors = listOf(start_color, center_color, end_color ),
-        startY = 0f,
-        endY = 2000f
-    )
-
-    Surface(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(gradient)
-    ){
-        val navController = rememberNavController()
-
-        NavHost(navController = navController, startDestination = "loginPage"){
-            composable("loginPage") {
-
-                //LoginPage(navController, viewModel)
-                user = LoginPage(navController, viewModel)
-            }
-            composable("riderHome") { RiderHomeScreen(navController, user) }
-            composable("messagesPage"){ SchermataMessaggi(navController, user) }
-            composable("adminHome"){ AdminDashboard(navController, user) }
-            composable("exchangePage"){ ExchangeRequests(navController, user) }
-            composable("profilePage"){ ProfileScreen(navController, user)}
-            composable("shiftPage"){ ShiftsPage(navController, user) }
-            composable("constraintsPage"){ ConstraintScreen(navController, user) }
-            composable("myRiderPage"){ MyRiderScreen(navController, user) }
-            composable("CreateCalendarPage"){ CreateCalendar(navController, user)}
-
-
-        }
-
-    }
-}*/
