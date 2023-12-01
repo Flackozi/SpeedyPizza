@@ -268,7 +268,7 @@ fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
                         }
                     }
 
-                    //constraintDay --> 1 No, -->2 possNo,-->3 Si
+                    //constraintDay --> 1 No, -->2 possNo, -->3 Si
 
                     DropdownMenuItem(
                         text = {

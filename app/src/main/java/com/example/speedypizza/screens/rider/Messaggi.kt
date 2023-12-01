@@ -101,7 +101,7 @@ fun MessageItem(message: Message) {
     ) {
 
         Row(modifier = Modifier.padding(16.dp)) {
-            if (message.messageType == 1)
+            if (message.messageType == 2)
                 Image(
                     painterResource(id = R.drawable.ic_change),
                     contentDescription = "cambio turni",
