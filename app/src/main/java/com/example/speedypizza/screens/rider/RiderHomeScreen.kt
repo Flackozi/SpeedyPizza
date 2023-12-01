@@ -377,39 +377,6 @@ fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel
 
             }
 
-            Button(
-                onClick = {
-                    navController.navigate("messagesPage")
-                    println("This is Messages")
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
-                ),
-                modifier = Modifier
-                    .width(130.dp)
-                    .height(130.dp)
-                    .offset(x = 40.dp, y = 200.dp)
-                    .shadow(20.dp),
-                shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
-
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(2.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_notification),
-                        contentDescription = "Notification",
-                        tint = Color.Black,
-                        modifier = Modifier.size(60.dp)
-                    )
-                    Text(stringResource(id = R.string.Messages))
-                }
-
-            }
-
 
             Button(
                 onClick = {
@@ -420,9 +387,9 @@ fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel
                     contentColor = Color.Black
                 ),
                 modifier = Modifier
-                    .width(130.dp)
+                    .width(292.dp)
                     .height(130.dp)
-                    .offset(x = 200.dp, y = 200.dp)
+                    .offset(x = 40.dp, y = 200.dp)
                     .shadow(20.dp),
                 shape = RoundedCornerShape(topStart=15.dp, topEnd=15.dp, bottomEnd = 15.dp, bottomStart=15.dp)
 

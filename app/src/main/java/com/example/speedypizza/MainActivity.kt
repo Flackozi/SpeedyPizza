@@ -26,11 +26,11 @@ import com.example.speedypizza.screens.admin.MyRiderScreen
 import com.example.speedypizza.screens.common.CreateAccountPage
 import com.example.speedypizza.screens.common.LoginPage
 import com.example.speedypizza.screens.common.ProfileScreen
-import com.example.speedypizza.screens.rider.SchermataMessaggi
 import com.example.speedypizza.screens.common.ShiftsPage
 import com.example.speedypizza.screens.rider.ConstraintScreen
 import com.example.speedypizza.screens.rider.ExchangeRequests
 import com.example.speedypizza.screens.rider.RiderHomeScreen
+import com.example.speedypizza.screens.rider.SchermataMessaggi
 import com.example.speedypizza.screens.viewmodel.CalendarViewModel
 import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
 import com.example.speedypizza.screens.viewmodel.ExchangeViewModel
@@ -108,7 +108,9 @@ class MainActivity : ComponentActivity() {
                            AdminDashboard(navController, viewModel) }
                        composable("exchangePage"){ ExchangeRequests(navController, viewModel, exchangeViewModel) }
                        composable("profilePage"){ ProfileScreen(navController,viewModel)}
-                       composable("shiftPage"){ ShiftsPage(navController, viewModel) }
+                       composable("shiftPage"){
+                           ShiftsPage(navController, viewModel)
+                       }
                        composable("constraintsPage"){ ConstraintScreen(navController,viewModel, constraintViewModel) }
                        composable("myRiderPage"){
                            //myRiderViewModel.retrieveMyRider()

@@ -155,6 +155,8 @@ fun CreateCalendar(
 
                             CoroutineScope(Dispatchers.Main).launch {
                                 createCalenadr.newCalendar(dayList, shiftList)
+                                navController.navigate("adminHome")
+
                             }
                         },
                         shape = RoundedCornerShape(
@@ -175,7 +177,6 @@ fun CreateCalendar(
                             fontSize = 20.sp
                         )
 
-                        navController.navigate("adminHome")
                     }
 
                 }
