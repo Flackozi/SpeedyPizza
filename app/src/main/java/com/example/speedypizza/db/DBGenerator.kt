@@ -13,7 +13,7 @@ import com.example.speedypizza.entity.User
 
 @Database(
     entities = [User::class, Constraints::class, Shifts::class, Days::class, Message::class, Exchanges::class],
-    version = 10,
+    version = 11,
     /*autoMigrations = [AutoMigration(3,5, spec = DBGenerator.MigrazioneConstraints::class)],
     exportSchema = true*/
 )

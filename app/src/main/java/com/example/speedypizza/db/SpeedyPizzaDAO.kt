@@ -6,8 +6,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.entity.Days
-import com.example.speedypizza.entity.Message
 import com.example.speedypizza.entity.Exchanges
+import com.example.speedypizza.entity.Message
 import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.entity.User
 
@@ -61,6 +61,9 @@ interface SpeedyPizzaDAO {
     @Query("SELECT * FROM Shifts WHERE rider=:nickname")
     fun retrieveShifts(nickname: String): List<Shifts>
 
+    @Query("SELECT * FROM Shifts")
+    fun retrieveAllShifts(): List<Shifts>
+
     @Query("SELECT * FROM Exchanges WHERE receiver=:nickname")
     fun retrieveRequests(nickname: String): List<Exchanges>
 
@@ -79,6 +82,7 @@ interface SpeedyPizzaDAO {
     fun updateShift(rider: String, newShift: String, oldShift: String)
 
     @Insert(entity = Exchanges::class)
-    fun sendRequest(exchanges: Exchanges)
+    //@Query("INSERT INTO Exchanges VALUES (:sender, :receiver, :senderShift, :receiverShift)")
+    fun sendRequest(exchange: Exchanges)
 
 }

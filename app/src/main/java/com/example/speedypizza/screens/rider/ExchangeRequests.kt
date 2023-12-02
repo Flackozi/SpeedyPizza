@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -55,9 +56,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import com.example.speedypizza.R
+import com.example.speedypizza.entity.Exchanges
+import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.globalExchangeVariables.shiftsList
 import com.example.speedypizza.screens.viewmodel.ExchangeViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
@@ -66,8 +67,6 @@ import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.green2
 import com.example.speedypizza.ui.theme.start_color
-import kotlinx.coroutines.delay
-import java.util.Arrays
 
 
 @Composable
@@ -110,22 +109,30 @@ fun ExchangeRequests(
 object globalExchangeVariables {
     //questa variabile servirà a tenere il valore dei vincoli associati ai giorni della settimana
     var checkBoxValue=0
-    val shiftsList: MutableList<Pair<String, String>> = mutableListOf()
+    val shiftsList: MutableList<Shifts> = mutableListOf()
 }
 
 
 @Composable
 fun RequestsList(
     navController: NavHostController,
-    LoginViewModel: LoginViewModel,
+    loginViewModel: LoginViewModel,
     viewModel: ExchangeViewModel,
     nickname: String
 ) {
     val context= LocalContext.current
 
+
     //faccio una query per prendere tutti i nomi dei raider
-    viewModel.retrieveMyRider()
-    val nicknamesList = viewModel.myRiders?.map { user -> user.nickname }
+    //viewModel.retrieveMyRider()
+    val nicknamesList = viewModel.myRiders!!.map { user -> user.nickname }
+    println(nicknamesList)
+
+    val lotteryList: MutableList<Exchanges> = mutableListOf()
+    val singleExchange: MutableList<Exchanges> = mutableListOf()
+
+
+
 
     var expanded by remember {
         mutableStateOf(false)
@@ -134,16 +141,17 @@ fun RequestsList(
         mutableStateOf("Seleziona un'opzione")
     }
 
-    //faccio una query per prendere i turni del rider che ha eseguito l'accesso
-    viewModel.retrieveMyShifts(nickname)
-    val myShifts= viewModel.myShifts?.map { shift -> shift.day }
 
-    //faccio una query per prendere le richieste ricevuto dal rider
-    viewModel.retrieveExchange(nickname)
-    val receivedRequestsSender=viewModel.receivedRequests?.map{request-> request.sender}
-    val receivedRequestsMyShift=viewModel.receivedRequests?.map{request-> request.receiverShift}
-    val receivedRequestsSenderShift=viewModel.receivedRequests?.map{request-> request.senderShift}
 
+    //faccio una query per prendere i turni di tutti i rider
+
+    val allShifts = viewModel.riderShifts!!.map { shifts ->  shifts.copy()}
+    val myShifts = allShifts.filter { it.rider == nickname }
+    println(allShifts)
+
+
+    val myReceivedRequests = viewModel.receivedRequests?.map { receivedRequest -> receivedRequest.copy() }
+    //println("ric$myReceivedRequests")
 
 
 
@@ -170,11 +178,13 @@ fun RequestsList(
                 horizontalArrangement = Arrangement.Center,
                 contentPadding = PaddingValues(horizontal = 5.dp),
             ) {
-                itemsIndexed(receivedRequestsSender.orEmpty()) { index, name ->
-                    val senderShift=receivedRequestsSenderShift?.get(index).toString()
-                    val receiverShift=receivedRequestsMyShift?.get(index).toString()
-                    RichiesteItem(nickname, name,  receiverShift, senderShift, viewModel)
-                    Spacer(modifier = Modifier.width(10.dp))
+                if (myReceivedRequests != null) {
+                    items(myReceivedRequests) { exchange ->
+
+                        RichiesteItem(loginViewModel.loggedUser!!.nickname, exchange.sender,  exchange.receiverShift, exchange.senderShift, viewModel)
+                        Spacer(modifier = Modifier.width(10.dp))
+
+                    }
                 }
             }
         }
@@ -212,9 +222,9 @@ fun RequestsList(
 
                 }
                 val checkboxStates1=remember{ mutableStateMapOf<String, Boolean>() }
-                myShifts?.forEach { shift->
-                    if(!checkboxStates1.contains(shift)){
-                        checkboxStates1[shift]=false
+                myShifts.forEach { shift->
+                    if(!checkboxStates1.contains(shift.day)){
+                        checkboxStates1[shift.day]=false
                     }
                 }
 
@@ -222,7 +232,7 @@ fun RequestsList(
                     verticalArrangement = Arrangement.spacedBy(2.dp),
                     modifier=Modifier.padding(top=4.dp)
                 ) {
-                    itemsIndexed(items = myShifts.orEmpty()) { index, shift ->
+                    itemsIndexed(myShifts) { index, shift ->
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment=Alignment.CenterVertically,
@@ -235,13 +245,13 @@ fun RequestsList(
                                 contentAlignment = Alignment.Center
 
                             ){
-                                Text(text = shift, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
+                                Text(text = shift.day, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
                             }
                             Spacer(modifier = Modifier.width(100.dp))
                             CheckBox(
-                                checked = checkboxStates1[shift] ?: false,
+                                checked = checkboxStates1[shift.day] ?: false,
                                 onCheckedChangeWithIndex = { isChecked, index ->
-                                    checkboxStates1[shift] = isChecked
+                                    checkboxStates1[shift.day] = isChecked
                                     selectedCheckBoxIndex = if (isChecked) index else -1
                                     onCheckBoxClicked(index)
                                 },
@@ -263,9 +273,9 @@ fun RequestsList(
                     .padding(15.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                itemsIndexed(items = nicknamesList.orEmpty()) {index, name ->
+                itemsIndexed(items = nicknamesList) { index, name ->
                     if(name!=nickname){
-                        Turns(name, viewModel, index)
+                        Turns(name, viewModel, index, allShifts.filter { it.rider == name })
                     }
 
                 }
@@ -282,16 +292,13 @@ fun RequestsList(
             ){
                 Button(
                     onClick = {
-                        //qui ci va il metodo associato al botone
-//                        println(globalExchangeVariables.shiftsList)
-                        for ((name, shift) in shiftsList) {
-                            if (myShifts != null && myShifts.get(globalExchangeVariables.checkBoxValue)!=shift) {
-//                                Log.d("dati per la query", nickname)
-//                                Log.d("dati per la query", myShifts.get(globalExchangeVariables.checkBoxValue))
-//                                Log.d("dati per la query", name)
-//                                Log.d("dati per la query", shift)
 
-                                viewModel.sendRequest(nickname, myShifts.get(globalExchangeVariables.checkBoxValue),name, shift)
+                        for (shift in shiftsList) {
+                            if (myShifts[globalExchangeVariables.checkBoxValue].day != shift.day) {
+
+                                singleExchange.add(Exchanges(nickname, shift.rider, myShifts[globalExchangeVariables.checkBoxValue].day, shift.day))
+                                viewModel.sendRequest(singleExchange)
+
                             }
                         }
                         navController.navigate("riderHome")
@@ -311,29 +318,26 @@ fun RequestsList(
 
                 Button(
                     onClick = {
-                        //qui mi setto una variabile con il nome del turno che il rider vuole scambiare
-                        val senderShift=myShifts!![globalExchangeVariables.checkBoxValue]
-                        var turns: List<String>?=null
+
                         //prima mi devo prendere la lista di tutti i rider
-                        for(riderName in nicknamesList!!){
+                        for(riderName in nicknamesList){
                             if(riderName!=nickname) {
-                                println(riderName)
-                                viewModel.retrieveRiderShifts(riderName)
-                                turns = viewModel.riderTurns
-                                println(riderName)
-                                Log.d("turni pre", "Lista di stringhe pre: ${turns?.joinToString()}")
-                                Log.d("turni post", "Lista di stringhe post: ${turns?.joinToString()}")
-                                //println(turns)
-                                //per ogni rider prendere la lista dei propri turni e inviare una richiesta di scambio per ogni turno diverso da quello che si vuole scambiare
-                                if (turns != null) {
-                                    for (shift in turns) {
-                                        if (senderShift != shift) {
-                                            viewModel.sendRequest(nickname, senderShift, riderName, shift)
-                                        }
+
+                                val riderTurns = allShifts.filter { it.rider == riderName }
+
+                                for (shift in riderTurns) {
+
+                                    if (myShifts[globalExchangeVariables.checkBoxValue].day != shift.day) {
+
+                                        lotteryList.add(Exchanges(nickname, riderName, myShifts[globalExchangeVariables.checkBoxValue].day, shift.day))
                                     }
                                 }
+
                             }
                         }
+                        viewModel.sendRequest(lotteryList)
+
+
                         navController.navigate("riderHome")
                     },
                     colors = buttonColor,
@@ -437,7 +441,7 @@ fun RichiesteItem(
                             Log.d("day", senderShift)
 
                             //aggiorna il turno al rider che ha accettato
-                            viewModel.updateShift(senderName, receiverShift, senderShift,)
+                            viewModel.updateShift(senderName, receiverShift, senderShift)
                             //aggiorna il turno del rider che ha inviato la richiesta
                             viewModel.updateShift(nickname, senderShift, receiverShift)
                             //bisogna eliminare le altre richieste riguardanti rider che ha inviato lo scambio che icnludevano lo stesso giorno
@@ -463,7 +467,12 @@ fun RichiesteItem(
                         .height(25.dp)
                         .clickable(onClick = {
                             //cancella la richiesta dal db
-                            viewModel.deleteRequest(nickname, senderName, senderShift, receiverShift)
+                            viewModel.deleteRequest(
+                                nickname,
+                                senderName,
+                                senderShift,
+                                receiverShift
+                            )
                         }),
 
                     ) {
@@ -507,9 +516,8 @@ fun RichiesteItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Turns(name: String, viewModel: ExchangeViewModel, index: Int) {
-    //val raidersTurn=listOf("Lunedi", "Martedi", "Mercoledi", "Sabato") //qui ci andranno tutti i turni del raider
-    viewModel.retrieveRiderShifts(name)
+fun Turns(name: String, viewModel: ExchangeViewModel, index: Int, shiftList: List<Shifts>) {
+
 
 
     var isExpanded by remember {
@@ -559,7 +567,7 @@ fun Turns(name: String, viewModel: ExchangeViewModel, index: Int) {
 //                    .align(Alignment.Center)
 //                    .background(center_color),
             ) {
-                val raidersTurn= viewModel.riderShifts?.map { shift -> shift.day }
+                val raidersTurn= shiftList.map { shift -> shift.day }
                 println(raidersTurn)
 
                 for(turn in raidersTurn.orEmpty()){
@@ -580,14 +588,14 @@ fun Turns(name: String, viewModel: ExchangeViewModel, index: Int) {
     //questo blocco serve ad aggiungere alla lista dei turni con cui si vuole proporre lo scambio la coppia nome e turno appena selezionata
     if(gender.isNotBlank()) {
         //assegna all'indiceEsistente l'indice della prima coppia all'interno di shiftsList in cui il primo elemento della coppia è uguale al valore di name
-        val indiceEsistente = globalExchangeVariables.shiftsList.indexOfFirst { it.first == name }
+        val indiceEsistente = globalExchangeVariables.shiftsList.indexOfFirst { it.rider == name }
 
         if (indiceEsistente != -1) {
             // Sovrascrivi la coppia esistente
-            globalExchangeVariables.shiftsList[indiceEsistente] = name to gender
+            globalExchangeVariables.shiftsList.add(indiceEsistente, Shifts(name, gender))
         } else {
             // Aggiungi una nuova coppia
-            globalExchangeVariables.shiftsList.add(name to gender)
+            globalExchangeVariables.shiftsList.add(Shifts(name, gender))
         }
     }
 }

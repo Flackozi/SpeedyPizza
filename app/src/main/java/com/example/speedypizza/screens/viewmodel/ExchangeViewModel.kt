@@ -12,9 +12,7 @@ import com.example.speedypizza.entity.Exchanges
 import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.entity.User
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class ExchangeViewModel (application: Application): AndroidViewModel(application){
     var riderTurns: List<String>?=null
@@ -42,17 +40,17 @@ class ExchangeViewModel (application: Application): AndroidViewModel(application
 
     fun retrieveMyShifts(nickname: String){
         viewModelScope.launch(Dispatchers.IO){
-            myShifts=repository.retrieveShifts(nickname)
+            myShifts=repository.retrieveAllShifts()
             //println(myShifts?.map { shift -> shift.day })
         }
     }
 
-    fun retrieveRiderShifts(nickname: String)= runBlocking{
+    fun retrieveRiderShifts(){
         viewModelScope.launch(Dispatchers.IO){
-            riderShifts=repository.retrieveShifts(nickname)
+            riderShifts=repository.retrieveAllShifts()
             //println(nickname)
             //println(repository.retrieveShifts(nickname))
-            riderTurns=riderShifts?.map { shift -> shift.day }
+            //riderTurns=riderShifts?.map { shift -> shift.day }
             println(riderTurns)
         }
     }
@@ -86,12 +84,17 @@ class ExchangeViewModel (application: Application): AndroidViewModel(application
         }
     }
 
-    fun sendRequest(sender:String, senderShift: String, receiver: String, receiverShift: String) {
+   /* fun sendRequest(sender: Exchanges, senderShift: String, receiver: String, receiverShift: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.newRequest(Exchanges(sender, receiver, senderShift, receiverShift))
         }
-    }
+    }*/
 
+    fun sendRequest(exchanges: List<Exchanges>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.newRequest(exchanges)
+        }
+    }
     @Suppress("UNCHECKED_CAST")
     class ExchangeViewModelFactory(
         private val application: Application

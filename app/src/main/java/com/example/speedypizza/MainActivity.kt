@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
                profile.nickname = sharedPreferencesProfile.*/
 
 
-               val viewModel: LoginViewModel = viewModel(factory = LoginViewModel.LoginViewModelFactory(context.applicationContext as Application))
+               val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.LoginViewModelFactory(context.applicationContext as Application))
                val constraintViewModel: ConstraintViewModel= viewModel(factory=ConstraintViewModel.ConstraintViewModelFactory(context.applicationContext as Application))
                val myRiderViewModel: MyRiderViewModel = viewModel(factory = MyRiderViewModel.MyRiderViewModelFactory(context.applicationContext as Application))
                val exchangeViewModel: ExchangeViewModel =viewModel(factory=ExchangeViewModel.ExchangeViewModelFactory(context.applicationContext as Application))
@@ -92,34 +92,37 @@ class MainActivity : ComponentActivity() {
                        composable("loginPage") {
 
                            //LoginPage(navController, viewModel)
-                          LoginPage(navController, viewModel)
-                          user = viewModel.loggedUser
+                          LoginPage(navController, loginViewModel)
+                          user = loginViewModel.loggedUser
                           user?.let { it1 -> Log.i("valuetry44444: ", it1.nickname) }
 
 
                        }
                        composable("riderHome") {
                            messageViewModel.retrieveMessages(user!!.nickname)
-                           RiderHomeScreen(navController, viewModel, messageViewModel) }
+                           RiderHomeScreen(navController, loginViewModel, messageViewModel) }
                        composable("messagesPage"){
-                           SchermataMessaggi(navController, viewModel, messageViewModel) }
+                           SchermataMessaggi(navController, loginViewModel, messageViewModel) }
                        composable("adminHome"){
                            myRiderViewModel.retrieveMyRider()
-                           AdminDashboard(navController, viewModel) }
-                       composable("exchangePage"){ ExchangeRequests(navController, viewModel, exchangeViewModel) }
-                       composable("profilePage"){ ProfileScreen(navController,viewModel)}
-                       composable("shiftPage"){
-                           ShiftsPage(navController, viewModel)
-                       }
-                       composable("constraintsPage"){ ConstraintScreen(navController,viewModel, constraintViewModel) }
+                           AdminDashboard(navController, loginViewModel) }
+                       composable("exchangePage"){
+                           exchangeViewModel.retrieveRiderShifts()
+                           exchangeViewModel.retrieveMyRider()
+
+                           exchangeViewModel.retrieveExchange(loginViewModel.loggedUser!!.nickname)
+                           ExchangeRequests(navController, loginViewModel, exchangeViewModel) }
+                       composable("profilePage"){ ProfileScreen(navController,loginViewModel)}
+                       composable("shiftPage"){ ShiftsPage(navController, loginViewModel) }
+                       composable("constraintsPage"){ ConstraintScreen(navController,loginViewModel, constraintViewModel) }
                        composable("myRiderPage"){
                            //myRiderViewModel.retrieveMyRider()
-                           MyRiderScreen(navController,viewModel, myRiderViewModel) }
+                           MyRiderScreen(navController,loginViewModel, myRiderViewModel) }
                        composable("createCalendarPage"){
                            //myRiderViewModel.retrieveMyRider()
                            constraintViewModel.getConstraints()
-                           CreateCalendar(navController,viewModel, myRiderViewModel, createCalendar, constraintViewModel)}
-                       composable("newAccountPage") { CreateAccountPage(navController, viewModel) }
+                           CreateCalendar(navController,loginViewModel, myRiderViewModel, createCalendar, constraintViewModel)}
+                       composable("newAccountPage") { CreateAccountPage(navController, loginViewModel) }
 
 
 

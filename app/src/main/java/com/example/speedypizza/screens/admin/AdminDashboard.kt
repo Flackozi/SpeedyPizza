@@ -141,8 +141,8 @@ fun PrimoMenu(navController: NavHostController) {
             Button( //Bottone Create Calendar
                 onClick = {
                     //qui ci va il metodo associato al bottone
-                    CoroutineScope(Dispatchers.Main).launch {
-                    navController.navigate("createCalendarPage")}
+                    //CoroutineScope(Dispatchers.Main).launch {
+                    navController.navigate("createCalendarPage")
 
                 },
                 colors = ButtonDefaults.buttonColors(

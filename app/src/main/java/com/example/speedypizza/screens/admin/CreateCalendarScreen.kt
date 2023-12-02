@@ -78,7 +78,7 @@ fun CreateCalendar(
     navController: NavHostController,
     viewModel: LoginViewModel,
     myRiderViewModel: MyRiderViewModel,
-    createCalenadr: CalendarViewModel,
+    createCalendar: CalendarViewModel,
     constraintViewModel: ConstraintViewModel
 ) {
 
@@ -154,7 +154,7 @@ fun CreateCalendar(
                         onClick = {
 
                             CoroutineScope(Dispatchers.Main).launch {
-                                createCalenadr.newCalendar(dayList, shiftList)
+                                createCalendar.newCalendar(dayList, shiftList)
                                 navController.navigate("adminHome")
 
                             }
