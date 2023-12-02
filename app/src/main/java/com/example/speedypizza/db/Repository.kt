@@ -92,19 +92,11 @@ class Repository(private val dao: SpeedyPizzaDAO) {
         dao.deleteOtherRequest(senderName, senderShift)
     }
 
-    /*fun newRequest(exchanges: List<Exchanges>) {
 
-        exchanges.forEach { exchange ->
-            dao.sendRequest(exchange)
-        }
-    }*/
+    fun newRequest(exchanges: Exchanges) {
 
+        dao.sendRequest(exchanges)
 
-    fun newRequest(exchanges: List<Exchanges>) {
-
-        exchanges.forEach { exchange ->
-            dao.sendRequest(exchange)
-        }
     }
 
     fun retrieveAllShifts(): List<Shifts> {

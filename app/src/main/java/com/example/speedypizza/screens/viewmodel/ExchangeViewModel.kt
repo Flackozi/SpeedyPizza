@@ -84,13 +84,8 @@ class ExchangeViewModel (application: Application): AndroidViewModel(application
         }
     }
 
-   /* fun sendRequest(sender: Exchanges, senderShift: String, receiver: String, receiverShift: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.newRequest(Exchanges(sender, receiver, senderShift, receiverShift))
-        }
-    }*/
 
-    fun sendRequest(exchanges: List<Exchanges>) {
+    fun sendRequest(exchanges: Exchanges) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.newRequest(exchanges)
         }

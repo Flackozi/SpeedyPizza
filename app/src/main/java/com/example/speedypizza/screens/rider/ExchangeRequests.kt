@@ -296,8 +296,7 @@ fun RequestsList(
                         for (shift in shiftsList) {
                             if (myShifts[globalExchangeVariables.checkBoxValue].day != shift.day) {
 
-                                singleExchange.add(Exchanges(nickname, shift.rider, myShifts[globalExchangeVariables.checkBoxValue].day, shift.day))
-                                viewModel.sendRequest(singleExchange)
+                                viewModel.sendRequest(Exchanges(nickname, shift.rider, myShifts[globalExchangeVariables.checkBoxValue].day, shift.day))
 
                             }
                         }
@@ -329,13 +328,13 @@ fun RequestsList(
 
                                     if (myShifts[globalExchangeVariables.checkBoxValue].day != shift.day) {
 
-                                        lotteryList.add(Exchanges(nickname, riderName, myShifts[globalExchangeVariables.checkBoxValue].day, shift.day))
+                                        viewModel.sendRequest(Exchanges(nickname, riderName, myShifts[globalExchangeVariables.checkBoxValue].day, shift.day))
                                     }
                                 }
 
                             }
                         }
-                        viewModel.sendRequest(lotteryList)
+
 
 
                         navController.navigate("riderHome")
