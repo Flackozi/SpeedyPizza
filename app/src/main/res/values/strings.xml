@@ -23,5 +23,7 @@
     <string name="Send">Send</string>
     <string name="Sent_To_All">Send To All</string>
     <string name="Username">Username</string>
+    <string name="His">His</string>
+    <string name="Your">Your</string>
 
 </resources>

@@ -1,7 +1,9 @@
 package com.example.speedypizza.screens.rider
 
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -39,7 +41,13 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -50,6 +58,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -67,8 +76,10 @@ import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.green2
 import com.example.speedypizza.ui.theme.start_color
+import java.lang.reflect.Field
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun ExchangeRequests(
     navController: NavHostController,
@@ -80,6 +91,7 @@ fun ExchangeRequests(
         startY = 0f,
         endY = 2000f
     )
+
 
     ConstraintLayout {
         val (box) = createRefs()
@@ -113,6 +125,7 @@ object globalExchangeVariables {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun RequestsList(
     navController: NavHostController,
@@ -124,14 +137,9 @@ fun RequestsList(
 
 
     //faccio una query per prendere tutti i nomi dei raider
-    //viewModel.retrieveMyRider()
+
     val nicknamesList = viewModel.myRiders!!.map { user -> user.nickname }
     println(nicknamesList)
-
-    val lotteryList: MutableList<Exchanges> = mutableListOf()
-    val singleExchange: MutableList<Exchanges> = mutableListOf()
-
-
 
 
     var expanded by remember {
@@ -245,7 +253,14 @@ fun RequestsList(
                                 contentAlignment = Alignment.Center
 
                             ){
-                                Text(text = shift.day, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
+
+                                /*val dayField: Field = R.string::class.java.getDeclaredField(shift.day)
+
+                                val dayId: Int = dayField.getInt(dayField)
+
+                                val day = context.getString(dayId)*/
+
+                                Text(text = getDay(shift.day) , style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
                             }
                             Spacer(modifier = Modifier.width(100.dp))
                             CheckBox(
@@ -518,7 +533,7 @@ fun RichiesteItem(
             Spacer(modifier = Modifier.height(2.dp))
 
             Text(
-                text = "His: ".plus(senderShift),
+                text = stringResource(id = R.string.His).plus(": ").plus(getDay(senderShift)),
                 color = Color.Black,
                 style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold),
                 modifier=Modifier.padding(start = 10.dp)
@@ -527,7 +542,7 @@ fun RichiesteItem(
 
 
             Text(
-                text = "Your: ".plus(receiverShift),
+                text = stringResource(id = R.string.Your).plus(": ").plus(getDay(receiverShift)),
                 color = Color.Black,
                 style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold),
                 modifier=Modifier.padding(start = 10.dp)
@@ -559,6 +574,10 @@ fun Turns(name: String, viewModel: ExchangeViewModel, index: Int, shiftList: Lis
         fontSize = 15.sp,
         fontWeight = FontWeight.Bold
     )
+
+    var dayTurn by remember {
+        mutableStateOf("")
+    }
 
     Box(
         modifier=Modifier
@@ -598,10 +617,12 @@ fun Turns(name: String, viewModel: ExchangeViewModel, index: Int, shiftList: Lis
                 println(raidersTurn)
 
                 for(turn in raidersTurn.orEmpty()){
+                    val day = getDay(day = turn)
                     DropdownMenuItem(
-                        text = { Text(text = turn) },//al posto di quesi ci andranno i turni presi con la query
+                        text = { Text(text = day) },//al posto di quesi ci andranno i turni presi con la query
                         onClick = {
-                            gender = turn
+                            dayTurn = turn
+                            gender = day
                             isExpanded = false
 
                         }
@@ -619,10 +640,21 @@ fun Turns(name: String, viewModel: ExchangeViewModel, index: Int, shiftList: Lis
 
         if (indiceEsistente != -1) {
             // Sovrascrivi la coppia esistente
-            globalExchangeVariables.shiftsList.add(indiceEsistente, Shifts(name, gender))
+            globalExchangeVariables.shiftsList.add(indiceEsistente, Shifts(name, dayTurn))
         } else {
             // Aggiungi una nuova coppia
-            globalExchangeVariables.shiftsList.add(Shifts(name, gender))
+            globalExchangeVariables.shiftsList.add(Shifts(name, dayTurn))
         }
     }
+}
+
+@Composable
+fun getDay(day: String): String{
+
+    val dayField: Field = R.string::class.java.getDeclaredField(day)
+
+    val dayId: Int = dayField.getInt(dayField)
+
+    return LocalContext.current.getString(dayId)
+
 }
