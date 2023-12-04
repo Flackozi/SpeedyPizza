@@ -51,7 +51,7 @@ class ExchangeViewModel (application: Application): AndroidViewModel(application
             //println(nickname)
             //println(repository.retrieveShifts(nickname))
             //riderTurns=riderShifts?.map { shift -> shift.day }
-            println(riderTurns)
+            //println(riderTurns)
         }
     }
 

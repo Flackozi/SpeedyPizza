@@ -181,7 +181,7 @@ fun RequestsList(
                 if (myReceivedRequests != null) {
                     items(myReceivedRequests) { exchange ->
 
-                        RichiesteItem(loginViewModel.loggedUser!!.nickname, exchange.sender,  exchange.receiverShift, exchange.senderShift, viewModel)
+                        RichiesteItem(loginViewModel.loggedUser!!.nickname, exchange.sender,  exchange.receiverShift, exchange.senderShift, viewModel, navController)
                         Spacer(modifier = Modifier.width(10.dp))
 
                     }
@@ -283,6 +283,8 @@ fun RequestsList(
             }
 
             val buttonColor = ButtonDefaults.buttonColors(center_color)
+
+            //BOTTONE SEND
             Row(
                 horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
                 verticalAlignment = Alignment.CenterVertically,
@@ -292,14 +294,37 @@ fun RequestsList(
             ){
                 Button(
                     onClick = {
+                        println(myShifts)
+                        val senderTurn = myShifts[globalExchangeVariables.checkBoxValue].day
+                        // Verifica se senderTurn è diverso da tutti gli elementi shift.day in shiftsList
+                        var shouldSendRequest = shiftsList.all { it.day != senderTurn }
 
-                        for (shift in shiftsList) {
-                            if (myShifts[globalExchangeVariables.checkBoxValue].day != shift.day) {
-
-                                viewModel.sendRequest(Exchanges(nickname, shift.rider, myShifts[globalExchangeVariables.checkBoxValue].day, shift.day))
-
+                        if (shouldSendRequest) {
+                            for (shift in shiftsList) {
+                                if (shift.day == senderTurn) {
+                                    shouldSendRequest = false
+                                    break
+                                }
                             }
                         }
+
+                        val myTurn=myShifts.map{it.day}
+
+                        if (shouldSendRequest) {
+                            for (shift in shiftsList) {
+                                if(shift.day !in myTurn) {//controllo che shift.day non faccia gia' parte dei miei turni
+                                    viewModel.sendRequest(
+                                        Exchanges(
+                                            nickname,
+                                            shift.rider,
+                                            senderTurn,
+                                            shift.day
+                                        )
+                                    )
+                                }
+                            }
+                        }
+
                         navController.navigate("riderHome")
                     },
                     colors = buttonColor,
@@ -314,10 +339,10 @@ fun RequestsList(
 
                 Spacer(modifier = Modifier.width(20.dp))
 
-
+                //BOTTONE SEND TO ALL
                 Button(
                     onClick = {
-
+                        val senderTurn=myShifts[globalExchangeVariables.checkBoxValue].day
                         //prima mi devo prendere la lista di tutti i rider
                         for(riderName in nicknamesList){
                             if(riderName!=nickname) {
@@ -326,7 +351,7 @@ fun RequestsList(
 
                                 for (shift in riderTurns) {
 
-                                    if (myShifts[globalExchangeVariables.checkBoxValue].day != shift.day) {
+                                    if (senderTurn!= shift.day) {
 
                                         viewModel.sendRequest(Exchanges(nickname, riderName, myShifts[globalExchangeVariables.checkBoxValue].day, shift.day))
                                     }
@@ -400,7 +425,8 @@ fun RichiesteItem(
     senderName: String,
     receiverShift: String,
     senderShift: String,
-    viewModel: ExchangeViewModel
+    viewModel: ExchangeViewModel,
+    navController: NavHostController
 ){
     //val hisTurn="Monday: 12:00/15:00" //qui ci andra' il turno che gli viene proposto
     //val myTurn="Friday: 12:00/15:00" //qui ci andra' quello attuale suo
@@ -447,6 +473,7 @@ fun RichiesteItem(
                             viewModel.deleteOtherRequest(senderName, senderShift)
                             //bisogna eliminare le richieste che il rider loggato ha inviato che includevano il giorno appena scambiato
                             viewModel.deleteOtherRequest(nickname, receiverShift)
+                            navController.navigate("exchangePage")
                         }),
                 ) {
                     Icon(
@@ -472,6 +499,7 @@ fun RichiesteItem(
                                 senderShift,
                                 receiverShift
                             )
+                            navController.navigate("exchangePage")
                         }),
 
                     ) {
