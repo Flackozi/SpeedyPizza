@@ -7,35 +7,33 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.speedypizza.db.DBGenerator
 import com.example.speedypizza.db.Repository
-import com.example.speedypizza.entity.Shifts
+import com.example.speedypizza.entity.Days
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ShiftsViewModel(application: Application): AndroidViewModel(application) {
+class DaysViewModel(application: Application): AndroidViewModel(application){
 
-    private val shifts: Repository
+    private val days: Repository
 
-    var allShifts: List<Shifts>? = null
+    var daysInfo: List<Days>? = null
 
-
-    init {
+    init{
         val dao = DBGenerator.getInstance(application).speedyPizzaDao()
-        shifts = Repository(dao)
+        days = Repository(dao)
     }
 
-    fun getShifts(){
+    fun getDays(){
         viewModelScope.launch(Dispatchers.IO){
-            allShifts = shifts.getShifts()
+            daysInfo = days.getDaysInfo()
         }
     }
 
-
     @Suppress("UNCHECKED_CAST")
-    class ShiftsViewModelFactory(
+    class DaysViewModelFactory(
         private val application: Application
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return ShiftsViewModel(application) as T
+            return DaysViewModel(application) as T
         }
     }
 }
