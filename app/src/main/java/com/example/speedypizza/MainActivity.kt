@@ -37,6 +37,7 @@ import com.example.speedypizza.screens.viewmodel.ExchangeViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.screens.viewmodel.MessageViewModel
 import com.example.speedypizza.screens.viewmodel.MyRiderViewModel
+import com.example.speedypizza.screens.viewmodel.ShiftsViewModel
 import com.example.speedypizza.ui.theme.SpeedyPizzaTheme
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -73,7 +74,7 @@ class MainActivity : ComponentActivity() {
                val exchangeViewModel: ExchangeViewModel =viewModel(factory=ExchangeViewModel.ExchangeViewModelFactory(context.applicationContext as Application))
                val createCalendar: CalendarViewModel = viewModel(factory = CalendarViewModel.CalendarViewModelFactory(context.applicationContext as Application))
                val messageViewModel: MessageViewModel = viewModel(factory = MessageViewModel.MessageViewModelFactory(context.applicationContext as Application))
-
+               val shiftsViewModel: ShiftsViewModel = viewModel(factory = ShiftsViewModel.ShiftsViewModelFactory(context.applicationContext as Application))
 
                val gradient = Brush.verticalGradient(
                    colors = listOf(start_color, center_color, end_color ),
@@ -113,7 +114,7 @@ class MainActivity : ComponentActivity() {
                            exchangeViewModel.retrieveExchange(loginViewModel.loggedUser!!.nickname)
                            ExchangeRequests(navController, loginViewModel, exchangeViewModel) }
                        composable("profilePage"){ ProfileScreen(navController,loginViewModel)}
-                       composable("shiftPage"){ ShiftsPage(navController, loginViewModel) }
+                       composable("shiftPage"){ ShiftsPage(navController, loginViewModel, shiftsViewModel) }
                        composable("constraintsPage"){ ConstraintScreen(navController,loginViewModel, constraintViewModel) }
                        composable("myRiderPage"){
                            //myRiderViewModel.retrieveMyRider()
