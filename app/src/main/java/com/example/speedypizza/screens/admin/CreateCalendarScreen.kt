@@ -52,7 +52,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.entity.Days
 import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.BarraSuperiore
@@ -198,7 +197,6 @@ fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
     var listaShift: List<Shifts>
     var constraintsMin: List<Int>?
     var constraintsMax: List<Int>?
-    var constraint: Constraints
     var constraintDay: List<Int>?
 
     var expanded by remember {

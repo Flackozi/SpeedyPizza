@@ -42,13 +42,18 @@ import com.example.speedypizza.R
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.screens.viewmodel.ShiftsViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.start_color
 
 
 
 @Composable
-fun ShiftsPage(navController: NavHostController, viewModel: LoginViewModel) {
+fun ShiftsPage(
+    navController: NavHostController,
+    viewModel: LoginViewModel,
+    shiftsViewModel: ShiftsViewModel
+) {
 
 
     ConstraintLayout {
@@ -66,7 +71,7 @@ fun ShiftsPage(navController: NavHostController, viewModel: LoginViewModel) {
                 BarraSuperiore(navController, viewModel)
                 ScrittaIniziale("Shifts")
                 Spacer(modifier = Modifier.height(50.dp))
-                ShiftsList()
+                ShiftsList(shiftsViewModel)
             }
         }
 
@@ -74,7 +79,11 @@ fun ShiftsPage(navController: NavHostController, viewModel: LoginViewModel) {
 
 }
 @Composable
-fun ShiftsList() {
+fun ShiftsList(shiftsViewModel: ShiftsViewModel) {
+
+
+
+
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -93,7 +102,7 @@ fun ShiftsList() {
 
         Spacer(modifier = Modifier.height(70.dp))
         Row(
-            horizontalArrangement = Arrangement.Center, //distribuisce lo spazio tra i bottoni
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth().fillMaxHeight()
@@ -108,7 +117,7 @@ fun ShiftsList() {
                 itemsIndexed(days.chunked(2)) { index, towDays ->
                     Row(modifier = Modifier.fillMaxWidth().fillMaxHeight(), horizontalArrangement = Arrangement.Center){
                         towDays.forEach(){ day->
-                            DailyItem(day)
+                            DailyItem(day, shiftsViewModel)
                             if (index == days.lastIndex && days.size % 2 != 0) {
                                 Spacer(modifier = Modifier.width(200.dp))
                             }
@@ -123,10 +132,17 @@ fun ShiftsList() {
     }
 }
 @Composable
-fun DailyItem(day: String){
+fun DailyItem(day: String, shiftsViewModel: ShiftsViewModel){
 
-    val LaunchWorker= listOf("Matt", "Carlo", "Flavio", "Francesco", "Andrea", "Mario")
-    val DinnerWorker= listOf("Romolo", "Franco", "Sebastiano")
+    //val LaunchWorker= listOf("Matt", "Carlo", "Flavio", "Francesco", "Andrea", "Mario") // devo prendermi i rider per il giorno day passato
+
+    //devo prendermi rider che lavorano in day
+
+
+    shiftsViewModel.getRidersForDay(day)
+
+    val ridersForDay = shiftsViewModel.ridersDay
+
 
     Card(
         modifier = Modifier
@@ -167,7 +183,7 @@ fun DailyItem(day: String){
                                 .fillMaxWidth(),
                             verticalArrangement = Arrangement.Center
                         ) {
-                            items(LaunchWorker) { name ->
+                            items(ridersForDay.orEmpty()){ name ->
                                 WorkerItem(name)
                             }
                         }
@@ -202,9 +218,3 @@ fun WorkerItem(workerName: String){
 
 
 }
-
-/*@Preview
-@Composable
-fun Preview5() {
-    ShiftsPage(rememberNavController(), user)
-}*/

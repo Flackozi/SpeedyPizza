@@ -103,6 +103,12 @@ class Repository(private val dao: SpeedyPizzaDAO) {
         return dao.retrieveAllShifts()
     }
 
+    //shiftsPage
+    fun getRidersDay(day: String): List<String> {
+        return dao.getRidersDay(day)
+    }
+
+
 }
 
 
