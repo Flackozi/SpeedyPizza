@@ -84,4 +84,6 @@ interface SpeedyPizzaDAO {
     @Insert(entity = Exchanges::class, onConflict = OnConflictStrategy.REPLACE)
     fun sendRequest(exchange: Exchanges)
 
+
+
 }
