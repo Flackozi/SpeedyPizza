@@ -106,7 +106,7 @@ fun ShiftsList(allShifts: List<Shifts>?, daysInfo: List<Days>?) {
     ) {
 
 
-        Spacer(modifier = Modifier.height(93.dp))
+        Spacer(modifier = Modifier.height(70.dp))
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
@@ -172,7 +172,7 @@ fun DailyItem(day: String, riders: List<Shifts>?, min: Int?, max: Int?){
         modifier = Modifier
             .width(170.dp)
             .padding(8.dp)
-            .height(110.dp)
+            .height(130.dp)
             //.background(Color.White)
             .clickable {
                 //cosa deve succedere al click

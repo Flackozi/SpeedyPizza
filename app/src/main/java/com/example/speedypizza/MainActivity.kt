@@ -30,7 +30,6 @@ import com.example.speedypizza.screens.common.ShiftsPage
 import com.example.speedypizza.screens.rider.ConstraintScreen
 import com.example.speedypizza.screens.rider.ExchangeRequests
 import com.example.speedypizza.screens.rider.RiderHomeScreen
-import com.example.speedypizza.screens.rider.SchermataMessaggi
 import com.example.speedypizza.screens.viewmodel.CalendarViewModel
 import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
 import com.example.speedypizza.screens.viewmodel.DaysViewModel
@@ -104,8 +103,6 @@ class MainActivity : ComponentActivity() {
                        composable("riderHome") {
                            messageViewModel.retrieveMessages(user!!.nickname)
                            RiderHomeScreen(navController, loginViewModel, messageViewModel) }
-                       composable("messagesPage"){
-                           SchermataMessaggi(navController, loginViewModel, messageViewModel) }
                        composable("adminHome"){
                            myRiderViewModel.retrieveMyRider()
                            AdminDashboard(navController, loginViewModel) }
