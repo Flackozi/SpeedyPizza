@@ -23,5 +23,7 @@
     <string name="Send">Invia</string>
     <string name="Sent_To_All">Invia a tutti</string>
     <string name="Username">Username</string>
+    <string name="His">Suoi</string>
+    <string name="Your">Tuoi</string>
 
 </resources>
