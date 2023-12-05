@@ -30,9 +30,9 @@ import com.example.speedypizza.screens.common.ShiftsPage
 import com.example.speedypizza.screens.rider.ConstraintScreen
 import com.example.speedypizza.screens.rider.ExchangeRequests
 import com.example.speedypizza.screens.rider.RiderHomeScreen
-import com.example.speedypizza.screens.rider.SchermataMessaggi
 import com.example.speedypizza.screens.viewmodel.CalendarViewModel
 import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
+import com.example.speedypizza.screens.viewmodel.DaysViewModel
 import com.example.speedypizza.screens.viewmodel.ExchangeViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.screens.viewmodel.MessageViewModel
@@ -75,6 +75,7 @@ class MainActivity : ComponentActivity() {
                val createCalendar: CalendarViewModel = viewModel(factory = CalendarViewModel.CalendarViewModelFactory(context.applicationContext as Application))
                val messageViewModel: MessageViewModel = viewModel(factory = MessageViewModel.MessageViewModelFactory(context.applicationContext as Application))
                val shiftsViewModel: ShiftsViewModel = viewModel(factory = ShiftsViewModel.ShiftsViewModelFactory(context.applicationContext as Application))
+               val daysViewModel: DaysViewModel = viewModel(factory = DaysViewModel.DaysViewModelFactory(context.applicationContext as Application))
 
                val gradient = Brush.verticalGradient(
                    colors = listOf(start_color, center_color, end_color ),
@@ -102,8 +103,6 @@ class MainActivity : ComponentActivity() {
                        composable("riderHome") {
                            messageViewModel.retrieveMessages(user!!.nickname)
                            RiderHomeScreen(navController, loginViewModel, messageViewModel) }
-                       composable("messagesPage"){
-                           SchermataMessaggi(navController, loginViewModel, messageViewModel) }
                        composable("adminHome"){
                            myRiderViewModel.retrieveMyRider()
                            AdminDashboard(navController, loginViewModel) }
@@ -114,7 +113,11 @@ class MainActivity : ComponentActivity() {
                            exchangeViewModel.retrieveExchange(loginViewModel.loggedUser!!.nickname)
                            ExchangeRequests(navController, loginViewModel, exchangeViewModel) }
                        composable("profilePage"){ ProfileScreen(navController,loginViewModel)}
-                       composable("shiftPage"){ ShiftsPage(navController, loginViewModel, shiftsViewModel) }
+                       composable("shiftPage"){
+                           daysViewModel.getDays()
+                           shiftsViewModel.getShifts()
+                           ShiftsPage(navController, loginViewModel, shiftsViewModel.allShifts, daysViewModel.daysInfo)
+                       }
                        composable("constraintsPage"){ ConstraintScreen(navController,loginViewModel, constraintViewModel) }
                        composable("myRiderPage"){
                            //myRiderViewModel.retrieveMyRider()

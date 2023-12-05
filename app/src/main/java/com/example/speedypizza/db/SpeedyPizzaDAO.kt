@@ -78,7 +78,7 @@ interface SpeedyPizzaDAO {
     @Query("UPDATE Shifts SET day = :newShift WHERE rider =:rider AND day= :oldShift")
     fun updateShift(rider: String, newShift: String, oldShift: String)
 
-    @Insert(entity = Exchanges::class)
+    @Insert(entity = Exchanges::class, onConflict = OnConflictStrategy.REPLACE)
     fun sendRequest(exchanges: Exchanges)
 
     @Query("SELECT * FROM Shifts")
@@ -87,4 +87,10 @@ interface SpeedyPizzaDAO {
     //shifts
     @Query("SELECT rider FROM Shifts WHERE day = :day")
     fun getRidersDay(day: String): List<String>
+
+    @Query("SELECT * FROM Shifts")
+    fun getShifts(): List<Shifts>
+
+    @Query("SELECT * FROM Days")
+    fun getDaysInfo(): List<Days>
 }

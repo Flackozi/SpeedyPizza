@@ -264,12 +264,6 @@ fun BarraSuperiore(navController: NavHostController, viewModel: LoginViewModel) 
 @Composable
 fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel) {
 
-    /*var elencoMessaggi = listOf(
-        Message(1, "Nuovi turni disponibili", "21/10/2023", 1),
-        Message(2, "Calendario dei turni pubblicato", "19/10/2023", 2),
-        Message(3, "Nuovi turni disponibili", "21/10/2023", 1),
-    )*/
-
     val messageList = messageViewModel.messageList!!.map { message -> message.copy() }
 
     Column(
