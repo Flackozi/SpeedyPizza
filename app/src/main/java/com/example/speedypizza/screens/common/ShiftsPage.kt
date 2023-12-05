@@ -106,7 +106,7 @@ fun ShiftsList(allShifts: List<Shifts>?, daysInfo: List<Days>?) {
     ) {
 
 
-        Spacer(modifier = Modifier.height(70.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
