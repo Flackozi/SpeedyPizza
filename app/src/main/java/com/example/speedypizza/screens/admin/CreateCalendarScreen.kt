@@ -1,6 +1,7 @@
 package com.example.speedypizza.screens.admin
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -58,6 +59,7 @@ import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.screens.viewmodel.CalendarViewModel
 import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
+import com.example.speedypizza.screens.viewmodel.GeneralException
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.screens.viewmodel.MyRiderViewModel
 import com.example.speedypizza.ui.theme.boxcol
@@ -153,9 +155,18 @@ fun CreateCalendar(
                         onClick = {
 
                             CoroutineScope(Dispatchers.Main).launch {
-                                createCalendar.newCalendar(dayList, shiftList)
-                                navController.navigate("adminHome")
-
+                                try{
+                                    for(day in dayList){
+                                        if(day.min>day.max){
+                                            throw GeneralException("Min non può essere maggiore di max")
+                                        }
+                                    }
+                                    createCalendar.newCalendar(dayList, shiftList)
+                                    navController.navigate("adminHome")
+                                }catch(e: GeneralException){
+                                    navController.navigate("createCalendarPage")
+                                    Log.e("InsertError", "Inserimento parametri errato: ${e.message}")
+                                }
                             }
                         },
                         shape = RoundedCornerShape(
@@ -204,7 +215,6 @@ fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
     }
 
 
-
     val selectedRiders = remember { mutableStateListOf<String>() }
 
 
@@ -214,8 +224,10 @@ fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
             checkboxStates[item] = false
         }
     }
-    Row(modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
 
 
         Box(modifier = Modifier.width(200.dp)) {
@@ -251,20 +263,23 @@ fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
                 myRider.forEach { item ->
 
 
-                    constraintsMin = constraintViewModel.con?.filter {it.nickname == item}?.map { it.min }
-                    constraintsMax = constraintViewModel.con?.filter {it.nickname == item}?.map { it.max }
-                    constraintDay = constraintViewModel.con?.filter {it.nickname == item }?.mapNotNull {
-                        when (day) {
-                            "Lunedi", "Monday" -> it.lunedi
-                            "Martedi", "Tuesday" -> it.martedi
-                            "Mercoledi", "Wednesday"-> it.mercoledi
-                            "Giovedi", "Thursday" -> it.giovedi
-                            "Venerdi", "Friday" -> it.venerdi
-                            "Sabato", "Saturday" -> it.sabato
-                            "Domenica", "Sunday" -> it.domenica
-                            else -> null  // Ritorna null se il giorno non corrisponde a nessuna colonna
+                    constraintsMin =
+                        constraintViewModel.con?.filter { it.nickname == item }?.map { it.min }
+                    constraintsMax =
+                        constraintViewModel.con?.filter { it.nickname == item }?.map { it.max }
+                    constraintDay =
+                        constraintViewModel.con?.filter { it.nickname == item }?.mapNotNull {
+                            when (day) {
+                                "Lunedi", "Monday" -> it.lunedi
+                                "Martedi", "Tuesday" -> it.martedi
+                                "Mercoledi", "Wednesday" -> it.mercoledi
+                                "Giovedi", "Thursday" -> it.giovedi
+                                "Venerdi", "Friday" -> it.venerdi
+                                "Sabato", "Saturday" -> it.sabato
+                                "Domenica", "Sunday" -> it.domenica
+                                else -> null  // Ritorna null se il giorno non corrisponde a nessuna colonna
+                            }
                         }
-                    }
 
                     //constraintDay --> 1 No, -->2 possNo, -->3 Si
 
@@ -273,9 +288,24 @@ fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
                             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                                 if (constraintDay != null && constraintDay!!.isNotEmpty()) {
                                     when (constraintDay!![0]) {
-                                        1 -> Text(text = item, color = start_color, fontWeight = FontWeight.Bold)
-                                        2 -> Text(text = item, color = end_color, fontWeight = FontWeight.Bold)
-                                        3 -> Text(text = item, color = green2, fontWeight = FontWeight.Bold)
+                                        1 -> Text(
+                                            text = item,
+                                            color = start_color,
+                                            fontWeight = FontWeight.Bold
+                                        )
+
+                                        2 -> Text(
+                                            text = item,
+                                            color = end_color,
+                                            fontWeight = FontWeight.Bold
+                                        )
+
+                                        3 -> Text(
+                                            text = item,
+                                            color = green2,
+                                            fontWeight = FontWeight.Bold
+                                        )
+
                                         else -> Text(text = item)
                                     }
                                 } else {
@@ -406,8 +436,15 @@ fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
         Shifts(rider, day)
 
     }
-    return Pair(Days(day, if (textMin.value.isEmpty()) 0 else textMin.value.toInt(), if (textMax.value.isEmpty()) 0 else textMax.value.toInt()), listaShift)//ScheduleItem(day, selectedRiders.toList(), textMin.value, textMax.value)
 
+
+    return Pair(
+        Days(
+            day,
+            if (textMin.value.isEmpty()) 0 else textMin.value.toInt(),
+            if (textMax.value.isEmpty()) 0 else textMax.value.toInt()
+        ), listaShift
+    )//ScheduleItem(day, selectedRiders.toList(), textMin.value, textMax.value)
 }
 
 @Composable

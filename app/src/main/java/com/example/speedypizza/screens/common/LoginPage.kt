@@ -1,6 +1,7 @@
 package com.example.speedypizza.screens.common
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -55,6 +56,7 @@ import com.example.speedypizza.R
 import com.example.speedypizza.db.DBGenerator
 import com.example.speedypizza.db.Repository
 import com.example.speedypizza.entity.User
+import com.example.speedypizza.screens.viewmodel.GeneralException
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -216,13 +218,17 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
 
 
                             CoroutineScope(Dispatchers.Main).launch {
-                                val user = viewModel.login(emailValue.value, passwordValue.value).await()
-
-
-                                if (user.role==1) {
-                                    navController.navigate("riderHome")
-                                } else if (user.role == 2){
-                                    navController.navigate("adminHome")
+                                try {
+                                    val user =
+                                        viewModel.login(emailValue.value, passwordValue.value).await()
+                                    if (user.role == 1) {
+                                        navController.navigate("riderHome")
+                                    } else if (user.role == 2) {
+                                        navController.navigate("adminHome")
+                                    }
+                                }catch(e: GeneralException){
+                                    navController.navigate("loginPage")
+                                    Log.e("LoginError", "Credenziali errate: ${e.message}")
                                 }
                             }
 

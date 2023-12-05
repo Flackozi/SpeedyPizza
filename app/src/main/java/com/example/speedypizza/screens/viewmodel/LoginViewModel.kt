@@ -35,6 +35,9 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
         return viewModelScope.async(Dispatchers.IO) {
             delay(300)
             loggedUser= loginRepository.login(username, password)
+            if(loggedUser==null){
+                throw GeneralException("Credenziali errate")
+            }
            // Log.i("valuetry1: ", "daje")
             return@async loggedUser!!
         }
@@ -59,3 +62,5 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
     }
 
 }
+
+class GeneralException(message: String) : Exception(message)

@@ -1,5 +1,6 @@
 package com.example.speedypizza.screens.rider
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -51,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.speedypizza.R
 import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
+import com.example.speedypizza.screens.viewmodel.GeneralException
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
@@ -364,9 +366,22 @@ fun ElencoGiorni(
                     val min=textMin.value.toInt()
                     val max=textMax.value.toInt()
                     CoroutineScope(Dispatchers.Main).launch {
-                        constraintViewModel.submit(nickname, min, max, GlobalVariables.checkBoxValues)
-                        //delay(300)
-                        navController.navigate("riderHome")
+                        try {
+                            if(min>max){
+                                throw GeneralException("Min non può essere maggiore di max")
+                            }
+                            constraintViewModel.submit(
+                                nickname,
+                                min,
+                                max,
+                                GlobalVariables.checkBoxValues
+                            )
+                            //delay(300)
+                            navController.navigate("riderHome")
+                        }catch(e: GeneralException){
+                            navController.navigate("constraintsPage")
+                            Log.e("InsertError", "Inserimento parametri errato: ${e.message}")
+                        }
                     }
 
                 },

@@ -33,7 +33,9 @@ class ConstraintViewModel (application: Application): AndroidViewModel(applicati
         val domenica= checkBoxValues[6]
 
         viewModelScope.launch(Dispatchers.IO) {
-
+            /*if(min>max){
+                throw GeneralException("Min non può essere maggiore di max")
+            }*/
             repository.sendConstraint(Constraints(nickname, max, min, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica ))
         }
     }
