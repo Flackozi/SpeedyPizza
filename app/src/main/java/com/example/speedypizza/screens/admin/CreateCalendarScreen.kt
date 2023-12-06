@@ -1,3 +1,5 @@
+@file:Suppress("DUPLICATE_LABEL_IN_WHEN")
+
 package com.example.speedypizza.screens.admin
 
 import android.os.Build
@@ -282,29 +284,38 @@ fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
                         }
 
                     //constraintDay --> 1 No, -->2 possNo, -->3 Si
-
+                    var colorConstraint=0
                     DropdownMenuItem(
                         text = {
                             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                                 if (constraintDay != null && constraintDay!!.isNotEmpty()) {
                                     when (constraintDay!![0]) {
-                                        1 -> Text(
-                                            text = item,
-                                            color = start_color,
-                                            fontWeight = FontWeight.Bold
-                                        )
+                                        1 -> {
+                                            Text(
+                                                text = item,
+                                                color = start_color,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                            colorConstraint=1
+                                        }
 
-                                        2 -> Text(
-                                            text = item,
-                                            color = end_color,
-                                            fontWeight = FontWeight.Bold
-                                        )
+                                        2 -> {
+                                            Text(
+                                                text = item,
+                                                color = end_color,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                            colorConstraint=2
+                                        }
 
-                                        3 -> Text(
-                                            text = item,
-                                            color = green2,
-                                            fontWeight = FontWeight.Bold
-                                        )
+                                        3 -> {
+                                            Text(
+                                                text = item,
+                                                color = green2,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                            colorConstraint=3
+                                        }
 
                                         else -> Text(text = item)
                                     }
@@ -325,6 +336,14 @@ fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
                                         } else {
                                             selectedRiders.remove(item)
                                         }
+                                        try{
+                                            if(colorConstraint==1){
+                                                throw GeneralException("Il rider non vuole lavorare")
+                                            }
+                                        }catch(e: GeneralException){
+                                            Log.e("InsertError", "Errore nella selezione del rider: ${e.message}")
+                                        }
+
                                     },
                                     1
                                 )
