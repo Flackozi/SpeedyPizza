@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SpeedyPizza</string>
     <string name="image_content_description">calendar image</string>
-    <string name="Requests">Richieste</string>
+    <string name="Requests">Richieste di scambio</string>
     <string name="Sign_In">Accedi</string>
     <string name="Messages">Messaggi</string>
     <string name="Email_Address">Indirizzo Email</string>

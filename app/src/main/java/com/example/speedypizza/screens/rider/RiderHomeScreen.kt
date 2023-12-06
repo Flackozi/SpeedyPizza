@@ -282,16 +282,11 @@ fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel
                 .fillMaxWidth()
                 .height(240.dp)
                 .padding(10.dp)
-                //.shadow(elevation=3.dp)
-                //.border(BorderStroke(width = 3.dp, color = Color.LightGray))
                 .background(Color.Transparent)
         ){
-//                Spacer(modifier=Modifier.height(3.dp))
             LazyColumn(
-//                    verticalArrangement = Arrangement.spacedBy(6.dp),
                 modifier=Modifier
                     .padding(10.dp)
-//                        .offset(y=4.dp)
             ){
                 items(messageList) { message ->
                     MessageItem(message)
@@ -341,7 +336,6 @@ fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel
             Button(
                 onClick = {
                     navController.navigate("exchangePage")
-                    println("Exchange requests")
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,

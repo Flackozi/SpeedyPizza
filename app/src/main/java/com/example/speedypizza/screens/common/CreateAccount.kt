@@ -89,7 +89,7 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
             append(stringResource(R.string.Ihave))
         }
         withStyle(style = SpanStyle(color = start_color)) {
-            append("Terms and Conditions ")
+            append(stringResource(R.string.Terms))
         }
         withStyle(style = SpanStyle(color = Color.Black)) {
             append(stringResource(R.string.and))
