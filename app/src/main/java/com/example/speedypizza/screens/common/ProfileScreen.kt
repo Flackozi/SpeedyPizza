@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -120,12 +121,13 @@ fun ProfileScreen(navController: NavHostController, viewModel: LoginViewModel) {
                     .fillMaxWidth()
                     .height(5.dp))
 
-                Text(text = if(viewModel.loggedUser!!.role == 1) "Rider" else "Admin",
+                Text(
+                    text = if (viewModel.loggedUser!!.role == 1) "Rider" else stringResource(R.string.Admin),
                     fontSize = 18.sp,
                     fontStyle = FontStyle.Italic,
                     color = Color.White,
 
-                )
+                    )
             }
 
             Box(
@@ -306,11 +308,10 @@ fun ProfileInfo(navController: NavHostController, viewModel: LoginViewModel) {
                     .width(330.dp)
                     .height(60.dp)
                     .background(
-                        Color.LightGray
-                        ,
+                        Color.LightGray,
                         shape = RoundedCornerShape(15.dp)
                     )
-                    .clickable{
+                    .clickable {
                         navController.navigate("loginPage")
                     },
                     contentAlignment = Alignment.CenterStart
@@ -324,7 +325,7 @@ fun ProfileInfo(navController: NavHostController, viewModel: LoginViewModel) {
                         tint = start_color
                     )
 
-                    Text(text = "Sign Out",
+                    Text(text = stringResource(R.string.SignOut),
                         modifier = Modifier.offset(x=60.dp),
                         fontSize = 18.sp,
                         color = arrowProfile,
@@ -363,9 +364,9 @@ fun BarraSuperioreProfile(navController: NavHostController, viewModel: LoginView
                     contentDescription = "Profile",
                     modifier = Modifier
                         .size(40.dp)
-                        .clickable{
+                        .clickable {
                             CoroutineScope(Dispatchers.Main).launch {
-                                if(viewModel.loggedUser!!.role==1) navController.navigate("riderHome")
+                                if (viewModel.loggedUser!!.role == 1) navController.navigate("riderHome")
                                 else navController.navigate("adminHome")
                             }
                         }

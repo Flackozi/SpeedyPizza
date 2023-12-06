@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -83,7 +84,7 @@ fun ConstraintScreen(
     ){
         Column {
             BarraSuperiore(navController, viewModel)
-            ScrittaIniziale(string = "Constraints")
+            ScrittaIniziale(string = stringResource(R.string.Constraints))
             Spacer(modifier=Modifier.height(100.dp))
             ElencoGiorni(navController, constraintViewModel, viewModel.loggedUser!!.nickname)
         }
@@ -148,7 +149,8 @@ fun ElencoGiorni(
             Box(
                 modifier = Modifier
                     .height(56.dp)
-                    .width(60.dp).offset(x=10.dp)
+                    .width(60.dp)
+                    .offset(x = 10.dp)
                     .background(Color.Transparent)
             ) {
                 OutlinedTextField(
@@ -190,7 +192,8 @@ fun ElencoGiorni(
                 modifier = Modifier
                     .height(56.dp)
                     .width(60.dp)
-                    .background(Color.Transparent).offset(x=10.dp)
+                    .background(Color.Transparent)
+                    .offset(x = 10.dp)
             ) {
                 OutlinedTextField(
                     value = textMax.value,
@@ -218,7 +221,9 @@ fun ElencoGiorni(
                 )
             }
 
-            Spacer(modifier=Modifier.width(25.dp).height(15.dp))
+            Spacer(modifier= Modifier
+                .width(25.dp)
+                .height(15.dp))
 
             Icon(
                 painter = painterResource(

@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -74,7 +75,7 @@ fun ShiftsPage(
         ){
             Column {
                 BarraSuperiore(navController, viewModel)
-                ScrittaIniziale("Shifts")
+                ScrittaIniziale(stringResource(R.string.Shifts))
                 Spacer(modifier = Modifier.height(40.dp))
                 ShiftsList(allShifts, daysInfo)
             }
@@ -89,7 +90,7 @@ fun ShiftsPage(
 fun ShiftsList(allShifts: List<Shifts>?, daysInfo: List<Days>?) {
 
 
-    val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    val days = listOf(stringResource(R.string.Monday), stringResource(R.string.Tuesday), stringResource(R.string.Wednesday), stringResource(R.string.Thursday), stringResource(R.string.Friday), stringResource(R.string.Saturday), stringResource(R.string.Sunday))
 
 
     Column(
@@ -118,7 +119,8 @@ fun ShiftsList(allShifts: List<Shifts>?, daysInfo: List<Days>?) {
             LazyColumn(
                 modifier = Modifier
                     .padding(horizontal = 1.dp, vertical = 10.dp)
-                    .fillMaxHeight().fillMaxWidth()
+                    .fillMaxHeight()
+                    .fillMaxWidth()
                     .background(
                         color = Color.Transparent, shape = RoundedCornerShape(10.dp)
                     ),
@@ -138,11 +140,12 @@ fun ShiftsList(allShifts: List<Shifts>?, daysInfo: List<Days>?) {
                             val max = daysInfo?.find{it.day == day}?.max
 
                             if (day != null) {
-                                if (day == "Sunday" && dayIndex == towDays.lastIndex && days.size % 2 != 0) {
+                                if (day == stringResource(R.string.Sunday) && dayIndex == towDays.lastIndex && days.size % 2 != 0) {
 
                                     Box(
                                         modifier = Modifier
-                                            .width(200.dp).offset(x=93.dp)
+                                            .width(200.dp)
+                                            .offset(x = 93.dp)
                                     ) {
                                         DailyItem(day, shiftsForDay, min, max)
                                     }

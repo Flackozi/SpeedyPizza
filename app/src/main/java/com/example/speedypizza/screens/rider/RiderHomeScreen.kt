@@ -180,7 +180,7 @@ fun BarraSuperiore(navController: NavHostController, viewModel: LoginViewModel) 
                    painter = painterResource(id = R.drawable.baseline_account_box_24),
                    contentDescription = "Profile",
                    modifier = Modifier
-                       .clickable{
+                       .clickable {
                            CoroutineScope(Dispatchers.Main).launch {
                                navController.navigate("ProfilePage")
                            }
@@ -227,7 +227,7 @@ fun BarraSuperiore(navController: NavHostController, viewModel: LoginViewModel) 
                                 )
                             })
                         DropdownMenuItem(
-                            text = { Text("Settings") },
+                            text = { Text(stringResource(R.string.Settings)) },
                             onClick = { /* Handle settings! */ },
                             leadingIcon = {
                                 Icon(
@@ -237,7 +237,7 @@ fun BarraSuperiore(navController: NavHostController, viewModel: LoginViewModel) 
                             })
                         Divider()
                         DropdownMenuItem(
-                            text = { Text("Send Feedback") },
+                            text = { Text(stringResource(R.string.Send_Feedback)) },
                             onClick = { /* Handle send feedback! */ },
                             leadingIcon = {
                                 Icon(
@@ -303,7 +303,7 @@ fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxSize()
-                .offset(x=15.dp)
+                .offset(x = 15.dp)
         ){
             Button(
                 onClick={

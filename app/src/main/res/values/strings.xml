@@ -16,8 +16,8 @@
     <string name="Saturday">Saturday</string>
     <string name="Sunday">Sunday</string>
     <string name="Submit">Submit</string>
-    <string name="Rider_Management">Rider Management</string>
-    <string name="Create_Calendar">Create Calendar</string>
+    <string name="Rider_Management">My Rider</string>
+    <string name="Create_Calendar">New Calendar</string>
     <string name="View_Calendar">View Calendar</string>
     <string name="Your_Turns">Your Turns</string>
     <string name="Send">Send</string>
@@ -25,5 +25,27 @@
     <string name="Username">Username</string>
     <string name="His">His</string>
     <string name="Your">Your</string>
+    <string name="Home">Home</string>
+    <string name="Settings">Settings</string>
+    <string name="Send_Feedback">Send Feedback</string>
+    <string name="SignOut">Sign Out</string>
+    <string name="Admin">Admin</string>
+    <string name="Search_Rider">Search Rider</string>
+    <string name="Phone" translatable="false">Phone:</string>
+    <string name="DeleteRider">Delete to My Rider</string>
+    <string name="addtomyrider">Add to My Rider</string>
+    <string name="MyRider">My Rider:</string>
+    <string name="Create_Account">Create Account</string>
+    <string name="Phone2">Phone</string>
+    <string name="Name">Name</string>
+    <string name="Surname">Surname</string>
+    <string name="NewProfile">New Profile</string>
+    <string name="Ihave">I have read & agree to the</string>
+    <string name="Terms">Terms and Conditions</string>
+    <string name="and">and</string>
+    <string name="Privacy">Privacy Policy</string>
+    <string name="Please">Please enter your basic information and set up new password for secure login.</string>
+    <string name="CreateProfile">Create Profile</string>
+    <string name="Constraint">Constraints</string>
 
 </resources>

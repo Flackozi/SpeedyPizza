@@ -49,6 +49,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -90,7 +91,7 @@ fun MyRiderScreen(navController: NavHostController, viewModel: LoginViewModel, m
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             BarraSuperiore(navController, viewModel)
-            ScrittaIniziale(string = "My Rider")
+            ScrittaIniziale(string = stringResource(R.string.Rider_Management))
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp))
@@ -182,7 +183,7 @@ fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
                         active = it
                     },
                     placeholder = {
-                        Text(text = "Search Rider")
+                        Text(text = stringResource(R.string.Search_Rider))
                     },
                     leadingIcon = {
                         Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon")
@@ -247,7 +248,7 @@ fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
 
                                 Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.padding(all = 5.dp)) {
 
-                                    Text(text = "Phone: ")
+                                    Text(text = stringResource(R.string.Phone))
 
                                     rider = viewModel.myRiders!!.find { it.nickname == text }
 
@@ -283,7 +284,7 @@ fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
                                         .height(40.dp)
 
                                 ) {
-                                    Text(text = "Delete to My Rider",
+                                    Text(text = stringResource(R.string.DeleteRider),
                                         style = TextStyle(fontSize = 12.sp)
                                         )
                                 }
@@ -305,7 +306,7 @@ fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
                                         .height(40.dp)
 
                                 ) {
-                                    Text(text = "Add to My Rider",
+                                    Text(text = stringResource(R.string.addtomyrider),
                                         style = TextStyle(fontSize = 12.sp)
                                         )
                                 }
@@ -331,7 +332,7 @@ fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
         Row(horizontalArrangement = Arrangement.Start,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "My Rider:", color = search,
+            Text(text = stringResource(R.string.MyRider), color = search,
                 style = TextStyle(
                     fontFamily = FontFamily(Font(R.font.lato)),
                 ),

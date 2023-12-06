@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -64,7 +65,7 @@ fun CreateAccountPage(navController: NavHostController, viewModel: LoginViewMode
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp))
-            ScrittaIniziale(string = "Create Account")
+            ScrittaIniziale(string = stringResource(R.string.Create_Account))
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp))
@@ -77,7 +78,7 @@ fun CreateAccountPage(navController: NavHostController, viewModel: LoginViewMode
 @Composable
 fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostController){
 
-    val itemList = listOf("Nickname", "Name", "Surname", "Phone", "Email", "Password")
+    val itemList = listOf("Nickname", stringResource(R.string.Name), stringResource(R.string.Surname), stringResource(R.string.Phone2), "Email", "Password")
     var isChecked by remember { mutableStateOf(false) }
     val buttonColor = ButtonDefaults.buttonColors(start_color)
     val profileData: MutableList<String> = mutableListOf("", "", "", "", "", "")
@@ -85,16 +86,16 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
 
     val text = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Color.Black)) {
-            append("I have read & agree to the ")
+            append(stringResource(R.string.Ihave))
         }
         withStyle(style = SpanStyle(color = start_color)) {
             append("Terms and Conditions ")
         }
         withStyle(style = SpanStyle(color = Color.Black)) {
-            append("and ")
+            append(stringResource(R.string.and))
         }
         withStyle(style = SpanStyle(color = start_color)) {
-            append("Privacy Policy")
+            append(stringResource(R.string.Privacy))
         }
     }
 
@@ -119,7 +120,7 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
         Row(horizontalArrangement = Arrangement.Start, modifier = Modifier
             .fillMaxWidth()
             .padding(all = 8.dp)) {
-            Text(text = "New Profile",
+            Text(text = stringResource(R.string.NewProfile),
                 style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold)
             )
         }
@@ -129,7 +130,7 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
         Row(horizontalArrangement = Arrangement.Start, modifier = Modifier
             .fillMaxWidth()
             .padding(all = 8.dp)) {
-            Text(text = "Please enter your basic information and set up new password for secure login.",
+            Text(text = stringResource(R.string.Please),
                 style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold)
             )
         }
@@ -177,7 +178,7 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
                 .height(55.dp)
                 .shadow(elevation = 5.dp, shape = CircleShape)
         ) {
-            Text(text = "Create Profile", color = Color.White)
+            Text(text = stringResource(R.string.CreateProfile), color = Color.White)
         }
 
 

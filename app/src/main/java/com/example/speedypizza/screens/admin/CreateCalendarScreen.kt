@@ -49,12 +49,14 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.speedypizza.R
 import com.example.speedypizza.entity.Days
 import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.BarraSuperiore
@@ -86,7 +88,11 @@ fun CreateCalendar(
 ) {
 
 
-    val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    val days = listOf(
+        stringResource(R.string.Monday), stringResource(R.string.Tuesday), stringResource(
+            R.string.Wednesday), stringResource(R.string.Thursday), stringResource(R.string.Friday), stringResource(
+            R.string.Saturday), stringResource(R.string.Sunday)
+    )
 
     val myRider = myRiderViewModel.myRiders!!.filter {it.role == 1}.map { it.nickname }
     val dayList = mutableListOf<Days>()
@@ -103,7 +109,7 @@ fun CreateCalendar(
         ) {
 
             BarraSuperiore(navController, viewModel)
-            ScrittaIniziale(string = "New Calendar")
+            ScrittaIniziale(string = stringResource(R.string.Create_Calendar))
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -184,7 +190,7 @@ fun CreateCalendar(
                             .shadow(elevation = 10.dp, shape = RoundedCornerShape(15.dp)),
                     ) {
                         Text(
-                            text = "Submit",
+                            text = stringResource(R.string.Submit),
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
@@ -481,7 +487,7 @@ fun CheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
             //.shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
             .clickable {
                 onCheckedChange(!checked)
-                if(checked) print("true") else print("false")
+                if (checked) print("true") else print("false")
 
             },
         contentAlignment = Alignment.Center
