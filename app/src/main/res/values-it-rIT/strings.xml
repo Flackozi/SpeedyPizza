@@ -10,7 +10,6 @@
     <string name="Monday">Lunedì</string>
     <string name="Tuesday">Martedì</string>
     <string name="Wednesday">Mercoledì</string>
-    <string name="Thursday">Giovedì</string>
     <string name="Friday">Venerdì</string>
     <string name="Saturday">Sabato</string>
     <string name="Sunday">Domenica</string>
@@ -47,5 +46,7 @@
     <string name="Please">Inserisci le tue informazioni di base e imposta una nuova password per l\'accesso sicuro.</string>
     <string name="CreateProfile">Crea Profilo</string>
     <string name="Constraint">Vincoli</string>
+    <string name="Thursday">Giovedì</string>
+    <string name="Tursday">Giovedì</string>
 
 </resources>

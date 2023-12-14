@@ -11,7 +11,6 @@
     <string name="Monday">Monday</string>
     <string name="Tuesday">Tuesday</string>
     <string name="Wednesday">Wednesday</string>
-    <string name="Thursday">Tursday</string>
     <string name="Friday">Friday</string>
     <string name="Saturday">Saturday</string>
     <string name="Sunday">Sunday</string>
@@ -47,5 +46,7 @@
     <string name="Please">Please enter your basic information and set up new password for secure login.</string>
     <string name="CreateProfile">Create Profile</string>
     <string name="Constraint">Constraints</string>
+    <string name="Thursday">Thursday</string>
+    <string name="Tursday">Tursday</string>
 
 </resources>

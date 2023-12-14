@@ -63,4 +63,3 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
 
 }
 
-class GeneralException(message: String) : Exception(message)
