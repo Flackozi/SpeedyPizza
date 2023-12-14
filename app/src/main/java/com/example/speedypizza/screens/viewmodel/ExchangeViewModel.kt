@@ -32,7 +32,7 @@ class ExchangeViewModel (application: Application): AndroidViewModel(application
 
     fun retrieveMyRider() {
         viewModelScope.launch(Dispatchers.IO) {
-            myRiders=repository.retrieveMyRider()
+            myRiders=repository.retrieveMyRider1()
             //println(myRiders?.map { user -> user.nickname })
         }
 

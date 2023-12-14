@@ -175,7 +175,7 @@ fun DailyItem(day: String, riders: List<Shifts>?, min: Int?, max: Int?){
         modifier = Modifier
             .width(170.dp)
             .padding(8.dp)
-            .height(130.dp)
+            .height(120.dp)
             //.background(Color.White)
             .clickable {
                 //cosa deve succedere al click

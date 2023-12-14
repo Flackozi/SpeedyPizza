@@ -137,34 +137,13 @@ fun RequestsList(
 
 
     //faccio una query per prendere tutti i nomi dei raider
-
     val nicknamesList = viewModel.myRiders!!.map { user -> user.nickname }
-    println(nicknamesList)
-
-
-    var expanded by remember {
-        mutableStateOf(false)
-    }
-    var selectedOption by remember {
-        mutableStateOf("Seleziona un'opzione")
-    }
-
-
-
     //faccio una query per prendere i turni di tutti i rider
 
     val allShifts = viewModel.riderShifts!!.map { shifts ->  shifts.copy()}
     val myShifts = allShifts.filter { it.rider == nickname }
-    println(allShifts)
-
 
     val myReceivedRequests = viewModel.receivedRequests?.map { receivedRequest -> receivedRequest.copy() }
-    //println("ric$myReceivedRequests")
-
-
-
-
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -253,12 +232,6 @@ fun RequestsList(
                                 contentAlignment = Alignment.Center
 
                             ){
-
-                                /*val dayField: Field = R.string::class.java.getDeclaredField(shift.day)
-
-                                val dayId: Int = dayField.getInt(dayField)
-
-                                val day = context.getString(dayId)*/
 
                                 Text(text = getDay(shift.day) , style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
                             }

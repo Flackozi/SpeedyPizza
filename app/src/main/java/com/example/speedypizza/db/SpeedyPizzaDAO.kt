@@ -93,4 +93,7 @@ interface SpeedyPizzaDAO {
 
     @Query("SELECT * FROM Days")
     fun getDaysInfo(): List<Days>
+
+    @Query("SELECT * FROM User WHERE role = 1")
+    fun retrieveMyRiders1(): List<User>
 }

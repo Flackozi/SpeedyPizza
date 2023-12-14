@@ -30,7 +30,7 @@
     <string name="SignOut">Sign Out</string>
     <string name="Admin">Admin</string>
     <string name="Search_Rider">Search Rider</string>
-    <string name="Phone" translatable="false">Phone:</string>
+    <string name="Phone">Phone:</string>
     <string name="DeleteRider">Delete to My Rider</string>
     <string name="addtomyrider">Add to My Rider</string>
     <string name="MyRider">My Rider:</string>
@@ -47,6 +47,5 @@
     <string name="CreateProfile">Create Profile</string>
     <string name="Constraint">Constraints</string>
     <string name="Thursday">Thursday</string>
-    <string name="Tursday">Tursday</string>
 
 </resources>

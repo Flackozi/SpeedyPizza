@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -105,7 +106,7 @@ fun RiderHomeScreen(
 
 }
 
-//scritta iniziale con immagine pizza
+//scritta iniziale
 @Composable
 fun ScrittaIniziale(string: String){
 
@@ -285,7 +286,7 @@ fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel
                 .background(Color.Transparent)
         ){
             LazyColumn(
-                modifier=Modifier
+                modifier=Modifier.fillMaxHeight()
                     .padding(10.dp)
             ){
                 items(messageList) { message ->
@@ -403,9 +404,3 @@ fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel
 
 
 }
-/*
-@Preview
-@Composable
-fun Preview() {
-    RiderHomeScreen(rememberNavController(), user)
-}*/

@@ -27,6 +27,12 @@ class Repository(private val dao: SpeedyPizzaDAO) {
 
     }
 
+    fun retrieveMyRider1(): List<User> {
+
+        return dao.retrieveMyRiders1()
+
+    }
+
     fun deleteRider(username: String){
          return dao.deleteRider(username)
     }
