@@ -13,9 +13,7 @@ import com.example.speedypizza.entity.User
 
 @Database(
     entities = [User::class, Constraints::class, Shifts::class, Days::class, Message::class, Exchanges::class],
-    version = 11,
-    /*autoMigrations = [AutoMigration(3,5, spec = DBGenerator.MigrazioneConstraints::class)],
-    exportSchema = true*/
+    version = 11
 )
 
 abstract class DBGenerator: RoomDatabase() {
@@ -32,23 +30,14 @@ abstract class DBGenerator: RoomDatabase() {
                     DBGenerator::class.java,
                     "speedypizza.db"
                 )
-                    //.fallbackToDestructiveMigration()
-                    //.createFromAsset("speedypizza.db")
-                    //.addAutoMigrationSpec()
+                    .fallbackToDestructiveMigration()
+                    .createFromAsset("speedypizza.db")
+
                     .build()
             }
             return db as DBGenerator
         }
     }
-
-    /* @RenameColumn(tableName = "Constraints", fromColumnName = "cc", toColumnName = "max")
-     @DeleteColumn(tableName = "Constraints", columnName = "cc")
-     class MigrazioneConstraints: AutoMigrationSpec{
-         @Override
-         override fun onPostMigrate(db: SupportSQLiteDatabase) {
-             super.onPostMigrate(db)
-         }
-     }*/
 
 
 }

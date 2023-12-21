@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,7 +46,9 @@ import com.example.speedypizza.entity.Days
 import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
+import com.example.speedypizza.screens.viewmodel.DaysViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.screens.viewmodel.ShiftsViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.start_color
 
@@ -56,9 +57,9 @@ import com.example.speedypizza.ui.theme.start_color
 @Composable
 fun ShiftsPage(
     navController: NavHostController,
-    viewModel: LoginViewModel,
-    allShifts: List<Shifts>?,
-    daysInfo: List<Days>?
+    loginViewModel: LoginViewModel,
+    shiftsViewModel: ShiftsViewModel,
+    daysViewModel: DaysViewModel
 ) {
 
 
@@ -74,10 +75,10 @@ fun ShiftsPage(
             }
         ){
             Column {
-                BarraSuperiore(navController, viewModel)
+                BarraSuperiore(navController, loginViewModel)
                 ScrittaIniziale(stringResource(R.string.Shifts))
                 Spacer(modifier = Modifier.height(40.dp))
-                ShiftsList(allShifts, daysInfo)
+                ShiftsList(shiftsViewModel.allShifts, daysViewModel.daysInfo)
             }
         }
 
@@ -128,33 +129,31 @@ fun ShiftsList(allShifts: List<Shifts>?, daysInfo: List<Days>?) {
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
 
-                itemsIndexed(days.chunked(2)) { index, towDays ->
+                items(days.chunked(2)) { twoDays ->
                     Row(modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight(), horizontalArrangement = Arrangement.spacedBy(10.dp)){
-                        towDays.forEachIndexed(){ dayIndex, day->
+                        twoDays.forEachIndexed { dayIndex, day->
 
 
                             val shiftsForDay = allShifts?.filter { it.day == day }
                             val min = daysInfo?.find{it.day == day}?.min
                             val max = daysInfo?.find{it.day == day}?.max
 
-                            if (day != null) {
-                                if (day == stringResource(R.string.Sunday) && dayIndex == towDays.lastIndex && days.size % 2 != 0) {
+                            if (day == stringResource(R.string.Sunday) && dayIndex == twoDays.lastIndex) {
 
-                                    Box(
-                                        modifier = Modifier
-                                            .width(200.dp)
-                                            .offset(x = 93.dp)
-                                    ) {
-                                        DailyItem(day, shiftsForDay, min, max)
-                                    }
-                                } else {
-
+                                Box(
+                                    modifier = Modifier
+                                        .width(200.dp)
+                                        .offset(x = 93.dp)
+                                ) {
                                     DailyItem(day, shiftsForDay, min, max)
-
-
                                 }
+                            } else {
+
+                                DailyItem(day, shiftsForDay, min, max)
+
+
                             }
                         }
                     }
@@ -176,7 +175,6 @@ fun DailyItem(day: String, riders: List<Shifts>?, min: Int?, max: Int?){
             .width(170.dp)
             .padding(8.dp)
             .height(120.dp)
-            //.background(Color.White)
             .clickable {
                 //cosa deve succedere al click
             },

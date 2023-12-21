@@ -80,11 +80,7 @@ fun AdminDashboard(navController: NavHostController, viewModel: LoginViewModel) 
 
 @Composable
 fun PrimoMenu(navController: NavHostController) {
-    /*var elencoMessaggi = listOf(
-        Message(1, "Nuovi turni disponibili", "21/10/2023", 1),
-        Message(2, "Calendario dei turni pubblicato", "19/10/2023", 2),
-        Message(3, "Nuovi turni disponibili", "21/10/2023", 1),
-    )*/
+
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -106,9 +102,9 @@ fun PrimoMenu(navController: NavHostController) {
         ){
             Button( //Bottone RaiderManagement
                 onClick={
-                    CoroutineScope(Dispatchers.Main).launch {
-                      navController.navigate("MyRiderPage")
-                }
+
+                     navController.navigate("MyRiderPage")
+
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor=Color.White,
@@ -125,7 +121,7 @@ fun PrimoMenu(navController: NavHostController) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
-                   // modifier = Modifier.padding(2.dp)
+
                 ){
                     Icon(
                         painter = painterResource(id =R.drawable.baseline_sports_motorsports_24),
@@ -140,8 +136,7 @@ fun PrimoMenu(navController: NavHostController) {
 
             Button( //Bottone Create Calendar
                 onClick = {
-                    //qui ci va il metodo associato al bottone
-                    //CoroutineScope(Dispatchers.Main).launch {
+
                     navController.navigate("createCalendarPage")
 
                 },

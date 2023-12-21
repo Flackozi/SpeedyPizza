@@ -1,6 +1,5 @@
 package com.example.speedypizza.screens.common
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,10 +23,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,7 +33,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -45,17 +41,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
-import com.example.speedypizza.db.DBGenerator
-import com.example.speedypizza.db.Repository
-import com.example.speedypizza.entity.User
 import com.example.speedypizza.screens.viewmodel.GeneralException
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.center_color
@@ -82,18 +72,11 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
     val emailValue = remember { mutableStateOf("") }
     val passwordValue = remember { mutableStateOf("") }
 
-    var em: Int
-    val user: MutableState<User?> = rememberSaveable { mutableStateOf(null) }
+
 
     val passwordVisibility = remember {
         mutableStateOf(false)
     }
-
-    val context = LocalContext.current
-    val db = DBGenerator.getInstance(context)
-    val repository = Repository(db.speedyPizzaDao())
-
-
 
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter){
@@ -266,22 +249,7 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
 
 }
 
-@Preview
-@Composable
-fun GradientBackgroundPreview() {
-    LoginPage(rememberNavController(), viewModel())
-}
 
 
-fun saveAccess(
-    context: Context,
-    user: User?
-){
-    val sharedPreferences = context.getSharedPreferences("Profile", Context.MODE_PRIVATE)
-    val editor = sharedPreferences.edit()
 
-    editor.putString("Email", user?.email)
-    editor.putString("Password", user?.password)
 
-    editor.apply()
-}

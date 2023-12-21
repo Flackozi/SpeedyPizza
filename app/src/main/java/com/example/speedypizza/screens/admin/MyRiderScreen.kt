@@ -125,15 +125,11 @@ fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
     //lista oggetti cercati di recente
     val recentItems = remember { mutableStateListOf("francesco03") }
 
-    //val myRidersDeferred: Deferred<List<User>> = viewModel.retrieveMyRider()
-    //val myRiders: List<User> = myRidersDeferred.await()
-
-
 
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
 
-    //val riderNames= listOf("Carlo", "Matteo", "Flavio", "Mirko", "aghislov", "becknabour", "franco", "armando")
+
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -355,7 +351,7 @@ fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
 
             items(myRider)
             { name->
-                Box(){
+                Box {
                     Column(horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top) {
                         Row {
@@ -374,7 +370,7 @@ fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
                             )
                         }
                         Row {
-                            Text(text = "$name")
+                            Text(text = name)
                         }
                     }
                 }
@@ -391,7 +387,6 @@ fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
 
 
     Column(
-        //horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top,
         modifier = Modifier.background(boxcol)
     ) {
@@ -429,7 +424,7 @@ fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
 
 
             items(nicknamesList){ name->
-                Box(){
+                Box {
                         Row(horizontalArrangement = Arrangement.Start,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -447,7 +442,7 @@ fun MyRiderInfo(viewModel: MyRiderViewModel, navController: NavHostController) {
                                     )
                             )
                             Spacer(modifier = Modifier.width(10.dp))
-                            Text(text = "$name")
+                            Text(text = name)
                         }
 
 

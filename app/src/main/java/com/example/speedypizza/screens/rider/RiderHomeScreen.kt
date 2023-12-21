@@ -153,7 +153,6 @@ fun ScrittaIniziale(string: String){
 
 //Barra superiore con bottone del profilo e tre lineette
 @OptIn(ExperimentalMaterial3Api::class)
-//@Preview
 @Composable
 fun BarraSuperiore(navController: NavHostController, viewModel: LoginViewModel) {
 
@@ -261,7 +260,7 @@ fun BarraSuperiore(navController: NavHostController, viewModel: LoginViewModel) 
 
 }
 
-//@Preview
+
 @Composable
 fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel) {
 

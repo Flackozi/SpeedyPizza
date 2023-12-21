@@ -11,7 +11,6 @@ import com.example.speedypizza.entity.User
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginViewModel(application: Application): AndroidViewModel(application){
@@ -31,14 +30,14 @@ class LoginViewModel(application: Application): AndroidViewModel(application){
 
     fun login(username: String, password: String): Deferred<User> {
 
-        //Log.i("ei","ei")
+
         return viewModelScope.async(Dispatchers.IO) {
-            delay(300)
+
             loggedUser= loginRepository.login(username, password)
             if(loggedUser==null){
                 throw GeneralException("Credenziali errate")
             }
-           // Log.i("valuetry1: ", "daje")
+
             return@async loggedUser!!
         }
     }

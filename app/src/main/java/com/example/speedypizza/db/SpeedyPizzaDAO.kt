@@ -19,7 +19,7 @@ interface SpeedyPizzaDAO {
     fun insertUser(user: User)
 
     @Query("SELECT nickname, name, surname, password, phone, email, role  FROM User WHERE nickname = :username and password = :password")
-    fun login(username: String, password: String): User
+    fun login(username: String, password: String): User?
 
     @Insert(entity = Constraints::class, onConflict = OnConflictStrategy.REPLACE)
     fun sendConstraint(constraints: Constraints)
@@ -33,11 +33,9 @@ interface SpeedyPizzaDAO {
     @Query("UPDATE User SET role = 1 WHERE nickname =:username")
     fun addRider(username: String)
 
-    //@Query("INSERT INTO Shifts VALUES (:rider, :day)")
     @Insert(entity = Shifts::class)
     fun createCalendar2(shifts: Shifts)
 
-    //@Query("INSERT INTO Days VALUES (:day, :min, :max)")
     @Insert(entity = Days::class)
     fun createCalendar1(day: Days)
 

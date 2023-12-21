@@ -103,9 +103,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
 
-//    implementation ("androidx.compose.ui:ui:1.0.0")
-//    implementation ("androidx.compose.material:material:1.0.0")
-//    implementation ("androidx.compose.foundation:foundation:1.0.0")
+
     implementation("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")

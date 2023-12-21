@@ -195,24 +195,31 @@ fun Item(item: String, profileData: MutableList<String>){
 
     val text = remember { mutableStateOf("") }
 
-    if(item == "Nickname"){
-        icon = painterResource(id = R.drawable.baseline_person_outline_24)
-        profileData.add(0, text.value)
-    }else if(item == "Name"){
-        icon = painterResource(id = R.drawable.baseline_person_outline_24)
-        profileData.add(1, text.value)
-    }else if(item == "Surname") {
-        icon = painterResource(id = R.drawable.baseline_person_outline_24)
-        profileData.add(2, text.value)
-    }else if(item == "Phone"){
-        icon = painterResource(id = R.drawable.baseline_contact_phone_24)
-        profileData.add(3, text.value)
-    }else if(item == "Email"){
-        icon = painterResource(id = R.drawable.baseline_mail_outline_24)
-        profileData.add(4, text.value)
-    }else{
-        icon = painterResource(id = R.drawable.baseline_lock_24)
-        profileData.add(5, text.value)
+    when (item) {
+        "Nickname" -> {
+            icon = painterResource(id = R.drawable.baseline_person_outline_24)
+            profileData.add(0, text.value)
+        }
+        "Name" -> {
+            icon = painterResource(id = R.drawable.baseline_person_outline_24)
+            profileData.add(1, text.value)
+        }
+        "Surname" -> {
+            icon = painterResource(id = R.drawable.baseline_person_outline_24)
+            profileData.add(2, text.value)
+        }
+        "Phone" -> {
+            icon = painterResource(id = R.drawable.baseline_contact_phone_24)
+            profileData.add(3, text.value)
+        }
+        "Email" -> {
+            icon = painterResource(id = R.drawable.baseline_mail_outline_24)
+            profileData.add(4, text.value)
+        }
+        else -> {
+            icon = painterResource(id = R.drawable.baseline_lock_24)
+            profileData.add(5, text.value)
+        }
     }
 
     Row (

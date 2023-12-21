@@ -15,9 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ExchangeViewModel (application: Application): AndroidViewModel(application){
-    var riderTurns: List<String>?=null
     var myRiders: List<User>? = null
-    var myShifts:List<Shifts>?= null
+
     var riderShifts:List<Shifts>?= null
     var receivedRequests:List<Exchanges>?= null
 
@@ -33,25 +32,15 @@ class ExchangeViewModel (application: Application): AndroidViewModel(application
     fun retrieveMyRider() {
         viewModelScope.launch(Dispatchers.IO) {
             myRiders=repository.retrieveMyRider1()
-            //println(myRiders?.map { user -> user.nickname })
+
         }
 
-    }
-
-    fun retrieveMyShifts(nickname: String){
-        viewModelScope.launch(Dispatchers.IO){
-            myShifts=repository.retrieveAllShifts()
-            //println(myShifts?.map { shift -> shift.day })
-        }
     }
 
     fun retrieveRiderShifts(){
         viewModelScope.launch(Dispatchers.IO){
             riderShifts=repository.retrieveAllShifts()
-            //println(nickname)
-            //println(repository.retrieveShifts(nickname))
-            //riderTurns=riderShifts?.map { shift -> shift.day }
-            //println(riderTurns)
+
         }
     }
 

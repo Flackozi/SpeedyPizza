@@ -25,7 +25,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -132,7 +132,6 @@ fun ProfileScreen(navController: NavHostController, viewModel: LoginViewModel) {
 
             Box(
                 modifier = Modifier.offset(x=230.dp, y=200.dp)
-                //.padding(top = 280.dp, start = 260.dp)
             ){
                 Image(
                     painter = painterResource(id = R.drawable.baseline_camera_alt_24),
@@ -348,7 +347,9 @@ fun BarraSuperioreProfile(navController: NavHostController, viewModel: LoginView
     TopAppBar(title = {
         Text(text = "")
     },
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent ),
+        colors = topAppBarColors(
+            containerColor = Color.Transparent,
+        ),
         navigationIcon = {
 
 

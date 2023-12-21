@@ -68,7 +68,7 @@ import androidx.navigation.NavHostController
 import com.example.speedypizza.R
 import com.example.speedypizza.entity.Exchanges
 import com.example.speedypizza.entity.Shifts
-import com.example.speedypizza.screens.rider.globalExchangeVariables.shiftsList
+import com.example.speedypizza.screens.rider.GlobalExchangeVariables.shiftsList
 import com.example.speedypizza.screens.viewmodel.ExchangeViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
@@ -118,7 +118,7 @@ fun ExchangeRequests(
 
 
 
-object globalExchangeVariables {
+object GlobalExchangeVariables {
     //questa variabile servirà a tenere il valore dei vincoli associati ai giorni della settimana
     var checkBoxValue=0
     val shiftsList: MutableList<Shifts> = mutableListOf()
@@ -145,7 +145,7 @@ fun RequestsList(
 
     val myReceivedRequests = viewModel.receivedRequests?.map { receivedRequest -> receivedRequest.copy() }
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxHeight()
@@ -261,9 +261,9 @@ fun RequestsList(
                     .padding(15.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                itemsIndexed(items = nicknamesList) { index, name ->
+                items(items = nicknamesList) { name ->
                     if(name!=nickname){
-                        Turns(name, viewModel, index, allShifts.filter { it.rider == name })
+                        Turns(name, allShifts.filter { it.rider == name })
                     }
 
                 }
@@ -283,7 +283,7 @@ fun RequestsList(
                 Button(
                     onClick = {
                         println(myShifts)
-                        val senderTurn = myShifts[globalExchangeVariables.checkBoxValue].day
+                        val senderTurn = myShifts[GlobalExchangeVariables.checkBoxValue].day
                         // Verifica se senderTurn è diverso da tutti gli elementi shift.day in shiftsList
                         var shouldSendRequest = shiftsList.all { it.day != senderTurn }
 
@@ -330,7 +330,7 @@ fun RequestsList(
                 //BOTTONE SEND TO ALL
                 Button(
                     onClick = {
-                        val senderTurn=myShifts[globalExchangeVariables.checkBoxValue].day
+                        val senderTurn=myShifts[GlobalExchangeVariables.checkBoxValue].day
                         //prima mi devo prendere la lista di tutti i rider
                         for(riderName in nicknamesList){
                             if(riderName!=nickname) {
@@ -341,7 +341,7 @@ fun RequestsList(
 
                                     if (senderTurn!= shift.day) {
 
-                                        viewModel.sendRequest(Exchanges(nickname, riderName, myShifts[globalExchangeVariables.checkBoxValue].day, shift.day))
+                                        viewModel.sendRequest(Exchanges(nickname, riderName, myShifts[GlobalExchangeVariables.checkBoxValue].day, shift.day))
                                     }
                                 }
 
@@ -368,7 +368,7 @@ fun RequestsList(
 }
 
 @Composable
-//fun CheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
+
 fun CheckBox(checked: Boolean,
              onCheckedChangeWithIndex: (Boolean, Int) -> Unit,
              index: Int,
@@ -385,7 +385,6 @@ fun CheckBox(checked: Boolean,
                 start_color,
                 shape = RoundedCornerShape(8.dp),
             )
-            //.shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
             .clickable {
                 if (!selected) {
                     onCheckedChangeWithIndex(!checked, index)
@@ -395,16 +394,14 @@ fun CheckBox(checked: Boolean,
     ) {
         if (checked) {
             Icon(imageVector = Icons.Default.Check, contentDescription = null, tint = Color.White)
-        } else {
-            //non faccio nulla
         }
     }
 }
 
 fun onCheckBoxClicked(index: Int) {
     // Ora puoi fare qualcosa con l'indice della CheckBox selezionata
-    globalExchangeVariables.checkBoxValue=index
-    Log.d("valore della checkBox", globalExchangeVariables.checkBoxValue.toString())
+    GlobalExchangeVariables.checkBoxValue=index
+    Log.d("valore della checkBox", GlobalExchangeVariables.checkBoxValue.toString())
 }
 
 @Composable
@@ -416,8 +413,7 @@ fun RichiesteItem(
     viewModel: ExchangeViewModel,
     navController: NavHostController
 ){
-    //val hisTurn="Monday: 12:00/15:00" //qui ci andra' il turno che gli viene proposto
-    //val myTurn="Friday: 12:00/15:00" //qui ci andra' quello attuale suo
+
     Card(
         modifier= Modifier
             .height(130.dp)
@@ -433,7 +429,7 @@ fun RichiesteItem(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(3.dp)
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(horizontalAlignment = CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_account),
                         contentDescription = "work",
@@ -461,6 +457,7 @@ fun RichiesteItem(
                             viewModel.deleteOtherRequest(senderName, senderShift)
                             //bisogna eliminare le richieste che il rider loggato ha inviato che includevano il giorno appena scambiato
                             viewModel.deleteOtherRequest(nickname, receiverShift)
+
                             navController.navigate("exchangePage")
                         }),
                 ) {
@@ -511,7 +508,7 @@ fun RichiesteItem(
                 style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold),
                 modifier=Modifier.padding(start = 10.dp)
             )
-            //Log.d("you", senderShift)
+
 
 
             Text(
@@ -520,7 +517,7 @@ fun RichiesteItem(
                 style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold),
                 modifier=Modifier.padding(start = 10.dp)
             )
-            //Log.d("his", receiverShift)
+
 
 
         }
@@ -531,7 +528,7 @@ fun RichiesteItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Turns(name: String, viewModel: ExchangeViewModel, index: Int, shiftList: List<Shifts>) {
+fun Turns(name: String, shiftList: List<Shifts>) {
 
 
 
@@ -582,14 +579,11 @@ fun Turns(name: String, viewModel: ExchangeViewModel, index: Int, shiftList: Lis
             ExposedDropdownMenu(
                 expanded = isExpanded,
                 onDismissRequest = { isExpanded = false },
-                modifier=Modifier
-//                    .align(Alignment.Center)
-//                    .background(center_color),
             ) {
                 val raidersTurn= shiftList.map { shift -> shift.day }
                 println(raidersTurn)
 
-                for(turn in raidersTurn.orEmpty()){
+                for(turn in raidersTurn){
                     val day = getDay(day = turn)
                     DropdownMenuItem(
                         text = { Text(text = day) },//al posto di quesi ci andranno i turni presi con la query
@@ -605,18 +599,19 @@ fun Turns(name: String, viewModel: ExchangeViewModel, index: Int, shiftList: Lis
             }
         }
     }
-    //globalExchangeVariables.shiftsList.add(name to gender)
+
     //questo blocco serve ad aggiungere alla lista dei turni con cui si vuole proporre lo scambio la coppia nome e turno appena selezionata
     if(gender.isNotBlank()) {
+
         //assegna all'indiceEsistente l'indice della prima coppia all'interno di shiftsList in cui il primo elemento della coppia è uguale al valore di name
-        val indiceEsistente = globalExchangeVariables.shiftsList.indexOfFirst { it.rider == name }
+        val indiceEsistente = shiftsList.indexOfFirst { it.rider == name }
 
         if (indiceEsistente != -1) {
             // Sovrascrivi la coppia esistente
-            globalExchangeVariables.shiftsList.add(indiceEsistente, Shifts(name, dayTurn))
+            shiftsList.add(indiceEsistente, Shifts(name, dayTurn))
         } else {
             // Aggiungi una nuova coppia
-            globalExchangeVariables.shiftsList.add(Shifts(name, dayTurn))
+            shiftsList.add(Shifts(name, dayTurn))
         }
     }
 }

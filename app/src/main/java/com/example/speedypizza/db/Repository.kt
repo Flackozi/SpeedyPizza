@@ -11,7 +11,7 @@ import com.example.speedypizza.entity.User
 class Repository(private val dao: SpeedyPizzaDAO) {
 
 
-    fun login(username: String, password: String): User {
+    fun login(username: String, password: String): User? {
 
         return dao.login(username, password)
 
@@ -55,10 +55,7 @@ class Repository(private val dao: SpeedyPizzaDAO) {
         shiftList.forEach { shift ->
             dao.createCalendar2(shift)
         }
-           /* item.rider.forEach{rider->
-                dao.createCalendar2(rider, item.day)
-            }
-        }*/
+
     }
 
     fun insertUser(newUser: User){
@@ -75,11 +72,6 @@ class Repository(private val dao: SpeedyPizzaDAO) {
         return dao.getConstraints()
     }
 
-
-    fun retrieveShifts(nickname: String): List<Shifts> {
-        return dao.retrieveShifts(nickname)
-
-    }
 
     fun retrieveRequests(nickname: String): List<Exchanges> {
         return dao.retrieveRequests(nickname)
@@ -109,12 +101,7 @@ class Repository(private val dao: SpeedyPizzaDAO) {
         return dao.retrieveAllShifts()
     }
 
-    //shiftsPage
-    fun getRidersDay(day: String): List<String> {
-        return dao.getRidersDay(day)
-    }
-
-    fun getShifts(): List<Shifts>? {
+    fun getShifts(): List<Shifts> {
         return dao.getShifts()
     }
 

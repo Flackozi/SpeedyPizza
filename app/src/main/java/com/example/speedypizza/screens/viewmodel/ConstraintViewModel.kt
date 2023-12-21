@@ -23,20 +23,11 @@ class ConstraintViewModel (application: Application): AndroidViewModel(applicati
         constraints  = Repository(dao)
     }
 
-    fun submit(nickname: String, min: Int, max: Int, checkBoxValues: MutableList<Int>) {
-        val lunedi= checkBoxValues[0]
-        val martedi= checkBoxValues[1]
-        val mercoledi= checkBoxValues[2]
-        val giovedi= checkBoxValues[3]
-        val venerdi= checkBoxValues[4]
-        val sabato= checkBoxValues[5]
-        val domenica= checkBoxValues[6]
+
+    fun submit(constraints: Constraints) {
 
         viewModelScope.launch(Dispatchers.IO) {
-            /*if(min>max){
-                throw GeneralException("Min non può essere maggiore di max")
-            }*/
-            repository.sendConstraint(Constraints(nickname, max, min, lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica ))
+            repository.sendConstraint(constraints)
         }
     }
 

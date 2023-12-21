@@ -52,6 +52,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.speedypizza.R
+import com.example.speedypizza.entity.Constraints
+import com.example.speedypizza.screens.rider.GlobalVariables.checkBoxValues
 import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
 import com.example.speedypizza.screens.viewmodel.GeneralException
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
@@ -70,7 +72,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ConstraintScreen(
     navController: NavHostController,
-    viewModel: LoginViewModel,
+    loginViewModel: LoginViewModel,
     constraintViewModel: ConstraintViewModel
 ) {
     val gradient = Brush.verticalGradient(
@@ -83,10 +85,10 @@ fun ConstraintScreen(
         .fillMaxSize()
     ){
         Column {
-            BarraSuperiore(navController, viewModel)
+            BarraSuperiore(navController, loginViewModel)
             ScrittaIniziale(string = stringResource(R.string.Constraints))
             Spacer(modifier=Modifier.height(100.dp))
-            ElencoGiorni(navController, constraintViewModel, viewModel.loggedUser!!.nickname)
+            ElencoGiorni(navController, constraintViewModel, loginViewModel.loggedUser!!.nickname)
         }
     }
 
@@ -111,8 +113,8 @@ fun ElencoGiorni(
     val checkboxStates2 = remember { mutableStateMapOf<String, Boolean>() }
     val checkboxStates3 = remember { mutableStateMapOf<String, Boolean>() }
 
-    var textMin = remember { mutableStateOf("") }
-    var textMax = remember { mutableStateOf("") }
+    val textMin = remember { mutableStateOf("") }
+    val textMax = remember { mutableStateOf("") }
 
     //Colonna giorni della settimana
     val days = listOf(
@@ -289,11 +291,8 @@ fun ElencoGiorni(
             }
 
             LazyColumn(
-                modifier = Modifier
-                    .background(color = Color.Transparent, shape = RoundedCornerShape(10.dp)),
-//                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                modifier = Modifier.background(color = Color.Transparent, shape = RoundedCornerShape(10.dp)),
                 verticalArrangement = Arrangement.spacedBy(5.dp)
-
             ) {
                 items(days) { giorno ->
                     val dayString = context.getString(giorno)
@@ -325,7 +324,7 @@ fun ElencoGiorni(
                                 checkboxStates1[dayString] = isChecked
                                 checkboxStates2[dayString] = false
                                 checkboxStates3[dayString] = false
-                                GlobalVariables.checkBoxValues[index]=1//setto il valore della checkBox del giorno con il valore 1
+                                checkBoxValues[index]=1//setto il valore della checkBox del giorno con il valore 1
 
                             },
                             1
@@ -337,7 +336,7 @@ fun ElencoGiorni(
                                 checkboxStates1[dayString] = false
                                 checkboxStates2[dayString] = isChecked
                                 checkboxStates3[dayString] = false
-                                GlobalVariables.checkBoxValues[index]=2//setto il valore della checkBox del giorno con il valore 2
+                                checkBoxValues[index]=2//setto il valore della checkBox del giorno con il valore 2
                             },
                             2
                         )
@@ -348,7 +347,7 @@ fun ElencoGiorni(
                                 checkboxStates1[dayString] = false
                                 checkboxStates2[dayString] = false
                                 checkboxStates3[dayString] = isChecked
-                                GlobalVariables.checkBoxValues[index]=3//setto il valore della checkBox del giorno con il valore 3
+                                checkBoxValues[index]=3//setto il valore della checkBox del giorno con il valore 3
                             },
                             3
                         )
@@ -366,8 +365,7 @@ fun ElencoGiorni(
         ){
             Button(
                 onClick = {
-                    //qui ci va il metodo associato al botone
-                    //println(GlobalVariables.checkBoxValues)
+
                     val min=textMin.value.toInt()
                     val max=textMax.value.toInt()
                     CoroutineScope(Dispatchers.Main).launch {
@@ -375,13 +373,11 @@ fun ElencoGiorni(
                             if(min>max){
                                 throw GeneralException("Min non può essere maggiore di max")
                             }
+
                             constraintViewModel.submit(
-                                nickname,
-                                min,
-                                max,
-                                GlobalVariables.checkBoxValues
+                                Constraints(nickname, max, min, checkBoxValues[0], checkBoxValues[1], checkBoxValues[2], checkBoxValues[3], checkBoxValues[4], checkBoxValues[5], checkBoxValues[6])
                             )
-                            //delay(300)
+
                             navController.navigate("riderHome")
                         }catch(e: GeneralException){
                             navController.navigate("constraintsPage")
@@ -390,7 +386,7 @@ fun ElencoGiorni(
                     }
 
                 },
-                colors =buttonColor,
+                colors = buttonColor,
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(50.dp)
@@ -414,26 +410,18 @@ fun CustomCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: In
             .alpha(0.9f)
             .size(27.dp)
             .border(BorderStroke(width = 2.dp, color = center_color), CircleShape)
-            //.clip(CircleShape)
             .background(
                 if (checked && int == 1) center_color else if (checked && int == 2) gialloScuro else if (checked && int == 3) green2 else grigiochiarissimo,
                 shape = RoundedCornerShape(11.dp),
             )
-            //.shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
             .clickable { onCheckedChange(!checked) },
         contentAlignment = Alignment.Center
     ) {
         if (checked) {
-                Icon(imageVector = Icons.Default.Check, contentDescription = null, tint = Color.Black)
-        } else {
-            //non faccio nulla
+            Icon(imageVector = Icons.Default.Check, contentDescription = null, tint = Color.Black)
         }
     }
 }
 
-//@Preview
-//@Composable
-//fun Preview2() {
-//    ConstraintScreen(rememberNavController(), viewModel())
-//}
+
 

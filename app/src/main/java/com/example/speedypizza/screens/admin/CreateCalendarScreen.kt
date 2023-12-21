@@ -1,5 +1,3 @@
-@file:Suppress("DUPLICATE_LABEL_IN_WHEN")
-
 package com.example.speedypizza.screens.admin
 
 import android.os.Build
@@ -134,12 +132,12 @@ fun CreateCalendar(
 
 
                 days.forEach { day ->
-                    val scheduleItem = DayBox(day, myRider, constraintViewModel)
+                    val scheduleItem = dayBox(day, myRider, constraintViewModel)
                     dayList.add(scheduleItem.first)
                     scheduleItem.second.forEach {shift ->
                         shiftList.add(shift)
                     }
-                    //scheduleItemList.add(scheduleItem)
+
                     Spacer(
                         modifier = Modifier
                             .height(10.dp)
@@ -209,11 +207,11 @@ fun CreateCalendar(
 }
 
 @Composable
-fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintViewModel): Pair<Days, List<Shifts>> {
+fun dayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintViewModel): Pair<Days, List<Shifts>> {
 
-    var textMin = remember { mutableStateOf("") }
-    var textMax = remember { mutableStateOf("") }
-    var listaShift: List<Shifts>
+    val textMin = remember { mutableStateOf("") }
+    val textMax = remember { mutableStateOf("") }
+    val listaShift: List<Shifts>
     var constraintsMin: List<Int>?
     var constraintsMax: List<Int>?
     var constraintDay: List<Int>?
@@ -469,7 +467,7 @@ fun DayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
             if (textMin.value.isEmpty()) 0 else textMin.value.toInt(),
             if (textMax.value.isEmpty()) 0 else textMax.value.toInt()
         ), listaShift
-    )//ScheduleItem(day, selectedRiders.toList(), textMin.value, textMax.value)
+    )
 }
 
 @Composable
@@ -484,7 +482,7 @@ fun CheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
                 if (checked && int == 1) start_color else if (checked && int == 2) Color.Yellow else if (checked && int == 3) Color.Green else Color.White,
                 shape = RoundedCornerShape(8.dp),
             )
-            //.shadow(elevation = 10.dp, shape = RoundedCornerShape(8.dp))
+
             .clickable {
                 onCheckedChange(!checked)
                 if (checked) print("true") else print("false")
@@ -499,11 +497,3 @@ fun CheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, int: Int) {
         }
     }
 }
-/*
-@RequiresApi(Build.VERSION_CODES.Q)
-@Preview
-@Composable
-fun CalendarPreview() {
-    CreateCalendar(rememberNavController(), user)
-}
-*/

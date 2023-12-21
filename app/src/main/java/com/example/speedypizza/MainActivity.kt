@@ -1,11 +1,8 @@
 package com.example.speedypizza
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -45,27 +42,17 @@ import com.example.speedypizza.ui.theme.start_color
 @RequiresApi(Build.VERSION_CODES.Q)
 class MainActivity : ComponentActivity() {
 
-    private lateinit var sharedPreferencesProfile: SharedPreferences
-    private lateinit var userViewModel: LoginViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-        sharedPreferencesProfile = getSharedPreferences("Profile", Context.MODE_PRIVATE)
-
 
         setContent {
 
            SpeedyPizzaTheme {
 
-              // val profile = remember { Profile.ProfileClass() }
 
                val context = LocalContext.current
 
                var user: User? = null
-               /*var user = User("","","","","","",0)
-
-               profile.nickname = sharedPreferencesProfile.*/
 
 
                val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.LoginViewModelFactory(context.applicationContext as Application))
@@ -93,11 +80,8 @@ class MainActivity : ComponentActivity() {
                    NavHost(navController = navController, startDestination = "loginPage"){
                        composable("loginPage") {
 
-                           //LoginPage(navController, viewModel)
                           LoginPage(navController, loginViewModel)
                           user = loginViewModel.loggedUser
-                          user?.let { it1 -> Log.i("valuetry44444: ", it1.nickname) }
-
 
                        }
                        composable("riderHome") {
@@ -116,14 +100,14 @@ class MainActivity : ComponentActivity() {
                        composable("shiftPage"){
                            daysViewModel.getDays()
                            shiftsViewModel.getShifts()
-                           ShiftsPage(navController, loginViewModel, shiftsViewModel.allShifts, daysViewModel.daysInfo)
+                           ShiftsPage(navController, loginViewModel, shiftsViewModel, daysViewModel)
                        }
                        composable("constraintsPage"){ ConstraintScreen(navController,loginViewModel, constraintViewModel) }
                        composable("myRiderPage"){
-                           //myRiderViewModel.retrieveMyRider()
+
                            MyRiderScreen(navController,loginViewModel, myRiderViewModel) }
                        composable("createCalendarPage"){
-                           //myRiderViewModel.retrieveMyRider()
+
                            constraintViewModel.getConstraints()
                            CreateCalendar(navController,loginViewModel, myRiderViewModel, createCalendar, constraintViewModel)}
                        composable("newAccountPage") { CreateAccountPage(navController, loginViewModel) }
