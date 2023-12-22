@@ -87,9 +87,7 @@ fun CreateCalendar(
 ) {
 
 
-    val days = listOf(
-        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
-    )
+    val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
     val myRider = myRiderViewModel.myRiders!!.filter {it.role == 1}.map { it.nickname }
     val dayList = mutableListOf<Days>()

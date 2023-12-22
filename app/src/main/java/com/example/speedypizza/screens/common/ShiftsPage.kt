@@ -46,6 +46,7 @@ import com.example.speedypizza.entity.Days
 import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
+import com.example.speedypizza.screens.rider.getDay
 import com.example.speedypizza.screens.viewmodel.DaysViewModel
 import com.example.speedypizza.screens.viewmodel.LoginViewModel
 import com.example.speedypizza.screens.viewmodel.ShiftsViewModel
@@ -91,7 +92,7 @@ fun ShiftsPage(
 fun ShiftsList(allShifts: List<Shifts>?, daysInfo: List<Days>?) {
 
 
-    val days = listOf(stringResource(R.string.Monday), stringResource(R.string.Tuesday), stringResource(R.string.Wednesday), stringResource(R.string.Thursday), stringResource(R.string.Friday), stringResource(R.string.Saturday), stringResource(R.string.Sunday))
+    val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
 
     Column(
@@ -140,7 +141,7 @@ fun ShiftsList(allShifts: List<Shifts>?, daysInfo: List<Days>?) {
                             val min = daysInfo?.find{it.day == day}?.min
                             val max = daysInfo?.find{it.day == day}?.max
 
-                            if (day == stringResource(R.string.Sunday) && dayIndex == twoDays.lastIndex) {
+                            if (day == "Sunday" && dayIndex == twoDays.lastIndex) {
 
                                 Box(
                                     modifier = Modifier
@@ -176,7 +177,7 @@ fun DailyItem(day: String, riders: List<Shifts>?, min: Int?, max: Int?){
             .padding(8.dp)
             .height(120.dp)
             .clickable {
-                //cosa deve succedere al click
+
             },
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
@@ -191,7 +192,7 @@ fun DailyItem(day: String, riders: List<Shifts>?, min: Int?, max: Int?){
 
             ) {
                 Text(
-                    text = day,
+                    text = getDay(day = day),
                     color = Color.White,
                     style = TextStyle(fontFamily = FontFamily(Font(R.font.mogra)), fontSize = 17.sp)
                 )
