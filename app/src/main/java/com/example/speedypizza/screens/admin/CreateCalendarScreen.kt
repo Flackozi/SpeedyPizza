@@ -59,6 +59,7 @@ import com.example.speedypizza.entity.Days
 import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
+import com.example.speedypizza.screens.rider.getDay
 import com.example.speedypizza.screens.viewmodel.CalendarViewModel
 import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
 import com.example.speedypizza.screens.viewmodel.GeneralException
@@ -87,9 +88,7 @@ fun CreateCalendar(
 
 
     val days = listOf(
-        stringResource(R.string.Monday), stringResource(R.string.Tuesday), stringResource(
-            R.string.Wednesday), stringResource(R.string.Thursday), stringResource(R.string.Friday), stringResource(
-            R.string.Saturday), stringResource(R.string.Sunday)
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
     )
 
     val myRider = myRiderViewModel.myRiders!!.filter {it.role == 1}.map { it.nickname }
@@ -248,7 +247,7 @@ fun dayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
                 colors = ButtonDefaults.buttonColors(start_color)
             ) {
                 Text(
-                    text = day,
+                    text = getDay(day = day),
                     style = TextStyle(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
