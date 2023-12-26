@@ -112,8 +112,6 @@ class MainActivity : ComponentActivity() {
                            CreateCalendar(navController,loginViewModel, myRiderViewModel, createCalendar, constraintViewModel)}
                        composable("newAccountPage") { CreateAccountPage(navController, loginViewModel) }
 
-
-
                    }
 
                }

@@ -128,8 +128,6 @@ fun ScrittaIniziale(string: String){
                         .align(Alignment.Center)
                 )
 
-
-
                 Text(
                     text = string,
                     style = TextStyle(
@@ -137,7 +135,7 @@ fun ScrittaIniziale(string: String){
                         fontSize = 35.sp,
                         color = Color.White
                     ),
-                    modifier = Modifier.offset(y=50.dp)
+                    modifier = Modifier.offset(y=60.dp)
                 )
             }
 
@@ -360,7 +358,7 @@ fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel
                         tint = Color.Black,
                         modifier = Modifier.size(60.dp)
                     )
-                    Text(stringResource(R.string.Requests))
+                    Text(stringResource(R.string.Requests), modifier = Modifier.offset(x=9.dp))
                 }
 
             }
