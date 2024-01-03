@@ -106,7 +106,7 @@ fun ExchangeRequests(
         ) {
             Column {
                 BarraSuperiore(navController, viewModel)
-                ScrittaIniziale("Exchange Requests")
+                ScrittaIniziale(stringResource(R.string.exchange))
                 Spacer(modifier = Modifier.height(50.dp))
                 RequestsList(navController, viewModel, exchangeViewModel, viewModel.loggedUser!!.nickname)
             }
