@@ -296,7 +296,7 @@ fun Bottoni(navController: NavHostController, messageViewModel: MessageViewModel
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxSize()
-                .offset(x = 15.dp)
+
         ){
             Button(
                 onClick={

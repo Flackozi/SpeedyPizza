@@ -23,8 +23,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -163,6 +166,7 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
                     fontSize = 40.sp
                 )
                 Spacer(modifier = Modifier.padding(20.dp))
+
                 Column(horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     OutlinedTextField(
@@ -171,7 +175,7 @@ fun LoginPage(navController: NavHostController, viewModel: LoginViewModel) {
                         label = { Text(text = stringResource(R.string.Username))},
                         placeholder = { Text(text = stringResource(R.string.Username))},
                         singleLine = true,
-                        modifier = Modifier.fillMaxWidth(0.8f)
+                        modifier = Modifier.fillMaxWidth(0.8f),
                     )
 
                     OutlinedTextField(

@@ -365,26 +365,43 @@ fun ElencoGiorni(
         ){
             Button(
                 onClick = {
-
-                    val min=textMin.value.toInt()
-                    val max=textMax.value.toInt()
                     CoroutineScope(Dispatchers.Main).launch {
+                        var min=0
+                        var max=0
                         try {
-                            if(min>max){
+                            if (textMin.value.isBlank() || textMax.value.isBlank()) {
+                                throw GeneralException("Non tutti i dati sono stati inseriti")
+                            }
+
+                            min = textMin.value.toInt()
+                            max = textMax.value.toInt()
+
+                            if (min > max) {
                                 throw GeneralException("Min non può essere maggiore di max")
                             }
 
+
                             constraintViewModel.submit(
-                                Constraints(nickname, max, min, checkBoxValues[0], checkBoxValues[1], checkBoxValues[2], checkBoxValues[3], checkBoxValues[4], checkBoxValues[5], checkBoxValues[6])
+                                Constraints(
+                                    nickname,
+                                    max,
+                                    min,
+                                    checkBoxValues[0],
+                                    checkBoxValues[1],
+                                    checkBoxValues[2],
+                                    checkBoxValues[3],
+                                    checkBoxValues[4],
+                                    checkBoxValues[5],
+                                    checkBoxValues[6]
+                                )
                             )
 
                             navController.navigate("riderHome")
-                        }catch(e: GeneralException){
+                        } catch (e: GeneralException) {
                             navController.navigate("constraintsPage")
                             Log.e("InsertError", "Inserimento parametri errato: ${e.message}")
                         }
                     }
-
                 },
                 colors = buttonColor,
                 modifier = Modifier

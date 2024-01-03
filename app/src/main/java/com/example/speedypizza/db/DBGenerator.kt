@@ -13,7 +13,7 @@ import com.example.speedypizza.entity.User
 
 @Database(
     entities = [User::class, Constraints::class, Shifts::class, Days::class, Message::class, Exchanges::class],
-    version = 11
+    version = 12
 )
 
 abstract class DBGenerator: RoomDatabase() {
