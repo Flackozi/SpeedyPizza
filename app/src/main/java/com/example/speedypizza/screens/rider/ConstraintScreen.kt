@@ -25,6 +25,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
@@ -48,6 +49,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -181,6 +183,9 @@ fun ElencoGiorni(
                     textStyle = TextStyle(
                         color = Color.Black, // Imposta il colore del testo
                         fontSize = 14.sp
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
                     )
                 )
             }
@@ -218,6 +223,9 @@ fun ElencoGiorni(
                     textStyle = TextStyle(
                         color = Color.Black, // Imposta il colore del testo
                         fontSize = 14.sp
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
                     )
 
                 )
@@ -366,8 +374,8 @@ fun ElencoGiorni(
             Button(
                 onClick = {
                     CoroutineScope(Dispatchers.Main).launch {
-                        var min=0
-                        var max=0
+                        val min: Int
+                        val max: Int
                         try {
                             if (textMin.value.isBlank() || textMax.value.isBlank()) {
                                 throw GeneralException("Non tutti i dati sono stati inseriti")

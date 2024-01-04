@@ -103,7 +103,7 @@ fun PrimoMenu(navController: NavHostController) {
             Button( //Bottone RaiderManagement
                 onClick={
 
-                     navController.navigate("MyRiderPage")
+                    navController.navigate("MyRiderPage")
 
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -122,7 +122,7 @@ fun PrimoMenu(navController: NavHostController) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
 
-                ){
+                    ){
                     Icon(
                         painter = painterResource(id =R.drawable.baseline_sports_motorsports_24),
                         contentDescription = "Calendar",
@@ -173,7 +173,7 @@ fun PrimoMenu(navController: NavHostController) {
                 onClick = {
                     CoroutineScope(Dispatchers.Main).launch {
                         navController.navigate("shiftPage")
-                                                            }
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,

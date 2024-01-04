@@ -417,6 +417,7 @@ fun dayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
         //MAX
         Box(
             modifier = Modifier
+
                 .height(56.dp)
                 .width(60.dp)
                 .background(Color.Transparent)
@@ -426,8 +427,10 @@ fun dayBox(day: String, myRider: List<String>, constraintViewModel: ConstraintVi
                 label = {
                     Text(
                         text = "max", style = TextStyle(
-                            fontSize = 14.sp
-                        )
+                            fontSize = 14.sp,
+
+                        ),
+                        
                     )
                 },
                 onValueChange = { textMax.value = it },
