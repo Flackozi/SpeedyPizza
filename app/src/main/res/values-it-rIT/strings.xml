@@ -48,6 +48,7 @@
     <string name="Constraint">Vincoli</string>
     <string name="Thursday">Giovedì</string>
     <string name="exchange">Richieste di Scambio</string>
+    <string name="SelectShiftToChange">Selezionare turno da scambiare</string>
 
 
 </resources>

@@ -197,7 +197,7 @@ fun RequestsList(
                         .height(40.dp)
                         .background(center_color),
                 ){
-                    val turn=context.getString(R.string.Your_Turns)
+                    val turn=context.getString(R.string.SelectShiftToChange)
                     Text(
                         text=turn,
                         color=Color.White,
@@ -368,7 +368,6 @@ fun RequestsList(
 }
 
 @Composable
-
 fun CheckBox(checked: Boolean,
              onCheckedChangeWithIndex: (Boolean, Int) -> Unit,
              index: Int,

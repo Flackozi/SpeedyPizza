@@ -48,6 +48,7 @@
     <string name="Constraint">Constraints</string>
     <string name="Thursday">Thursday</string>
     <string name="exchange">Exchange Requests</string>
+    <string name="SelectShiftToChange">Select shift to exchange</string>
 
 
 </resources>
