@@ -27,9 +27,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
@@ -98,7 +100,7 @@ fun PrimoMenu(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxSize()
-                .offset(x=15.dp, y = 60.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
+                .offset(x = 15.dp, y = 60.dp), // Questo fa sì che il Box occupi tutto lo spazio disponibile
         ){
             Button( //Bottone RaiderManagement
                 onClick={
@@ -208,3 +210,8 @@ fun PrimoMenu(navController: NavHostController) {
 
 }
 
+@Preview
+@Composable
+fun Launch(){
+    PrimoMenu(navController = rememberNavController())
+}

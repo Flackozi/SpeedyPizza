@@ -14,11 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.speedypizza.R
 import com.example.speedypizza.entity.Message
-
+import java.lang.reflect.Field
 
 
 @Composable
@@ -51,7 +52,7 @@ fun MessageItem(message: Message) {
                 .fillMaxSize()
                 .padding(horizontal = 10.dp)) {
                 Alignment.Top
-                Text(text = message.messageText)
+                Text(text = getMessage(messageText = message.messageText.replace("\\s".toRegex(), "")))
                 Text(text = message.messageDate)
 
             }
@@ -60,3 +61,13 @@ fun MessageItem(message: Message) {
     }
 }
 
+@Composable
+fun getMessage(messageText: String): String{
+
+    val messageField: Field = R.string::class.java.getDeclaredField(messageText)
+
+    val messageId: Int = messageField.getInt(messageField)
+
+    return LocalContext.current.getString(messageId)
+
+}

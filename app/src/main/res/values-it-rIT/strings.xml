@@ -49,6 +49,9 @@
     <string name="Thursday">Giovedì</string>
     <string name="exchange">Richieste di Scambio</string>
     <string name="SelectShiftToChange">Selezionare turno da scambiare</string>
+    <string name="NewCalendar">Calendario Pubblicato</string>
+    <string name="ExchangeAccepted">Scambio Turni Accettato</string>
+    <string name="NewExchangeProposal">Nuova Proposta di Scambio</string>
 
 
 </resources>

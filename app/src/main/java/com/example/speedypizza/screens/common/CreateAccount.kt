@@ -176,7 +176,7 @@ fun CreateAccountInfo(viewModel: LoginViewModel, navController: NavHostControlle
             modifier = Modifier
                 .width(230.dp)
                 .height(55.dp)
-                .shadow(elevation = 5.dp, shape = CircleShape)
+                .shadow(elevation = 0.dp, shape = CircleShape)
         ) {
             Text(text = stringResource(R.string.CreateProfile), color = Color.White)
         }

@@ -415,7 +415,7 @@ fun ElencoGiorni(
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(50.dp)
-                    .shadow(elevation = 5.dp, shape = CircleShape)
+                    .shadow(elevation = 0.dp, shape = CircleShape)
             ){
                 val submit=context.getString(R.string.Submit)
                 Text(text = submit, color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))

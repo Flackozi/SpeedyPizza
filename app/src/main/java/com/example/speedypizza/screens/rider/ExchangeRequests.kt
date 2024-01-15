@@ -319,7 +319,7 @@ fun RequestsList(
                     modifier = Modifier
                         .width(150.dp)
                         .height(50.dp)
-                        .shadow(elevation = 5.dp, shape = CircleShape)
+                        .shadow(elevation = 0.dp, shape = CircleShape)
                 ){
                     val send=context.getString(R.string.Send)
                     Text(text = send, color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))
@@ -356,7 +356,7 @@ fun RequestsList(
                     modifier = Modifier
                         .width(150.dp)
                         .height(50.dp)
-                        .shadow(elevation = 5.dp, shape = CircleShape)
+                        .shadow(elevation = 0.dp, shape = CircleShape)
                 ){
                     val sendAll=context.getString(R.string.Sent_To_All)
                     Text(text = sendAll, color=Color.White, style=TextStyle(fontSize=15.sp, fontWeight = FontWeight.Bold))

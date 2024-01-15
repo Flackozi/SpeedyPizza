@@ -49,6 +49,9 @@
     <string name="Thursday">Thursday</string>
     <string name="exchange">Exchange Requests</string>
     <string name="SelectShiftToChange">Select shift to exchange</string>
+    <string name="NewCalendar">New Calendar</string>
+    <string name="ExchangeAccepted">Exchange Accepted</string>
+    <string name="NewExchangeProposal">New Exchange Proposal</string>
 
 
 </resources>
