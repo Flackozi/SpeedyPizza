@@ -69,8 +69,8 @@ import com.example.speedypizza.R
 import com.example.speedypizza.entity.Exchanges
 import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.GlobalExchangeVariables.shiftsList
-import com.example.speedypizza.screens.viewmodel.ExchangeViewModel
-import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.viewmodel.ExchangeViewModel
+import com.example.speedypizza.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -84,7 +84,8 @@ import java.lang.reflect.Field
 fun ExchangeRequests(
     navController: NavHostController,
     viewModel: LoginViewModel,
-    exchangeViewModel: ExchangeViewModel ) {
+    exchangeViewModel: ExchangeViewModel
+) {
 
     val gradient = Brush.verticalGradient(
         colors = listOf(start_color, center_color, end_color),

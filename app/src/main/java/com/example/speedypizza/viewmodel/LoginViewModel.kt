@@ -1,4 +1,4 @@
-package com.example.speedypizza.screens.viewmodel
+package com.example.speedypizza.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

@@ -48,9 +48,9 @@ import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.screens.rider.getDay
-import com.example.speedypizza.screens.viewmodel.DaysViewModel
-import com.example.speedypizza.screens.viewmodel.LoginViewModel
-import com.example.speedypizza.screens.viewmodel.ShiftsViewModel
+import com.example.speedypizza.viewmodel.DaysViewModel
+import com.example.speedypizza.viewmodel.LoginViewModel
+import com.example.speedypizza.viewmodel.ShiftsViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.start_color
 

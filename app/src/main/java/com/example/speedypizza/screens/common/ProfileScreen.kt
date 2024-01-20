@@ -45,7 +45,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.speedypizza.R
-import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.arrowProfile
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color

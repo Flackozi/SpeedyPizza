@@ -49,8 +49,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.speedypizza.R
-import com.example.speedypizza.screens.viewmodel.GeneralException
-import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.viewmodel.GeneralException
+import com.example.speedypizza.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color

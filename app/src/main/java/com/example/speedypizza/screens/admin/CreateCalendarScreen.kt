@@ -60,11 +60,11 @@ import com.example.speedypizza.entity.Shifts
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
 import com.example.speedypizza.screens.rider.getDay
-import com.example.speedypizza.screens.viewmodel.CalendarViewModel
-import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
-import com.example.speedypizza.screens.viewmodel.GeneralException
-import com.example.speedypizza.screens.viewmodel.LoginViewModel
-import com.example.speedypizza.screens.viewmodel.MyRiderViewModel
+import com.example.speedypizza.viewmodel.CalendarViewModel
+import com.example.speedypizza.viewmodel.ConstraintViewModel
+import com.example.speedypizza.viewmodel.GeneralException
+import com.example.speedypizza.viewmodel.LoginViewModel
+import com.example.speedypizza.viewmodel.MyRiderViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.green2

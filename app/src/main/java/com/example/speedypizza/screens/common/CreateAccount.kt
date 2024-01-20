@@ -44,7 +44,7 @@ import androidx.navigation.NavHostController
 import com.example.speedypizza.R
 import com.example.speedypizza.entity.User
 import com.example.speedypizza.screens.rider.ScrittaIniziale
-import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.start_color
 import kotlinx.coroutines.CoroutineScope

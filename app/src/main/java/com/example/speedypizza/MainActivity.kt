@@ -27,14 +27,14 @@ import com.example.speedypizza.screens.common.ShiftsPage
 import com.example.speedypizza.screens.rider.ConstraintScreen
 import com.example.speedypizza.screens.rider.ExchangeRequests
 import com.example.speedypizza.screens.rider.RiderHomeScreen
-import com.example.speedypizza.screens.viewmodel.CalendarViewModel
-import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
-import com.example.speedypizza.screens.viewmodel.DaysViewModel
-import com.example.speedypizza.screens.viewmodel.ExchangeViewModel
-import com.example.speedypizza.screens.viewmodel.LoginViewModel
-import com.example.speedypizza.screens.viewmodel.MessageViewModel
-import com.example.speedypizza.screens.viewmodel.MyRiderViewModel
-import com.example.speedypizza.screens.viewmodel.ShiftsViewModel
+import com.example.speedypizza.viewmodel.CalendarViewModel
+import com.example.speedypizza.viewmodel.ConstraintViewModel
+import com.example.speedypizza.viewmodel.DaysViewModel
+import com.example.speedypizza.viewmodel.ExchangeViewModel
+import com.example.speedypizza.viewmodel.LoginViewModel
+import com.example.speedypizza.viewmodel.MessageViewModel
+import com.example.speedypizza.viewmodel.MyRiderViewModel
+import com.example.speedypizza.viewmodel.ShiftsViewModel
 import com.example.speedypizza.ui.theme.SpeedyPizzaTheme
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
@@ -56,9 +56,9 @@ class MainActivity : ComponentActivity() {
 
 
                val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.LoginViewModelFactory(context.applicationContext as Application))
-               val constraintViewModel: ConstraintViewModel= viewModel(factory=ConstraintViewModel.ConstraintViewModelFactory(context.applicationContext as Application))
+               val constraintViewModel: ConstraintViewModel = viewModel(factory= ConstraintViewModel.ConstraintViewModelFactory(context.applicationContext as Application))
                val myRiderViewModel: MyRiderViewModel = viewModel(factory = MyRiderViewModel.MyRiderViewModelFactory(context.applicationContext as Application))
-               val exchangeViewModel: ExchangeViewModel =viewModel(factory=ExchangeViewModel.ExchangeViewModelFactory(context.applicationContext as Application))
+               val exchangeViewModel: ExchangeViewModel =viewModel(factory= ExchangeViewModel.ExchangeViewModelFactory(context.applicationContext as Application))
                val createCalendar: CalendarViewModel = viewModel(factory = CalendarViewModel.CalendarViewModelFactory(context.applicationContext as Application))
                val messageViewModel: MessageViewModel = viewModel(factory = MessageViewModel.MessageViewModelFactory(context.applicationContext as Application))
                val shiftsViewModel: ShiftsViewModel = viewModel(factory = ShiftsViewModel.ShiftsViewModelFactory(context.applicationContext as Application))

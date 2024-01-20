@@ -56,9 +56,9 @@ import androidx.navigation.NavHostController
 import com.example.speedypizza.R
 import com.example.speedypizza.entity.Constraints
 import com.example.speedypizza.screens.rider.GlobalVariables.checkBoxValues
-import com.example.speedypizza.screens.viewmodel.ConstraintViewModel
-import com.example.speedypizza.screens.viewmodel.GeneralException
-import com.example.speedypizza.screens.viewmodel.LoginViewModel
+import com.example.speedypizza.viewmodel.ConstraintViewModel
+import com.example.speedypizza.viewmodel.GeneralException
+import com.example.speedypizza.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
