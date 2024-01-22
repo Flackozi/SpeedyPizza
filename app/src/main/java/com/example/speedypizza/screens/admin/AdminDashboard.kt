@@ -35,11 +35,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.speedypizza.R
 import com.example.speedypizza.screens.rider.BarraSuperiore
 import com.example.speedypizza.screens.rider.ScrittaIniziale
-import com.example.speedypizza.viewmodel.LoginViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
+import com.example.speedypizza.viewmodel.LoginViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,7 +54,7 @@ fun AdminDashboard(navController: NavHostController, viewModel: LoginViewModel) 
         startY = 0f,
         endY = 2000f
     )
-    //il constraint qui in realta' e' inutile
+
     ConstraintLayout {
         val (box)=createRefs()
         Box(modifier = Modifier

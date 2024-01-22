@@ -57,12 +57,12 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.speedypizza.R
-import com.example.speedypizza.viewmodel.LoginViewModel
-import com.example.speedypizza.viewmodel.MessageViewModel
 import com.example.speedypizza.ui.theme.boxcol
 import com.example.speedypizza.ui.theme.center_color
 import com.example.speedypizza.ui.theme.end_color
 import com.example.speedypizza.ui.theme.start_color
+import com.example.speedypizza.viewmodel.LoginViewModel
+import com.example.speedypizza.viewmodel.MessageViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -82,7 +82,7 @@ fun RiderHomeScreen(
         startY = 0f,
         endY = 2000f
     )
-    //il constraint qui in realta' e' inutile
+
     ConstraintLayout {
         val (box)=createRefs()
         Box(modifier = Modifier
@@ -161,7 +161,7 @@ fun BarraSuperiore(navController: NavHostController, viewModel: LoginViewModel) 
    TopAppBar(title = {
        Text(text = "")
    },
-       colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent ),
+       colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
        navigationIcon = {
 
 

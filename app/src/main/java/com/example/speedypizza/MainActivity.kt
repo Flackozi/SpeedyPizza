@@ -27,6 +27,10 @@ import com.example.speedypizza.screens.common.ShiftsPage
 import com.example.speedypizza.screens.rider.ConstraintScreen
 import com.example.speedypizza.screens.rider.ExchangeRequests
 import com.example.speedypizza.screens.rider.RiderHomeScreen
+import com.example.speedypizza.ui.theme.SpeedyPizzaTheme
+import com.example.speedypizza.ui.theme.center_color
+import com.example.speedypizza.ui.theme.end_color
+import com.example.speedypizza.ui.theme.start_color
 import com.example.speedypizza.viewmodel.CalendarViewModel
 import com.example.speedypizza.viewmodel.ConstraintViewModel
 import com.example.speedypizza.viewmodel.DaysViewModel
@@ -35,10 +39,6 @@ import com.example.speedypizza.viewmodel.LoginViewModel
 import com.example.speedypizza.viewmodel.MessageViewModel
 import com.example.speedypizza.viewmodel.MyRiderViewModel
 import com.example.speedypizza.viewmodel.ShiftsViewModel
-import com.example.speedypizza.ui.theme.SpeedyPizzaTheme
-import com.example.speedypizza.ui.theme.center_color
-import com.example.speedypizza.ui.theme.end_color
-import com.example.speedypizza.ui.theme.start_color
 @RequiresApi(Build.VERSION_CODES.Q)
 class MainActivity : ComponentActivity() {
 
@@ -77,6 +77,10 @@ class MainActivity : ComponentActivity() {
                ){
                    val navController = rememberNavController()
 
+                   exchangeViewModel.retrieveMyRider()
+                   exchangeViewModel.retrieveRiderShifts()
+
+
                    NavHost(navController = navController, startDestination = "loginPage"){
                        composable("loginPage") {
 
@@ -91,8 +95,6 @@ class MainActivity : ComponentActivity() {
                            myRiderViewModel.retrieveMyRider()
                            AdminDashboard(navController, loginViewModel) }
                        composable("exchangePage"){
-                           exchangeViewModel.retrieveRiderShifts()
-                           exchangeViewModel.retrieveMyRider()
 
                            exchangeViewModel.retrieveExchange(loginViewModel.loggedUser!!.nickname)
                            ExchangeRequests(navController, loginViewModel, exchangeViewModel) }
